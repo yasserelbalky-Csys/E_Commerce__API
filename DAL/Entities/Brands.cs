@@ -5,13 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+namespace DAL.Entities {
+
 
 namespace DAL.Entities
 {
 
     public class Brands
     {
+    
         //Test Brand Comment
+       
         [Key]
         public int BrandId { get; set; }
         [Required]
@@ -21,8 +25,8 @@ namespace DAL.Entities
         //test product
         public ICollection<Products>? Products { get; set; }
 
-
-
-
     }
 }
+
+	
+
