@@ -11,12 +11,16 @@ namespace DAL.Entities
 
     public class Brands
     {
+        //Test Brand Comment
         [Key]
         public int BrandId { get; set; }
         [Required]
         public string? BrandName { get; set; }
         public string? BrandDescription { get; set; }
         public ICollection<Products>? Products { get; set; }
+
+
+
 
     }
 }
