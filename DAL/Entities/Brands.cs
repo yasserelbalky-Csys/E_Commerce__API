@@ -7,13 +7,26 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities {
 
-	// me4 3agbani
-	public class Brands {
-		[Key]
-		public int BrandId { get; set; }
-		[Required]
-		public string? BrandName { get; set; }
-		public string? BrandDescription { get; set; }
-		public ICollection<Products>? Products { get; set; }
-	}
+
+namespace DAL.Entities
+{
+
+    public class Brands
+    {
+    
+        //Test Brand Comment
+       
+        [Key]
+        public int BrandId { get; set; }
+        [Required]
+        public string? BrandName { get; set; }
+        public string? BrandDescription { get; set; }
+
+        //test product
+        public ICollection<Products>? Products { get; set; }
+
+    }
 }
+
+	
+
