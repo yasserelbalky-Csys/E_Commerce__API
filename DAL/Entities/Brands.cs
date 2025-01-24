@@ -17,6 +17,8 @@ namespace DAL.Entities
         [Required]
         public string? BrandName { get; set; }
         public string? BrandDescription { get; set; }
+
+        //test product
         public ICollection<Products>? Products { get; set; }
 
 
