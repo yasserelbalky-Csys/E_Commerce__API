@@ -15,5 +15,7 @@ namespace DAL.Entities {
 		public string? BrandDescription { get; set; }
 
 		public ICollection<Products>? Products { get; set; }
+
+
 	}
 }
