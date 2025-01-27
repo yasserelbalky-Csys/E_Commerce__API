@@ -1,5 +1,8 @@
 ﻿using DAL.Contracts;
+using DAL.Entities;
 using DAL.Repositories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -17,6 +20,9 @@ namespace DAL
             services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
+
+          
+
             return services;
         }
 
