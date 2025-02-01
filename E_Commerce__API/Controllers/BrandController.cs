@@ -1,5 +1,6 @@
 ﻿using BLL.Contracts;
 using BLL.DTOs.BrandDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace E_Commerce__API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BrandController : ControllerBase
     {
         private readonly IBrandService _brandService;
@@ -54,7 +56,5 @@ namespace E_Commerce__API.Controllers
             _brandService.DeleteBrand(id);
             return Ok();
         }
-
-
     }
 }

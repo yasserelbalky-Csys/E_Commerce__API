@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 namespace E_Commerce__API
 {
     public class Program
@@ -20,6 +21,12 @@ namespace E_Commerce__API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddApplicationLayerServices();
+
+
+
+
+
+
 
             builder.Services.AddDataAccessServices();
             builder.Services.AddDbContext<AppDbContext>
@@ -67,9 +74,12 @@ namespace E_Commerce__API
 
             var app = builder.Build();
 
+
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
