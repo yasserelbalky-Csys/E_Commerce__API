@@ -20,9 +20,7 @@ namespace DAL
             services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
-
-          
-
+            services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
             return services;
         }
 

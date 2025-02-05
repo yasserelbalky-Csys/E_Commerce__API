@@ -69,9 +69,6 @@ namespace E_Commerce__API
 
 
 
-
-
-
             var app = builder.Build();
 
 
@@ -91,7 +88,6 @@ namespace E_Commerce__API
 
 
             app.MapControllers();
-
             app.Run();
         }
     }

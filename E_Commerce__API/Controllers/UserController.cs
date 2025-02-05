@@ -34,7 +34,6 @@ namespace E_Commerce__API.Controllers
             var user = await _usermanger.Users.FirstOrDefaultAsync(u => u.UserName == userLogin.UserName.ToLower());
             if (user == null)
                 return Unauthorized("Invalid UserName!!");
-
             var result = await _signInManager.CheckPasswordSignInAsync(user, userLogin.Password, false);
 
             if (!result.Succeeded)

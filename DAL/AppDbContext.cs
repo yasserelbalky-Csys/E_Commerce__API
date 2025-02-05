@@ -49,7 +49,7 @@ namespace DAL
 
         public DbSet<Brands> brands {get;set;}
 
-
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
 
     }

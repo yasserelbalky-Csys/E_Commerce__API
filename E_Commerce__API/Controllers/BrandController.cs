@@ -19,7 +19,7 @@ namespace E_Commerce__API.Controllers
             _brandService = brandService;
         }
 
-        //Get Operation
+        //Get Operation0
         [HttpGet]
         public IActionResult Get() {
             return Ok(_brandService.GetBrands());

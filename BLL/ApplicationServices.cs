@@ -14,7 +14,9 @@ namespace BLL
             services.AddScoped<ISubCategoryService, SubCategoryService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<ITokenService, TokenService>();
+           
             return services;
         }
 
