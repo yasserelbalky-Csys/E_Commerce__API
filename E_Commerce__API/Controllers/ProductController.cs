@@ -1,5 +1,6 @@
 ﻿using BLL.Contracts;
 using BLL.DTOs.ProductDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,8 @@ namespace E_Commerce__API.Controllers
             return Ok(_productService.GetProduct(id));
         }
         [HttpPost]
+
+        
         public IActionResult Post(ProductInsertDto product)
         {
 

@@ -9,5 +9,6 @@ namespace DAL.Contracts
 {
     public interface IShoppingCartRepository:IBaseRepository<ShoppingCart>
     {
+        public ShoppingCart GetByuserid(string userid,int productid);
     }
 }

@@ -32,6 +32,8 @@ namespace BLL.Services
                 new ShoppingCartListDto
                 {
                     UserId = cart.UserId,
+                    ProductId=cart.ProductId,
+                    ProductName = cart.Product.ProductName,
                     Count = cart.Count,
                     ShoppingCartId = cart.ShoppingCartId
 
@@ -41,17 +43,51 @@ namespace BLL.Services
 
         public ShoppingCartListDto GetShoppingCart(int id)
         {
-            throw new NotImplementedException();
+            var temp = _ShoppingCartrepository.GetById(id);
+            return new ShoppingCartListDto
+            {
+                ShoppingCartId = temp.ShoppingCartId,
+                Count = temp.Count,
+                ProductId = temp.ProductId,
+                UserId = temp.UserId
+            };
         }
 
-        public void InsertShoppingCart(ShoppingCartInsertDto category)
+        public void InsertShoppingCart(ShoppingCartInsertDto cart)
         {
-            throw new NotImplementedException();
+           // var temp = _ShoppingCartrepository.GetAll().OrderByDescending(c => c.ShoppingCartId).FirstOrDefault();
+
+            
+            _ShoppingCartrepository.Insert(new ShoppingCart
+            {
+                Count = cart.Count,
+                ProductId = cart.ProductId,
+                UserId = cart.UserId,
+
+            });
+          
         }
 
-        public void UpdateShoppingCart(ShoppingCartUpdateDto category)
+        public void UpdateShoppingCart(ShoppingCartUpdateDto shoppingcart)
         {
-            throw new NotImplementedException();
+            //var existingone = _ShoppingCartrepository.GetById(shoppingcart.ShoppingCartId);
+
+            //var cartfromdatabase = _ShoppingCartrepository.GetAll().Select(cart1 =>
+            //  cart1.UserId == shoppingcart.UserId && cart1.ProductId == shoppingcart.ProductId);
+
+            var cartfromdatabase = _ShoppingCartrepository.GetByuserid(shoppingcart.UserId,shoppingcart.ProductId);
+            if (cartfromdatabase != null) {
+
+                cartfromdatabase.ProductId= shoppingcart.ProductId;
+                cartfromdatabase.UserId = shoppingcart.UserId;
+                cartfromdatabase.Count  = shoppingcart.Count;
+                _ShoppingCartrepository.Update(cartfromdatabase);
+            }
+            else
+            {
+                throw new KeyNotFoundException("Shopping cart item not found.");
+            }
+           
         }
 
         public void DeleteShoppingCart(int id)

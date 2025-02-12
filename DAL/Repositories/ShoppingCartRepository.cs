@@ -1,5 +1,6 @@
 ﻿using DAL.Contracts;
 using DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +16,20 @@ namespace DAL.Repositories
         }
         public override IEnumerable<ShoppingCart> GetAll()
         {
-            return base.GetAll();
+            return _entitySet.Include(prod => prod.Product).AsEnumerable();
         }
 
 
         public override ShoppingCart GetById(int id)
         {
             return base.GetById(id);
+        }
+
+        public ShoppingCart GetByuserid(string userid, int productid)
+        {
+           return _entitySet
+        .Include(sc => sc.Product) // Include Product if needed
+        .FirstOrDefault(sc => sc.UserId==userid && sc.ProductId==productid);
         }
     }
 }

@@ -49,11 +49,6 @@ namespace E_Commerce__API.Controllers
 
             );
         }
-
-
-
-
-
         [HttpPost("register")]
         public async Task<IActionResult> Post([FromBody] UserRegisterDto userRegisterDto)
         {

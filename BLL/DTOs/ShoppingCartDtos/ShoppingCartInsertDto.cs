@@ -12,7 +12,7 @@ namespace BLL.DTOs.ShoppingCartDtos
     public class ShoppingCartInsertDto
     {
 
-
+        //public int ShoppingCartId { get; set; }
         public int ProductId { get; set; }
 
         public int Count { get; set; }
