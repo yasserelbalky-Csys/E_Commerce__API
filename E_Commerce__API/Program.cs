@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+
+
 namespace E_Commerce__API
 {
     public class Program
@@ -22,7 +24,7 @@ namespace E_Commerce__API
             //builder.Services.AddSwaggerGen();
 
 
-            //test
+            //test athentication
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -54,9 +56,30 @@ namespace E_Commerce__API
     });
             });
 
-           
+
 
             //test
+
+
+
+
+            //Session
+
+
+            builder.Services.AddDistributedMemoryCache(); // Required for session
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+            builder.Services.AddHttpContextAccessor(); // Required to access HttpContext
+            //End Session
+
+            builder.Services.AddSession();
+           // builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
 
             builder.Services.AddApplicationLayerServices();
 
@@ -64,7 +87,9 @@ namespace E_Commerce__API
             builder.Services.AddDataAccessServices();
             builder.Services.AddDbContext<AppDbContext>
                 (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+            
+            
+            //Identity
             builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -113,10 +138,10 @@ namespace E_Commerce__API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseSession(); // Enable session middleware
             app.UseAuthentication();
             app.UseAuthorization();
-
+          
 
 
 

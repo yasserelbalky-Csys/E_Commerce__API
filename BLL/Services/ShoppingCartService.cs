@@ -3,11 +3,13 @@ using BLL.DTOs.ProductDtos;
 using BLL.DTOs.ShoppingCartDtos;
 using DAL.Contracts;
 using DAL.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace BLL.Services
 {
@@ -15,7 +17,6 @@ namespace BLL.Services
     {
 
         protected readonly IShoppingCartRepository _ShoppingCartrepository;
-
         public ShoppingCartService(IShoppingCartRepository ShoppingCartrepository)
         {
             _ShoppingCartrepository = ShoppingCartrepository;
@@ -32,13 +33,18 @@ namespace BLL.Services
                 new ShoppingCartListDto
                 {
                     UserId = cart.UserId,
-                    ProductId=cart.ProductId,
+                    ProductId = cart.ProductId,
                     ProductName = cart.Product.ProductName,
                     Count = cart.Count,
                     ShoppingCartId = cart.ShoppingCartId
 
                 }
                 );
+
+
+
+
+
         }
 
         public ShoppingCartListDto GetShoppingCart(int id)
