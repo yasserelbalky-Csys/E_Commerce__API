@@ -98,7 +98,7 @@ namespace BLL.Services
 
         public void DeleteShoppingCart(int id)
         {
-            throw new NotImplementedException();
+            _ShoppingCartrepository.Delete(id);
         }
     }
 }

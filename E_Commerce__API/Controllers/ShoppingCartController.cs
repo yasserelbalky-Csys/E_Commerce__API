@@ -21,7 +21,7 @@ namespace E_Commerce__API.Controllers
             _sessionManager = sessionManager;
         }
 
-        
+        [Authorize]
         [HttpGet]
         public IActionResult Get() {
 
@@ -34,9 +34,39 @@ namespace E_Commerce__API.Controllers
             //}
             //else
             //{
-                // Unauthenticated user: Fetch from session
-             var cart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ?? new List<ShoppingCartInsertDto>();
-             return Ok(cart);
+            // Unauthenticated user: Fetch from session
+
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+
+            // Ensure the identity is not null
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
+            {
+                return Unauthorized(new { message = "User is not authenticated." });
+            }
+
+            var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            // Ensure the claim exists
+            if (userIdClaim == null)
+            {
+                return BadRequest(new { message = "User ID claim is missing from the token." });
+            }
+
+            var userId = userIdClaim.Value;
+
+
+
+
+            var cart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ?? new List<ShoppingCartInsertDto>();
+            if (cart.Count == 0)
+            {
+                return Ok(_shoppingCartService.GetShoppingCarts());
+               
+            }
+            else
+            {
+                return Ok(cart);
+            }
             //}
 
 
@@ -203,16 +233,59 @@ namespace E_Commerce__API.Controllers
         public IActionResult Update(ShoppingCartUpdateDto cart)
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;
-            if (claimsIdentity != null && claimsIdentity.IsAuthenticated)
-            {
-                var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-                if (userIdClaim == null) return BadRequest(new { message = "User ID claim is missing from the token." });
 
-                cart.UserId = userIdClaim.Value;
-                _shoppingCartService.UpdateShoppingCart(cart);
-                return Ok(new { message = "Shopping cart updated successfully." });
+            // Ensure the identity is not null
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
+            {
+                return Unauthorized(new { message = "User is not authenticated." });
+            }
+
+            var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            // Ensure the claim exists
+            if (userIdClaim == null)
+            {
+                return BadRequest(new { message = "User ID claim is missing from the token." });
+            }
+
+            var userId = userIdClaim.Value;
+            cart.UserId = userId;
+            _shoppingCartService.UpdateShoppingCart(cart);
+
+            var sessionCart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ?? new List<ShoppingCartInsertDto>();
+
+            var existingItem = sessionCart.FirstOrDefault(c => c.ProductId == cart.ProductId);
+
+            if (existingItem != null)
+            {
+                existingItem.Count = cart.Count;
+                _sessionManager.Set("Cart", sessionCart);
+                return Ok(new { message = "Shopping cart updated successfully in database and session." });
+              
             }
             else
+            {
+                //existingItem.Count = cart.Count;
+                //existingItem.ProductId = cart.ProductId;
+                // existingItem.UserId = cart.UserId;
+
+                sessionCart.Add(new ShoppingCartInsertDto
+                {
+                    ProductId = cart.ProductId,
+                    UserId = cart.UserId,
+                    Count = cart.Count
+                });
+
+                _sessionManager.Set("Cart", sessionCart);
+
+
+               
+                return Ok(new { message = "Shopping cart updated successfully in database and insert in session first time." });
+            }
+
+            
+            
+          /*  else
             {
                 // Guest user: Update session-based cart
                 var sessionCart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ?? new List<ShoppingCartInsertDto>();
@@ -226,12 +299,58 @@ namespace E_Commerce__API.Controllers
                 }
 
                 return NotFound(new { message = "Product not found in the cart." });
-            }
+            }*/
         }
 
-        
 
-      
-        
+
+
+        [Authorize]
+        [HttpDelete("{productId}")]
+        public IActionResult Delete(int productId)
+        {
+
+
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+
+            // Ensure the identity is not null
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
+            {
+                return Unauthorized(new { message = "User is not authenticated." });
+            }
+
+            var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            // Ensure the claim exists
+            if (userIdClaim == null)
+            {
+                return BadRequest(new { message = "User ID claim is missing from the token." });
+            }
+
+            var userId = userIdClaim.Value;
+
+
+
+            
+
+
+            var cartItems = _shoppingCartService.GetShoppingCarts();
+            var item = cartItems.FirstOrDefault(c => c.UserId == userId && c.ProductId == productId);
+            //item.UserId = userId;
+
+            if (item == null)
+            {
+                return NotFound(new { message = "Product not found in the cart." });
+            }
+
+            _shoppingCartService.DeleteShoppingCart(productId);
+
+            var sessionCart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ?? new List<ShoppingCartInsertDto>();
+            sessionCart.RemoveAll(c => c.ProductId == productId);
+            _sessionManager.Set("Cart", sessionCart);
+
+            return Ok(new { message = "Product removed from cart and database successfully." });
+        }
+
     }
 }
