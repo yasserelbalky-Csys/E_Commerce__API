@@ -25,11 +25,16 @@ namespace DAL.Repositories
             return base.GetById(id);
         }
 
-        public ShoppingCart GetByuserid(string userid, int productid)
+        public IEnumerable<ShoppingCart> GetByuseridOnly(string userid)
         {
-           return _entitySet
-        .Include(sc => sc.Product) // Include Product if needed
-        .FirstOrDefault(sc => sc.UserId==userid && sc.ProductId==productid);
+            return _entitySet.Include(sc => sc.Product).Where(sc => sc.UserId == userid).AsEnumerable();
+        }
+
+        public ShoppingCart GetProductByuserid(string userid, int productid)
+        {
+            return _entitySet
+         .Include(sc => sc.Product) // Include Product if needed
+         .FirstOrDefault(sc => sc.UserId == userid && sc.ProductId == productid)!;
         }
     }
 }

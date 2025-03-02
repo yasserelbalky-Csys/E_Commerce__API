@@ -20,6 +20,10 @@ namespace BLL.Contracts
         public void DeleteShoppingCart(int id);
 
 
+        //bool ProductExistsInCart(string userId, int productId);
+        IEnumerable<ShoppingCartListDto> GetUserCart(string userId);
+        void ClearUserCart(string userId);
+
 
     }
 }

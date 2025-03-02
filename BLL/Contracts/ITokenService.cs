@@ -10,7 +10,7 @@ namespace BLL.Contracts
 {
     public interface ITokenService
     {
-        public string CreateToken(AppUser user);
+        public string CreateToken(AppUser user, IList<string> roles);
 
 
 

@@ -1,5 +1,6 @@
 ﻿using BLL.Contracts;
 using BLL.DTOs.CategoryDTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,16 +32,15 @@ namespace E_Commerce__API.Controllers
             return Ok(_categoryService.GetCategory(id));
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Post(CategoryInsertDto cat) {
             _categoryService.InsertCategory(cat);
             return Ok();
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPut]
-
         public IActionResult Put(CategoryUpdateDto cat) {
 
             _categoryService.UpdateCategory(cat);
@@ -48,9 +48,8 @@ namespace E_Commerce__API.Controllers
         
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
-
         public IActionResult Delete(int id) {
             _categoryService.DeleteCategory(id);
             return Ok();

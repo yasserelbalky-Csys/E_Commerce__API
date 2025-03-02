@@ -81,7 +81,7 @@ namespace BLL.Services
             //var cartfromdatabase = _ShoppingCartrepository.GetAll().Select(cart1 =>
             //  cart1.UserId == shoppingcart.UserId && cart1.ProductId == shoppingcart.ProductId);
 
-            var cartfromdatabase = _ShoppingCartrepository.GetByuserid(shoppingcart.UserId,shoppingcart.ProductId);
+            var cartfromdatabase = _ShoppingCartrepository.GetProductByuserid(shoppingcart.UserId,shoppingcart.ProductId);
             if (cartfromdatabase != null) {
 
                 cartfromdatabase.ProductId= shoppingcart.ProductId;
@@ -99,6 +99,27 @@ namespace BLL.Services
         public void DeleteShoppingCart(int id)
         {
             _ShoppingCartrepository.Delete(id);
+        }
+
+        public IEnumerable<ShoppingCartListDto> GetUserCart(string userId)
+        {
+            return _ShoppingCartrepository.GetByuseridOnly(userId).Select(cart => new ShoppingCartListDto
+            {
+                ShoppingCartId = cart.ShoppingCartId,
+                ProductId = cart.ProductId,
+                ProductName=cart.Product.ProductName,
+                UserId = cart.UserId,
+                Count = cart.Count
+            });
+        }
+
+        public void ClearUserCart(string userId)
+        {
+            var result = _ShoppingCartrepository.GetByuseridOnly(userId);
+            foreach (var cart in result)
+            {
+                _ShoppingCartrepository.Delete(cart.ShoppingCartId);
+            }
         }
     }
 }

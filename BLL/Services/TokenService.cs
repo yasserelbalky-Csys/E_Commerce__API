@@ -6,6 +6,7 @@ using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -25,7 +26,7 @@ namespace BLL.Services
             _key=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigningKey"]));
            
         }
-        public string CreateToken(AppUser user)
+        public string CreateToken(AppUser user, IList<string> roles)
         {
             var claims = new List<Claim>
             {
@@ -33,6 +34,13 @@ namespace BLL.Services
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
                 new Claim(JwtRegisteredClaimNames.Name,user.UserName)
             };
+
+            //to add roles when logging
+            // ✅ Add role claims
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var cred = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor()
