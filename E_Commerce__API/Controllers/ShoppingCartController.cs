@@ -62,8 +62,8 @@ namespace E_Commerce__API.Controllers
 
 
 
-        [HttpGet("{userid}")]
-        public IActionResult get(string userid)
+        [HttpGet("{useridd}")]
+        public IActionResult GetByUserId(string? useridd)
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;
 

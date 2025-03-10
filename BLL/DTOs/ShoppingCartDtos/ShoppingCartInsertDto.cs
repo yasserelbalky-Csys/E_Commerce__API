@@ -15,6 +15,7 @@ namespace BLL.DTOs.ShoppingCartDtos
         //public int ShoppingCartId { get; set; }
         public int ProductId { get; set; }
 
+        [Range (1,100)]
         public int Count { get; set; }
 
 

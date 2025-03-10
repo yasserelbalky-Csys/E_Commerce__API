@@ -35,14 +35,12 @@ namespace DAL.Repositories
         public void Insert(Entity entity)
         {
             _entitySet.Add(entity);
-            _appDbContext.SaveChanges();
+            
         }
 
         public void Update(Entity entity)
         {
             _entitySet.Update(entity);
-            _appDbContext.SaveChanges();
-
         }
 
 
@@ -51,9 +49,6 @@ namespace DAL.Repositories
             var entity = _entitySet.Find(id);
             if (entity != null) {
                 _entitySet.Remove(entity);
-
-                _appDbContext.SaveChanges();
-
             }
 
         }

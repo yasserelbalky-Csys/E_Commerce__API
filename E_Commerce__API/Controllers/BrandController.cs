@@ -46,8 +46,15 @@ namespace E_Commerce__API.Controllers
 
         public IActionResult Put(BrandUpdateDto brand)
         {
-            _brandService.UpdateBrand(brand);
-            return Ok();
+            var temp=_brandService.UpdateBrand(brand);
+            if (temp == 1)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound(new { message = "Brand not found." });
+            }
         }
 
         [HttpDelete("{id:int}")]

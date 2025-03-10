@@ -12,12 +12,12 @@ namespace BLL.Services
 {
     internal class CategoryService : ICategoryService
     {
-        private readonly ICategoryRepository _repositoryCategory;
+        private readonly IUnitOfWork _unitofwork;
 
 
-        public CategoryService(ICategoryRepository repositoryCategory)
+        public CategoryService(IUnitOfWork unitofwork)
         {
-            _repositoryCategory = repositoryCategory;
+            _unitofwork = unitofwork;
         }
 
         
@@ -26,7 +26,7 @@ namespace BLL.Services
         {
 
             
-            return _repositoryCategory.GetAll().Select(cat => new CategoryListDto
+            return _unitofwork.Category.GetAll().Select(cat => new CategoryListDto
             {
                 CategoryId = cat.CategoryId,
                 CategoryName = cat.CategoryName,
@@ -36,7 +36,7 @@ namespace BLL.Services
 
         public CategoryListDto GetCategory(int id)
         {
-            var entity= _repositoryCategory.GetById(id);
+            var entity= _unitofwork.Category.GetById(id);
             return new CategoryListDto
             {
                 CategoryId= entity.CategoryId,
@@ -47,26 +47,29 @@ namespace BLL.Services
 
         public void InsertCategory(CategoryInsertDto category)
         {
-            _repositoryCategory.Insert(new Categories
+            _unitofwork.Category.Insert(new Categories
             {
                 CategoryName= category.CategoryName, CategoryDescription= category.CategoryDescription
             });
+            _unitofwork.save();
         }
 
         public void UpdateCategory(CategoryUpdateDto category)
         {
-            _repositoryCategory.Update(new Categories { 
+            _unitofwork.Category.Update(new Categories { 
             CategoryId=category.CategoryId,
             CategoryName= category.CategoryName,    
             CategoryDescription= category.CategoryDescription
             });
+            _unitofwork.save();
 
         }
 
 
         public void DeleteCategory(int id)
         {
-            _repositoryCategory.Delete(id);
+            _unitofwork.Category.Delete(id);
+            _unitofwork.save();
         }
     }
 }

@@ -12,31 +12,44 @@ namespace BLL.Services
 {
     internal class BrandService : IBrandService
     {
-        private readonly IBrandRepository _brandRepository;
-        public BrandService(IBrandRepository brandRepository)
+        private readonly IUnitOfWork _unitofwork;
+        public BrandService(IUnitOfWork unitofwork)
         {
-            _brandRepository = brandRepository;
+            _unitofwork = unitofwork;
         }
 
         public void DeleteBrand(int id)
         {
-            _brandRepository.Delete(id);
+            _unitofwork.brands.Delete(id);
+            _unitofwork.save();
         }
 
         public BrandListDto GetBrand(int id)
         {
-            var temp = _brandRepository.GetById(id);
-            return new BrandListDto
+            var temp = _unitofwork.brands.GetById(id);
+            if (temp != null)
             {
-                BrandId = temp.BrandId,
-                BrandName = temp.BrandName,
-                BrandDescription = temp.BrandDescription,
-            };
+                return new BrandListDto
+                {
+                    BrandId = temp.BrandId,
+                    BrandName = temp.BrandName,
+                    BrandDescription = temp.BrandDescription,
+                };
+            }
+            else
+            {
+                return new BrandListDto
+                {
+                    BrandId = 0,
+                    BrandName ="",
+                    BrandDescription = "",
+                };
+            }
         }
 
         public IEnumerable<BrandListDto> GetBrands()
         {
-            return _brandRepository.GetAll().Select(b => new BrandListDto
+            return _unitofwork.brands.GetAll().Select(b => new BrandListDto
             {
                 BrandId = b.BrandId,
                 BrandName = b.BrandName,
@@ -62,27 +75,30 @@ namespace BLL.Services
 
         public void InsertBrand(BrandInsertDto brand)
         {
-            _brandRepository.Insert(
+            _unitofwork.brands.Insert(
                 new Brands
                 {
                     BrandName = brand.BrandName,
                     BrandDescription = brand.BrandDescription
                 }
                 );
+            _unitofwork.save();
         }
 
-        public void UpdateBrand(BrandUpdateDto brand)
+        public int UpdateBrand(BrandUpdateDto brand)
         {
-            var temp = _brandRepository.GetById(brand.BrandId);
+            var temp = _unitofwork.brands.GetById(brand.BrandId);
             if (temp != null )
             {
                 temp.BrandName = brand.BrandName;
                 temp.BrandDescription = brand.BrandDescription;
-                _brandRepository.Update(temp);
+                _unitofwork.brands.Update(temp);
+                _unitofwork.save();
+                return 1;
             }
             else
             {
-                
+                return 0;
             }
         }
     }

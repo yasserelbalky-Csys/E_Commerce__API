@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250201113333_test_identity_token")]
-    partial class test_identity_token
+    [Migration("20250307141905_init1")]
+    partial class init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,7 +127,7 @@ namespace DAL.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("categories");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("DAL.Entities.Products", b =>
@@ -162,6 +162,33 @@ namespace DAL.Migrations
                     b.HasIndex("SubcategoryId");
 
                     b.ToTable("products");
+                });
+
+            modelBuilder.Entity("DAL.Entities.ShoppingCart", b =>
+                {
+                    b.Property<int>("ShoppingCartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShoppingCartId"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ShoppingCartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("DAL.Entities.SubCategories", b =>
@@ -218,13 +245,13 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "764ce13a-9d07-4adf-8eb4-610ed390a370",
+                            Id = "cb938f3a-49c7-4bf7-9f93-0eea6120cd8d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "c43b32b4-8a00-4878-ab0b-0503e70f0025",
+                            Id = "7f5dce48-3bbd-4645-ab8c-ac35013f89a5",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -353,6 +380,25 @@ namespace DAL.Migrations
                     b.Navigation("Brand");
 
                     b.Navigation("Subcategory");
+                });
+
+            modelBuilder.Entity("DAL.Entities.ShoppingCart", b =>
+                {
+                    b.HasOne("DAL.Entities.Products", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Entities.AppUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("DAL.Entities.SubCategories", b =>

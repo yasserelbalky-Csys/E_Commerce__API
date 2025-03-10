@@ -39,7 +39,7 @@ namespace DAL
 
         }
 
-        public DbSet<Categories> categories {get;set;}
+      //  public DbSet<Categories> categories {get;set;}
 
         public DbSet<SubCategories> subCategories {get;set;}
 

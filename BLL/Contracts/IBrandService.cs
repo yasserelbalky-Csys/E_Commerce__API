@@ -14,7 +14,7 @@ namespace BLL.Contracts
         public BrandListDto GetBrand(int id);
         public void InsertBrand(BrandInsertDto brand);
 
-        public void UpdateBrand(BrandUpdateDto brand);
+        public int UpdateBrand(BrandUpdateDto brand);
 
        // public IEnumerable<BrandListAllProductsDto> GetBrandWithProducts(int id);
 

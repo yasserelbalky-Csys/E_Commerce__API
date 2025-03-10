@@ -18,6 +18,7 @@ namespace DAL.Entities
 
         public string? ProductDiscription { get; set; }
 
+
         [Required]
         public decimal? ProductPrice { get; set; }
 

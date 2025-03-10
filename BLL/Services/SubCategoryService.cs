@@ -12,17 +12,17 @@ namespace BLL.Services
 {
     internal class SubCategoryService:ISubCategoryService
     {
-        protected readonly ISubCategoryRepository _subcategoryRepository;
+        private readonly IUnitOfWork _unitofwork;
 
-        public SubCategoryService(ISubCategoryRepository subcategoryRepository)
+        public SubCategoryService(IUnitOfWork unitofwork)
         {
-            _subcategoryRepository = subcategoryRepository;
+            _unitofwork = unitofwork;
         }
 
        
         public IEnumerable<SubCategoryListDto> GetSubCategories()
         {
-            return _subcategoryRepository.GetAll().Select(x => new SubCategoryListDto
+            return _unitofwork.subCategories.GetAll().Select(x => new SubCategoryListDto
             {
                 SubCategoryId = x.SubCategoryId,
                 SubCategoryName = x.SubCategoryName,
@@ -34,7 +34,7 @@ namespace BLL.Services
 
         public SubCategoryListDto GetSubCategory(int id)
         {
-            var enitiy = _subcategoryRepository.GetById(id);
+            var enitiy = _unitofwork.subCategories.GetById(id);
 
             return new SubCategoryListDto
             {
@@ -49,23 +49,25 @@ namespace BLL.Services
 
         public void InsertSubCategory(SubCategoryInsertDto subcategory)
         {
-            _subcategoryRepository.Insert(new SubCategories
+            _unitofwork.subCategories.Insert(new SubCategories
             {
                 SubCategoryName = subcategory.SubCategoryName,
                 SubCategoryDescription = subcategory.SubCategoryDescription,
                 CategoryId = subcategory.MainCategoryId,
             });
+            _unitofwork.save();
         }
         
         public void UpdateSubCategory(SubCategoryUpdateDto subcategory)
         {
-            _subcategoryRepository.Update(new SubCategories
+            _unitofwork.subCategories.Update(new SubCategories
             {
                 SubCategoryName = subcategory.SubCategoryName,
                 SubCategoryDescription = subcategory.SubCategoryDescription,
                 CategoryId = subcategory.CategoryId,
                 SubCategoryId = subcategory.SubCategoryId
             });
+            _unitofwork.save();
 
 
 
@@ -80,13 +82,14 @@ namespace BLL.Services
             //existingEntity.SubCategoryDescription = subcategory.SubCategoryDescription;
             //existingEntity.CategoryId = subcategory.CategoryId;
 
-            
+
             //_subcategoryRepository.Update(existingEntity);
         }
 
         public void DeleteCategory(int id)
         {
-            _subcategoryRepository.Delete(id);
+            _unitofwork.subCategories.Delete(id);
+            _unitofwork.save();
         }
 
     }

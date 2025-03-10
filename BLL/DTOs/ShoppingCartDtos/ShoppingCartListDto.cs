@@ -17,6 +17,7 @@ namespace BLL.DTOs.ShoppingCartDtos
         public string ProductName { get; set; }
         public int Count { get; set; }
 
+        public decimal? price { get;set; }
 
         public string UserId { get; set; }
 

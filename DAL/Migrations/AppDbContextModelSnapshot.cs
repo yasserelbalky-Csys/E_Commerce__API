@@ -124,7 +124,7 @@ namespace DAL.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("categories");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("DAL.Entities.Products", b =>
@@ -242,13 +242,13 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "95050b1d-be80-4c3a-a8a5-e143b71401e3",
+                            Id = "cb938f3a-49c7-4bf7-9f93-0eea6120cd8d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "05e65be6-3a43-430b-b24f-bf62b5c64316",
+                            Id = "7f5dce48-3bbd-4645-ab8c-ac35013f89a5",
                             Name = "User",
                             NormalizedName = "USER"
                         });

@@ -88,7 +88,7 @@ namespace E_Commerce__API
             builder.Services.AddDbContext<AppDbContext>
                 (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             
-            
+          
             //Identity
             builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
             {

@@ -13,16 +13,16 @@ namespace BLL.Services
     internal class ProductService : IProductService
     {
 
-        protected readonly IProductRepository _productrepository;
+        protected readonly IUnitOfWork _uow;
 
-        public ProductService(IProductRepository productrepository)
+        public ProductService(IUnitOfWork uow)
         {
-            _productrepository = productrepository;
+            _uow = uow;
         }
 
         public IEnumerable<ProductListDto> GetProducts()
         {
-            return _productrepository.GetAll().Select( prod=>
+            return _uow.products.GetAll().Select( prod=>
                 new ProductListDto
                 {
                     ProductId=prod.ProductId,
@@ -38,7 +38,7 @@ namespace BLL.Services
 
         public ProductListDto GetProduct(int id)
         {
-            var prod= _productrepository.GetById(id);
+            var prod= _uow.products.GetById(id);
             return new ProductListDto
             {
                 ProductId = prod.ProductId,
@@ -53,7 +53,7 @@ namespace BLL.Services
 
         public void InsertProduct(ProductInsertDto product)
         {
-            _productrepository.Insert(new Products
+            _uow.products.Insert(new Products
             {
                 ProductDiscription=product.ProductDiscription,
                 ProductName=product.ProductName,
@@ -62,11 +62,12 @@ namespace BLL.Services
                 BrandId = product.BrandId
             }
             );
+            _uow.save();
         }
 
         public void UpdateProduct(ProductUpdateDto product)
         {
-            var upproduct=_productrepository.GetById(product.ProductId);
+            var upproduct=_uow.products.GetById(product.ProductId);
             if (upproduct != null)
             {
                 upproduct.ProductId = product.ProductId;
@@ -75,17 +76,19 @@ namespace BLL.Services
                 upproduct.ProductPrice = product.ProductPrice;
                 upproduct.SubcategoryId = product.SubcategoryId;
                 upproduct.BrandId = product.BrandId;
-                _productrepository.Update(upproduct);
+                _uow.products.Update(upproduct);
             }
             else
             {
                 throw new KeyNotFoundException($"Product with ID {product.ProductId} not found.");
             }
+            _uow.save();
         }
 
         public void DeleteProduct(int id)
         {
-            _productrepository.Delete(id);
+            _uow.products.Delete(id);
+            _uow.save();
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using BLL.Contracts;
 using BLL.Services;
+using DAL.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +18,7 @@ namespace BLL
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<ITokenService, TokenService>();
+           
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ISessionManager, SessionManager>();

@@ -3,6 +3,7 @@ using BLL.DTOs.UserDtos;
 using DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -136,8 +137,20 @@ namespace E_Commerce__API.Controllers
                 return StatusCode(500, createdUser.Errors);
             }
 
+            /*Email Confirmation*/
+            // ✅ Generate Email Confirmation Token
+            //var token = await _usermanger.GenerateEmailConfirmationTokenAsync(appUser);
+
+            //var confirmationLink = Url.Action("ConfirmEmail", "Account",
+            //    new { userId = appUser.Id, token = token }, Request.Scheme);
+
+            //// ✅ Send confirmation email
+            //await _emailSender.SendEmailAsync(appUser.Email, "Confirm Your Email",
+            //    $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.");
+           ///////////////////////////////
+
             // ✅ Assign "User" role
-            var roleResult = await _usermanger.AddToRoleAsync(appUser, "User");
+            var roleResult = await _usermanger.AddToRoleAsync(appUser, "Admin");
 
             if (!roleResult.Succeeded)
             {
@@ -146,14 +159,14 @@ namespace E_Commerce__API.Controllers
 
             // ✅ Fetch roles and generate token
             var roles = await _usermanger.GetRolesAsync(appUser);
-            var token = _tokenService.CreateToken(appUser, roles);
+            var token2 = _tokenService.CreateToken(appUser, roles);
 
             return Ok(
                 new UserTokenDto
                 {
                     username = appUser.UserName,
                     email = appUser.Email,
-                    token = token
+                    token = token2
                 }
             );
 
