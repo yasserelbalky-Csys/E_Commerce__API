@@ -25,13 +25,15 @@ namespace BLL.Services
         public IEnumerable<CategoryListDto> GetCategories()
         {
 
-            
+
             return _unitofwork.Category.GetAll().Select(cat => new CategoryListDto
             {
                 CategoryId = cat.CategoryId,
                 CategoryName = cat.CategoryName,
-                CategoryDescription = cat.CategoryDescription
-            });
+                CategoryDescription = cat.CategoryDescription,
+                b_deleted = cat.b_deleted
+
+            }).Where(cat=>cat.b_deleted==false) ;
         }
 
         public CategoryListDto GetCategory(int id)
@@ -41,7 +43,8 @@ namespace BLL.Services
             {
                 CategoryId= entity.CategoryId,
                 CategoryName= entity.CategoryName,
-                CategoryDescription= entity.CategoryDescription
+                CategoryDescription= entity.CategoryDescription,
+                b_deleted=entity.b_deleted
             };
         }
 
@@ -50,26 +53,43 @@ namespace BLL.Services
             _unitofwork.Category.Insert(new Categories
             {
                 CategoryName= category.CategoryName, CategoryDescription= category.CategoryDescription
+                ,b_deleted=false
             });
             _unitofwork.save();
         }
 
         public void UpdateCategory(CategoryUpdateDto category)
         {
-            _unitofwork.Category.Update(new Categories { 
-            CategoryId=category.CategoryId,
-            CategoryName= category.CategoryName,    
-            CategoryDescription= category.CategoryDescription
-            });
-            _unitofwork.save();
 
+            var cat = _unitofwork.Category.GetById(category.CategoryId);
+            if (cat != null)
+            {
+                cat.CategoryId = category.CategoryId;
+                cat.CategoryName = category.CategoryName;
+                cat.CategoryDescription = category.CategoryDescription;
+                cat.b_deleted = category.b_deleted;
+                _unitofwork.Category.Update(cat);
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Category with ID {category.CategoryId} not found.");
+            }
+            _unitofwork.save();
         }
 
 
         public void DeleteCategory(int id)
         {
-            _unitofwork.Category.Delete(id);
-            _unitofwork.save();
+            var cat = _unitofwork.Category.GetById(id);
+            if (cat != null)
+            {
+                cat.b_deleted = true;
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Category with ID {id} not found.");
+            }
+                _unitofwork.save();
         }
     }
 }

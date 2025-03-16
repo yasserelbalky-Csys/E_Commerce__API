@@ -18,14 +18,11 @@ namespace BLL
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<ITokenService, TokenService>();
-           
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ISessionManager, SessionManager>();
+            services.AddScoped<IStoreService, StoreService>();
 
             return services;
         }
-
-
     }
 }

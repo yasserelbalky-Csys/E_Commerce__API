@@ -20,6 +20,7 @@ namespace DAL.Contracts
         IBrandRepository brands { get;  }
 
         IShoppingCartRepository ShoppingCarts { get; }
+        IStoreRepository stores { get; }
         void save();
         public void Dispose();
     }

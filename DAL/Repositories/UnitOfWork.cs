@@ -25,6 +25,7 @@ namespace DAL.Repositories
 
         public IBrandRepository brands { get; private set; }
 
+        public IStoreRepository stores { get; private set; }
         public IShoppingCartRepository ShoppingCarts { get; private set; }
         public UnitOfWork(AppDbContext appDbContext)
         {
@@ -34,6 +35,7 @@ namespace DAL.Repositories
             products = new ProductRepository(appDbContext);
             brands = new BrandRepository(appDbContext);
             ShoppingCarts = new ShoppingCartRepository(appDbContext);
+            stores = new StoreRepository(appDbContext);
 
         }
 

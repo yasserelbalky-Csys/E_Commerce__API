@@ -11,7 +11,7 @@ namespace BLL.DTOs.ShoppingCartDtos
 {
     public class ShoppingCartListDto
     {
-        public int ShoppingCartId;
+        public int ShoppingCartId { get; set; }
         public int ProductId { get; set; }
 
         public string ProductName { get; set; }

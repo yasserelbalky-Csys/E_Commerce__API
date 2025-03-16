@@ -14,7 +14,7 @@ namespace BLL.DTOs.ProductDtos
         public string? ProductDiscription { get; set; }
         [Range(1, 1000)]
         [Required]
-        public decimal? ProductPrice { get; set; }
+        public decimal ProductPrice { get; set; }
 
         [Required]
         public int SubcategoryId { get; set; }

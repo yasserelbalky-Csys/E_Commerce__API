@@ -16,7 +16,7 @@ namespace BLL.Services
     internal class ShoppingCartService : IShoppingCartService
     {
 
-        protected readonly IUnitOfWork _uof;
+        private readonly IUnitOfWork _uof;
         public ShoppingCartService(IUnitOfWork uof)
         {
             _uof = uof;
@@ -29,21 +29,20 @@ namespace BLL.Services
         public IEnumerable<ShoppingCartListDto> GetShoppingCarts()
         {
 
-            return _uof.ShoppingCarts.GetAll().Select(cart =>
+           var Result=_uof.ShoppingCarts.GetAll().Select(cart =>
                 new ShoppingCartListDto
                 {
+                    ShoppingCartId = cart.ShoppingCartId,
                     UserId = cart.UserId,
                     ProductId = cart.ProductId,
                     ProductName = cart.Product.ProductName,
                     price=cart.Product.ProductPrice,
-                    Count = cart.Count,
-                    ShoppingCartId = cart.ShoppingCartId
-
+                    Count = cart.Count
                 }
                 );
 
 
-
+            return Result;
 
 
         }
@@ -126,5 +125,13 @@ namespace BLL.Services
                 _uof.save();
             }
         }
+
+        public decimal GetTotalCartPrice(string userId)
+        {
+            var result= _uof.ShoppingCarts.GetByuseridOnly(userId)
+                .Sum(cart => cart.Product.ProductPrice * cart.Count);
+            return result;
+        }
+
     }
 }

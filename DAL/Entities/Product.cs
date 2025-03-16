@@ -20,7 +20,7 @@ namespace DAL.Entities
 
 
         [Required]
-        public decimal? ProductPrice { get; set; }
+        public decimal ProductPrice { get; set; }
 
         [Required]
         public int SubcategoryId { get; set; }

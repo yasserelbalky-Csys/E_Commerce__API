@@ -18,6 +18,7 @@ namespace BLL.Contracts
         public void UpdateShoppingCart(ShoppingCartUpdateDto category);
 
         public void DeleteShoppingCart(int id);
+        public decimal GetTotalCartPrice(string userId);
 
 
         //bool ProductExistsInCart(string userId, int productId);

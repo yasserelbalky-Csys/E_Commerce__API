@@ -20,22 +20,22 @@ namespace DAL
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            //Add Roles
+            ////Add Roles Run Onlyyy for first Time 
             base.OnModelCreating(builder);
-            List<IdentityRole> roles = new List<IdentityRole>()
-            {
-                new IdentityRole
-                {
-                    Name="Admin",
-                    NormalizedName="ADMIN"
-                }
-                ,new IdentityRole
-                {
-                    Name="User",
-                    NormalizedName="USER"
-                }
-            };
-            builder.Entity<IdentityRole>().HasData(roles);
+            //List<IdentityRole> roles = new List<IdentityRole>()
+            //{
+            //    new IdentityRole
+            //    {
+            //        Name="Admin",
+            //        NormalizedName="ADMIN"
+            //    }
+            //    ,new IdentityRole
+            //    {
+            //        Name="User",
+            //        NormalizedName="USER"
+            //    }
+            //};
+            //builder.Entity<IdentityRole>().HasData(roles);
 
         }
 
@@ -51,6 +51,7 @@ namespace DAL
 
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
+        public DbSet<Stores> stores { get; set; }
 
     }
 }

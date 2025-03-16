@@ -41,21 +41,22 @@ namespace E_Commerce__API.Controllers
                 return BadRequest(new { message = "User ID claim is missing from the token." });
             }
 
-           // var userId = userIdClaim.Value;
+            var userId = userIdClaim.Value;
+
+            var total = _shoppingCartService.GetTotalCartPrice(userId);
 
 
+            return Ok(total);
+            //var cart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ?? new List<ShoppingCartInsertDto>();
+            //if (cart.Count == 0)
+            //{
+            //    return Ok(_shoppingCartService.GetShoppingCarts());
 
-
-            var cart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ?? new List<ShoppingCartInsertDto>();
-            if (cart.Count == 0)
-            {
-                return Ok(_shoppingCartService.GetShoppingCarts());
-               
-            }
-            else
-            {
-                return Ok(cart);
-            }
+            //}
+            //else
+            //{
+            //    return Ok(cart);
+            //}
 
             //return Ok(_shoppingCartService.GetShoppingCarts());     
         }
@@ -83,17 +84,17 @@ namespace E_Commerce__API.Controllers
 
             var userId = userIdClaim.Value;
 
-            var cart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ?? new List<ShoppingCartInsertDto>();
-            if (cart.Count == 0)
-            {
-                return Ok(_shoppingCartService.GetUserCart(userId));
+            //var cart = _sessionManager.Get<List<ShoppingCartListDto>>("Cart") ?? new List<ShoppingCartListDto>();
+            //if (cart.Count == 0)
+            //{
+            //    return Ok(_shoppingCartService.GetUserCart(userId));
 
-            }
-            else
-            {
-                return Ok(cart);
-            }
-
+            //}
+            //else
+            //{
+            //    return Ok(cart);
+            //}
+            return Ok(_shoppingCartService.GetUserCart(userId));
             //return Ok();
 
         }

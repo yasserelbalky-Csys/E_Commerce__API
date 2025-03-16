@@ -18,6 +18,8 @@ namespace DAL.Entities
 
         public string? CategoryDescription { get; set; }
 
+        public bool b_deleted { get; set; }
+
 
         public ICollection<SubCategories>? SubCategories { get; set; }
 

@@ -15,5 +15,8 @@ namespace BLL.DTOs.CategoryDTOs
 
 
         public string? CategoryDescription { get; set; }
+
+
+        public bool b_deleted { get; set; }
     }
 }
