@@ -16,6 +16,6 @@ namespace DAL.Entities {
 
 		public ICollection<Products>? Products { get; set; }
 
-
+		public bool b_deleted { get; set; }
 	}
 }

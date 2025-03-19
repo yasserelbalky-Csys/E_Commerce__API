@@ -28,8 +28,9 @@ namespace BLL.Services
                 SubCategoryName = x.SubCategoryName,
                 SubCategoryDescription = x.SubCategoryDescription,
                 MainCategoryId = x.CategoryId,
-                MainCategoryName = x.Category.CategoryName
-            });
+                MainCategoryName = x.Category.CategoryName,
+                b_deleted=x.b_deleted
+            }).Where(sub=>sub.b_deleted==false);
         }
 
         public SubCategoryListDto GetSubCategory(int id)
@@ -42,7 +43,8 @@ namespace BLL.Services
                 SubCategoryName=enitiy.SubCategoryName,
                 SubCategoryDescription=enitiy.SubCategoryDescription,
                 MainCategoryId =enitiy.CategoryId,
-                MainCategoryName=enitiy.Category.CategoryName
+                MainCategoryName=enitiy.Category.CategoryName,
+                b_deleted=enitiy.b_deleted
             };
 
         }
@@ -54,20 +56,31 @@ namespace BLL.Services
                 SubCategoryName = subcategory.SubCategoryName,
                 SubCategoryDescription = subcategory.SubCategoryDescription,
                 CategoryId = subcategory.MainCategoryId,
+                b_deleted = false
             });
             _unitofwork.save();
         }
         
         public void UpdateSubCategory(SubCategoryUpdateDto subcategory)
         {
-            _unitofwork.subCategories.Update(new SubCategories
+            var entity = _unitofwork.subCategories.GetById(subcategory.SubCategoryId);
+            if (entity != null)
             {
-                SubCategoryName = subcategory.SubCategoryName,
-                SubCategoryDescription = subcategory.SubCategoryDescription,
-                CategoryId = subcategory.CategoryId,
-                SubCategoryId = subcategory.SubCategoryId
-            });
-            _unitofwork.save();
+
+
+                entity.SubCategoryName = subcategory.SubCategoryName;
+                entity.SubCategoryDescription = subcategory.SubCategoryDescription;
+                entity.CategoryId = subcategory.CategoryId;
+                entity.SubCategoryId = subcategory.SubCategoryId;
+                entity.b_deleted = subcategory.b_deleted;
+               
+                _unitofwork.subCategories.Update(entity);
+            }
+            else
+            {
+                throw new KeyNotFoundException($"SubCategory with ID {subcategory.SubCategoryId} not found.");
+            }
+                _unitofwork.save();
 
 
 
@@ -88,8 +101,18 @@ namespace BLL.Services
 
         public void DeleteCategory(int id)
         {
-            _unitofwork.subCategories.Delete(id);
+
+            var cat = _unitofwork.subCategories.GetById(id);
+            if (cat != null)
+            {
+                cat.b_deleted = true;
+            }
+            else
+            {
+                throw new KeyNotFoundException($"SubCategory with ID {id} not found.");
+            }
             _unitofwork.save();
+
         }
 
     }

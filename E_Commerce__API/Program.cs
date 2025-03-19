@@ -84,9 +84,9 @@ namespace E_Commerce__API
             builder.Services.AddApplicationLayerServices();
 
 
-            builder.Services.AddDataAccessServices();
-            builder.Services.AddDbContext<AppDbContext>
-                (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDataAccessServices(builder.Configuration);
+            //builder.Services.AddDbContext<AppDbContext>
+            //    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             
           
             //Identity

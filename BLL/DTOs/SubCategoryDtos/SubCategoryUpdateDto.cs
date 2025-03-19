@@ -16,7 +16,7 @@ namespace BLL.DTOs.SubCategoryDtos
 
         public string? SubCategoryDescription { get; set; }
 
-
+        public bool b_deleted { get; set; }
         public int CategoryId { get; set; }
 
        

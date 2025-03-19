@@ -28,7 +28,7 @@ namespace BLL.DTOs.ProductDtos
        
         public int BrandId { get; set; }
 
-
+        public bool b_deleted { get; set; }
 
     }
 }

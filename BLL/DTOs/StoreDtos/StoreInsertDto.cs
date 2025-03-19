@@ -12,5 +12,7 @@ namespace BLL.DTOs.StoreDtos
   
         [Required]
         public string? StoreName { get; set; }
+
+        public bool b_deleted { get; set; }
     }
 }

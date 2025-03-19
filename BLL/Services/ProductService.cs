@@ -31,9 +31,10 @@ namespace BLL.Services
                     ProductPrice=prod.ProductPrice,
                     SubcategoryId=prod.SubcategoryId,
                     SubcategoryName = prod.Subcategory.SubCategoryName,
-                    BrandId=prod.BrandId
+                    BrandId=prod.BrandId,
+                    b_deleted=prod.b_deleted,
                 }
-                );
+                ).Where(prod=>prod.b_deleted==false);
         }
 
         public ProductListDto GetProduct(int id)
@@ -47,7 +48,8 @@ namespace BLL.Services
                 ProductPrice = prod.ProductPrice,
                 SubcategoryId = prod.SubcategoryId,
                 SubcategoryName = prod.Subcategory.SubCategoryName,
-                BrandId = prod.BrandId
+                BrandId = prod.BrandId,
+                b_deleted = prod.b_deleted
             };
         }
 
@@ -59,7 +61,8 @@ namespace BLL.Services
                 ProductName=product.ProductName,
                 SubcategoryId=product.SubcategoryId,
                 ProductPrice=product.ProductPrice,
-                BrandId = product.BrandId
+                BrandId = product.BrandId,
+                b_deleted=false
             }
             );
             _uow.save();
@@ -76,6 +79,7 @@ namespace BLL.Services
                 upproduct.ProductPrice = product.ProductPrice;
                 upproduct.SubcategoryId = product.SubcategoryId;
                 upproduct.BrandId = product.BrandId;
+                upproduct.b_deleted = product.b_deleted;
                 _uow.products.Update(upproduct);
             }
             else
@@ -87,7 +91,16 @@ namespace BLL.Services
 
         public void DeleteProduct(int id)
         {
-            _uow.products.Delete(id);
+
+            var prod = _uow.products.GetById(id);
+            if (prod != null)
+            {
+                prod.b_deleted = true;
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Product with ID {id} not found.");
+            }
             _uow.save();
         }
 

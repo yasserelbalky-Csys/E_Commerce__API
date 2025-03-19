@@ -18,7 +18,7 @@ namespace BLL.DTOs.SubCategoryDtos
 
         public int MainCategoryId { get; set; }
 
-
+        public bool b_deleted { get; set; }
         public string? MainCategoryName { get;set; }
     }
 }

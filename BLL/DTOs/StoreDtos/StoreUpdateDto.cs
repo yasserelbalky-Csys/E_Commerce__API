@@ -14,5 +14,7 @@ namespace BLL.DTOs.StoreDtos
 
    
         public string? StoreName { get; set; }
+
+        public bool b_deleted { get; set; }
     }
 }

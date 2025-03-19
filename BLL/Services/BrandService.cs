@@ -20,8 +20,16 @@ namespace BLL.Services
 
         public void DeleteBrand(int id)
         {
-            _unitofwork.brands.Delete(id);
-            _unitofwork.save();
+            var brandd = _unitofwork.brands.GetById(id);
+            if (brandd != null)
+            {
+                brandd.b_deleted = true;
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Brand with ID {id} not found.");
+            }
+            _unitofwork.save(); 
         }
 
         public BrandListDto GetBrand(int id)
@@ -34,6 +42,7 @@ namespace BLL.Services
                     BrandId = temp.BrandId,
                     BrandName = temp.BrandName,
                     BrandDescription = temp.BrandDescription,
+                    b_deleted=temp.b_deleted,
                 };
             }
             else
@@ -43,6 +52,7 @@ namespace BLL.Services
                     BrandId = 0,
                     BrandName ="",
                     BrandDescription = "",
+                    b_deleted=true,
                 };
             }
         }
@@ -54,8 +64,8 @@ namespace BLL.Services
                 BrandId = b.BrandId,
                 BrandName = b.BrandName,
                 BrandDescription = b.BrandDescription,
-                
-            });
+                b_deleted=b.b_deleted
+            }).Where(brandd=>brandd.b_deleted=false);
         }
 
         //public IEnumerable<BrandListAllProductsDto> GetBrandWithProducts(int id)
@@ -79,7 +89,8 @@ namespace BLL.Services
                 new Brands
                 {
                     BrandName = brand.BrandName,
-                    BrandDescription = brand.BrandDescription
+                    BrandDescription = brand.BrandDescription,
+                    b_deleted=false
                 }
                 );
             _unitofwork.save();
@@ -92,6 +103,7 @@ namespace BLL.Services
             {
                 temp.BrandName = brand.BrandName;
                 temp.BrandDescription = brand.BrandDescription;
+                temp.b_deleted = brand.b_deleted;
                 _unitofwork.brands.Update(temp);
                 _unitofwork.save();
                 return 1;

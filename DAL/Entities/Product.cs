@@ -11,10 +11,10 @@ namespace DAL.Entities
     public class Products
     {
         [Key]
-        public int ProductId { get; set; }  
+        public int ProductId { get; set; }
 
         [Required]
-        public string? ProductName { get; set; } 
+        public string? ProductName { get; set; }
 
         public string? ProductDiscription { get; set; }
 
@@ -27,6 +27,8 @@ namespace DAL.Entities
 
         [Required]
         public int BrandId { get; set; }
+
+        public bool b_deleted { get; set; }
 
         [ForeignKey(nameof(SubcategoryId))]
         public SubCategories? Subcategory { get; set; }

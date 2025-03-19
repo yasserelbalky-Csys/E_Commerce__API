@@ -22,6 +22,8 @@ namespace DAL.Entities
         [Required]
         public int CategoryId { get; set; } // Explicit Foreign Key
 
+        public bool b_deleted { get; set; }
+
         [ForeignKey(nameof(CategoryId))]
         public Categories Category { get; set; } // Navigation Property
 
