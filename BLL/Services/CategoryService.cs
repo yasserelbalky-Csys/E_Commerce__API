@@ -26,7 +26,7 @@ namespace BLL.Services
         {
 
 
-            return _unitofwork.Category.GetAll().Select(cat => new CategoryListDto
+            return _unitofwork.Categories.GetAll().Select(cat => new CategoryListDto
             {
                 CategoryId = cat.CategoryId,
                 CategoryName = cat.CategoryName,
@@ -38,7 +38,7 @@ namespace BLL.Services
 
         public CategoryListDto GetCategory(int id)
         {
-            var entity= _unitofwork.Category.GetById(id);
+            var entity= _unitofwork.Categories.GetById(id);
             return new CategoryListDto
             {
                 CategoryId= entity.CategoryId,
@@ -50,7 +50,7 @@ namespace BLL.Services
 
         public void InsertCategory(CategoryInsertDto category)
         {
-            _unitofwork.Category.Insert(new Categories
+            _unitofwork.Categories.Insert(new Categories
             {
                 CategoryName= category.CategoryName, CategoryDescription= category.CategoryDescription
                 ,b_deleted=false
@@ -61,14 +61,14 @@ namespace BLL.Services
         public void UpdateCategory(CategoryUpdateDto category)
         {
 
-            var cat = _unitofwork.Category.GetById(category.CategoryId);
+            var cat = _unitofwork.Categories.GetById(category.CategoryId);
             if (cat != null)
             {
                 cat.CategoryId = category.CategoryId;
                 cat.CategoryName = category.CategoryName;
                 cat.CategoryDescription = category.CategoryDescription;
                 cat.b_deleted = category.b_deleted;
-                _unitofwork.Category.Update(cat);
+                _unitofwork.Categories.Update(cat);
             }
             else
             {
@@ -80,7 +80,7 @@ namespace BLL.Services
 
         public void DeleteCategory(int id)
         {
-            var cat = _unitofwork.Category.GetById(id);
+            var cat = _unitofwork.Categories.GetById(id);
             if (cat != null)
             {
                 cat.b_deleted = true;

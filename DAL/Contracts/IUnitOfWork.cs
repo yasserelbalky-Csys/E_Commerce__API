@@ -10,7 +10,7 @@ namespace DAL.Contracts
 {
     public interface IUnitOfWork
     {
-        ICategoryRepository Category { get; }
+        ICategoryRepository Categories { get; }
         ISubCategoryRepository subCategories { get;  }
 
 
@@ -21,6 +21,8 @@ namespace DAL.Contracts
 
         IShoppingCartRepository ShoppingCarts { get; }
         IStoreRepository stores { get; }
+
+
         void save();
         public void Dispose();
     }
