@@ -20,6 +20,8 @@ namespace DAL.Repositories
         private readonly Lazy<IBrandRepository> _BrandRepository;
         private readonly Lazy<IStoreRepository> _StoreRepository;
         private readonly Lazy<IShoppingCartRepository> _ShoppingCartRepository;
+        private readonly Lazy<IOrderRepository> _OrderRepository;
+        private readonly Lazy<IOrderDetailsRepository> _OrderDetailsRepository;
         public UnitOfWork(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
@@ -29,6 +31,8 @@ namespace DAL.Repositories
             _BrandRepository = new Lazy<IBrandRepository>(new BrandRepository(_appDbContext));
             _ShoppingCartRepository = new Lazy<IShoppingCartRepository>(new ShoppingCartRepository(_appDbContext));
             _StoreRepository = new Lazy<IStoreRepository>(new StoreRepository(_appDbContext));
+            _OrderRepository = new Lazy<IOrderRepository>(new OrderRepository(_appDbContext));
+            _OrderDetailsRepository = new Lazy<IOrderDetailsRepository>(new OrderDetailsRepository(_appDbContext));
         }
         public ICategoryRepository Categories { get {
                 return _CategoryRepository.Value;
@@ -68,6 +72,23 @@ namespace DAL.Repositories
                 return _ShoppingCartRepository.Value;
             }
         }
+        public IOrderRepository Orders
+        {
+            get
+            {
+                return _OrderRepository.Value;
+            }
+        }
+
+        public IOrderDetailsRepository OrderDetails
+        {
+            get
+            {
+                return _OrderDetailsRepository.Value;
+            }
+
+        }
+
         public void save()
         {
             _appDbContext.SaveChanges();

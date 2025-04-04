@@ -4,6 +4,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250324205934_order_test_with_b_deleted")]
+    partial class order_test_with_b_deleted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,20 +138,17 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.OrderDetails", b =>
                 {
-                    b.Property<int>("LineNo")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("OrderNo")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LineNo"));
-
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("OrderNo")
+                    b.Property<int>("LineNo")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("ProductPrice")
                         .HasColumnType("decimal(18,2)");
@@ -159,9 +159,7 @@ namespace DAL.Migrations
                     b.Property<decimal>("TotalValue")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("LineNo");
-
-                    b.HasIndex("OrderNo");
+                    b.HasKey("OrderNo", "LineNo", "ProductId");
 
                     b.HasIndex("ProductId");
 
@@ -489,7 +487,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.OrderDetails", b =>
                 {
                     b.HasOne("DAL.Entities.OrderMaster", "Order")
-                        .WithMany("orderDetailss")
+                        .WithMany()
                         .HasForeignKey("OrderNo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -624,11 +622,6 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Categories", b =>
                 {
                     b.Navigation("SubCategories");
-                });
-
-            modelBuilder.Entity("DAL.Entities.OrderMaster", b =>
-                {
-                    b.Navigation("orderDetailss");
                 });
 
             modelBuilder.Entity("DAL.Entities.SubCategories", b =>

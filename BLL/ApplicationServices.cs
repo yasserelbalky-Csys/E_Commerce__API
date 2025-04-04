@@ -21,7 +21,8 @@ namespace BLL
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ISessionManager, SessionManager>();
             services.AddScoped<IStoreService, StoreService>();
-
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IHelperService, HelperService>();
             return services;
         }
     }

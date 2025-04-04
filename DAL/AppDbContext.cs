@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +23,8 @@ namespace DAL
         {
             ////Add Roles Run Onlyyy for first Time 
             base.OnModelCreating(builder);
+            builder.Entity<OrderDetails>()
+          .HasKey(od => new {  od.LineNo });
             //List<IdentityRole> roles = new List<IdentityRole>()
             //{
             //    new IdentityRole
@@ -52,6 +55,13 @@ namespace DAL
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
         public DbSet<Stores> stores { get; set; }
+
+        //Add User
+        public DbSet<AppUser> SysUsers { get; set; }
+
+        //Add Master and Details of Order
+        public DbSet<OrderMaster> OrderMaster { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
 
     }
 }
