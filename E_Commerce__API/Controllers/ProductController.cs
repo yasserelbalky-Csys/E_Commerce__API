@@ -1,65 +1,58 @@
-﻿using BLL.Contracts;
+﻿using System.Security.Claims;
+using BLL.Contracts;
 using BLL.DTOs.ProductDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
-namespace E_Commerce__API.Controllers
-{
-   
-    [Route("api/[controller]")]
-    [ApiController]
-    
-    public class ProductController : ControllerBase
-    {
-        protected readonly IProductService _productService;
+namespace E_Commerce__API.Controllers {
 
-        public ProductController(IProductService productService)
-        {
-            _productService = productService;
-        }
+	[Route("api/[controller]/[action]")]
+	[ApiController]
 
-        [HttpGet]
-        public IActionResult Get() {
+	public class ProductController : ControllerBase {
+		protected readonly IProductService _productService;
 
-            return Ok(_productService.GetProducts());
-        }
-        
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
-        {
+		public ProductController(IProductService productService) {
+			_productService = productService;
+		}
 
-            return Ok(_productService.GetProduct(id));
-        }
-        [HttpPost]
+		[HttpGet]
+		public IActionResult Get() {
 
-        [Authorize(Roles = "Admin")]
-        public IActionResult Post(ProductInsertDto product)
-        {
+			return Ok(_productService.GetProducts());
+		}
 
-            if (!User.IsInRole("Admin"))
-            {
-                return Forbid(); // Returns 403 Forbidden
-            }
+		[HttpGet("{id}")]
+		public IActionResult GetById(int id) {
 
-            _productService.InsertProduct(product);
-            return Ok();
-            //_productService.InsertProduct(product);
-            //return Ok();
-        }
-        [Authorize(Roles = "Admin")]
-        [HttpPut]
-        public IActionResult Put(ProductUpdateDto product)
-        {
-            _productService.UpdateProduct(product);
-            return Ok();
-        }
-        [Authorize(Roles = "Admin")]
-        [HttpDelete]
-        public IActionResult DeleteById(int id) {
-            _productService.DeleteProduct(id);
-            return Ok();
-        }
-    }
+			return Ok(_productService.GetProduct(id));
+		}
+		[HttpPost]
+
+		[Authorize(Roles = "Admin")]
+		public IActionResult Post(ProductInsertDto product) {
+
+			if (!User.IsInRole("Admin")) {
+				return Forbid(); // Returns 403 Forbidden
+			}
+
+			_productService.InsertProduct(product);
+			return Ok();
+			//_productService.InsertProduct(product);
+			//return Ok();
+		}
+		[Authorize(Roles = "Admin")]
+		[HttpPut]
+		public IActionResult Put(ProductUpdateDto product) {
+			_productService.UpdateProduct(product);
+			return Ok();
+		}
+		[Authorize(Roles = "Admin")]
+		[HttpDelete]
+		public IActionResult DeleteById(int id) {
+			_productService.DeleteProduct(id);
+			return Ok();
+		}
+	}
 }
