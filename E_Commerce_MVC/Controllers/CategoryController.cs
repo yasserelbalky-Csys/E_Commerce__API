@@ -54,9 +54,6 @@ namespace E_Commerce_MVC.Controllers {
 		[HttpGet]
 		public async Task<IActionResult> Delete(int id) {
 			var category = await _apiService.GetByIdAsync("Get", id);
-			if (category == null) {
-				return NotFound();
-			}
 
 			return View(category); // Pass the category model to the view
 		}

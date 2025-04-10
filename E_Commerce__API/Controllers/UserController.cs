@@ -15,16 +15,14 @@ namespace E_Commerce__API.Controllers {
 		private readonly SignInManager<AppUser> _signInManager;
 		private readonly ITokenService _tokenService;
 
-		public UserController(UserManager<AppUser> usermanger, ITokenService tokenService, SignInManager<AppUser> signInManager) {
+		public UserController(UserManager<AppUser> usermanger, ITokenService tokenService,
+			SignInManager<AppUser> signInManager) {
 			_usermanger = usermanger;
 			_tokenService = tokenService;
 			_signInManager = signInManager;
 		}
 
-
-
 		[HttpPost("Login")]
-
 		public async Task<IActionResult> Login(UserLoginDto userLogin) {
 			/*if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -36,7 +34,7 @@ namespace E_Commerce__API.Controllers {
             if (!result.Succeeded)
                 return Unauthorized("Username not found or Password isn't correct!");
             return Ok(
-            
+
                 new UserTokenDto
                 {
                     email = user.Email,
@@ -62,14 +60,13 @@ namespace E_Commerce__API.Controllers {
 			// ✅ Fetch the user's roles
 			var roles = await _usermanger.GetRolesAsync(user);
 
-			return Ok(
-				new UserTokenDto {
-					email = user.Email,
-					username = user.UserName,
-					token = _tokenService.CreateToken(user, roles)
-				}
-			);
+			return Ok(new UserTokenDto {
+				email = user.Email,
+				username = user.UserName,
+				token = _tokenService.CreateToken(user, roles)
+			});
 		}
+
 		[HttpPost("register")]
 		public async Task<IActionResult> Post([FromBody] UserRegisterDto userRegisterDto) {
 			/*  try
@@ -84,7 +81,7 @@ namespace E_Commerce__API.Controllers {
                       UserName = userRegisterDto.UserName
                   };
                   var createduser=await _usermanger.CreateAsync(appuser,userRegisterDto.Password);
-                  if (createduser.Succeeded) 
+                  if (createduser.Succeeded)
                   {
                       var roleresult = await _usermanger.AddToRoleAsync(appuser, "User");
                       if (roleresult.Succeeded)
@@ -98,7 +95,7 @@ namespace E_Commerce__API.Controllers {
                               }
                               );
                       }
-                      else 
+                      else
                       {
                           return StatusCode(500,roleresult.Errors);
                       }
@@ -151,16 +148,11 @@ namespace E_Commerce__API.Controllers {
 			var roles = await _usermanger.GetRolesAsync(appUser);
 			var token2 = _tokenService.CreateToken(appUser, roles);
 
-			return Ok(
-				new UserTokenDto {
-					username = appUser.UserName,
-					email = appUser.Email,
-					token = token2
-				}
-			);
-
-
-
+			return Ok(new UserTokenDto {
+				username = appUser.UserName,
+				email = appUser.Email,
+				token = token2
+			});
 		}
 	}
 }

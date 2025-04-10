@@ -55,10 +55,14 @@ namespace E_Commerce_MVC.Services {
 
 		// DELETE: Delete an entity by ID
 		public async Task DeleteAsync(string endpoint, int id) {
-			var response = await _httpClient.DeleteAsync($"{endpoint}/{id}");
-			if (!response.IsSuccessStatusCode) {
-				throw new Exception($"Error deleting entity: {response.ReasonPhrase}");
+			var response = await _httpClient.GetAsync($"Get/{id}");
+			if (response.IsSuccessStatusCode) {
+				var response2 = await _httpClient.DeleteAsync($"{endpoint}?id={id}");
+				if (!response2.IsSuccessStatusCode) {
+					throw new Exception($"Error deleting entity: {response2.ReasonPhrase}");
+				}
 			}
+
 		}
 	}
 }
