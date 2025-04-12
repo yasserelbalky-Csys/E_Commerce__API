@@ -8,21 +8,26 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_Commerce__API.Controllers {
+namespace E_Commerce__API.Controllers
+{
 	[Route("api/[controller]/[action]")]
 	[ApiController]
-	public class OrderController : ControllerBase {
+	public class OrderController : ControllerBase
+	{
 		private readonly IOrderService _orderservice;
 		private readonly IHelperService _helperService;
+
 		public OrderController(IOrderService orderservice, IHelperService helperservice) {
 			_orderservice = orderservice;
 			_helperService = helperservice;
 		}
+
 		[Authorize]
 		[HttpGet]
 		public IActionResult GetAll() {
 			return Ok(_orderservice.GetOrders());
 		}
+
 		[Authorize]
 		[HttpPost]
 		public IActionResult PostMaster(OrderInsertDto order) {
@@ -50,7 +55,6 @@ namespace E_Commerce__API.Controllers {
 			return Ok();
 		}
 
-
 		[HttpGet("{orderid:int}")]
 		public IActionResult GetById(int orderid) {
 			var claimsIdentity = User.Identity as ClaimsIdentity;
@@ -76,6 +80,7 @@ namespace E_Commerce__API.Controllers {
 				return NotFound("Order Not Found");
 			}
 		}
+
 		[HttpPut]
 		public IActionResult Update(OrderUpdateRequestDto request) {
 			var claimsIdentity = User.Identity as ClaimsIdentity;
@@ -84,6 +89,7 @@ namespace E_Commerce__API.Controllers {
 			if (claimsIdentity == null || !claimsIdentity.IsAuthenticated) {
 				return Unauthorized(new { message = "User is not authenticated." });
 			}
+
 			var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 			// Ensure the claim exists
 			if (userIdClaim == null) {
@@ -100,7 +106,6 @@ namespace E_Commerce__API.Controllers {
 			}
 		}
 
-
 		[HttpPut("{OrderNo}")]
 		public IActionResult Update(int OrderNo) {
 			var claimsIdentity = User.Identity as ClaimsIdentity;
@@ -109,6 +114,7 @@ namespace E_Commerce__API.Controllers {
 			if (claimsIdentity == null || !claimsIdentity.IsAuthenticated) {
 				return Unauthorized(new { message = "User is not authenticated." });
 			}
+
 			var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 			// Ensure the claim exists
 			if (userIdClaim == null) {

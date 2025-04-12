@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using E_Commerce_MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_Commerce_MVC.Controllers {
-	public class LoginController : Controller {
+namespace E_Commerce_MVC.Controllers
+{
+	public class LoginController : Controller
+	{
 		private readonly HttpClient _httpClient;
 
 		public LoginController(HttpClient httpClient) {
@@ -55,7 +57,8 @@ namespace E_Commerce_MVC.Controllers {
 		}
 	}
 
-	public class UserTokenDto {
+	public class UserTokenDto
+	{
 		public string Token { get; set; }
 		public string Username { get; set; }
 		public string Email { get; set; }
