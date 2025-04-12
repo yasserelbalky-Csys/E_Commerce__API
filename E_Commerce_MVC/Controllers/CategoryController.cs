@@ -1,4 +1,4 @@
-using BLL.DTOs.CategoryDTOs;
+using E_Commerce_MVC.Models;
 using E_Commerce_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -60,8 +60,8 @@ namespace E_Commerce_MVC.Controllers {
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> DeleteConfirmed(int id) {
-			await _apiService.DeleteAsync("Delete", id);
+		public async Task<IActionResult> DeleteConfirmed(int CategoryId) {
+			await _apiService.DeleteAsync("Delete", CategoryId);
 			return RedirectToAction(nameof(Index));
 		}
 	}

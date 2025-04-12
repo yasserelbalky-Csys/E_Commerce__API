@@ -25,10 +25,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\E_Commerce__API\E_Commerce__API.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Folder Include="Areas\Identity\Data\" />
 	</ItemGroup>
 

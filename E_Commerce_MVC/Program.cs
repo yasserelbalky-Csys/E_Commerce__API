@@ -1,8 +1,4 @@
-using BLL;
-using BLL.DTOs.CategoryDTOs;
-using BLL.DTOs.OrderDtos;
-using BLL.DTOs.ProductDtos;
-using DAL;
+using E_Commerce_MVC.Models;
 using E_Commerce_MVC.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +6,6 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AppDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AppDbContextConnection' not found.");
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -36,8 +29,7 @@ builder.Services.AddSession(options => {
 });
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddApplicationLayerServices();
-builder.Services.AddDataAccessServices(builder.Configuration);
+
 
 // Add authentication
 

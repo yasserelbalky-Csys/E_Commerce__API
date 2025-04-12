@@ -62,7 +62,6 @@ namespace E_Commerce_MVC.Services {
 					throw new Exception($"Error deleting entity: {response2.ReasonPhrase}");
 				}
 			}
-
 		}
 	}
 }
