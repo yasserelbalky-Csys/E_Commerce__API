@@ -29,7 +29,7 @@ namespace E_Commerce_MVC.Controllers
 
 				if (response.IsSuccessStatusCode) {
 					// Retrieve the token from the API response
-					var tokenResponse = await response.Content.ReadFromJsonAsync<UserTokenDto>();
+					var tokenResponse = await response.Content.ReadFromJsonAsync<UserTokenDTO>();
 
 					// Store the token in session
 					HttpContext.Session.SetString("JWTToken", tokenResponse.Token);
