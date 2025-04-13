@@ -1,5 +1,7 @@
-﻿namespace E_Commerce_MVC.Models {
-	public class CategoryListDto {
+﻿namespace E_Commerce_MVC.Models.EntitiesViewModel
+{
+	public class Category
+	{
 		public int CategoryId { get; set; }
 		public string? CategoryName { get; set; }
 		public string? CategoryDescription { get; set; }

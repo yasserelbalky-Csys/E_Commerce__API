@@ -1,24 +1,19 @@
-using E_Commerce_MVC.Models;
+using E_Commerce_MVC.Models.EntitiesViewModel;
 using E_Commerce_MVC.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("AppDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AppDbContextConnection' not found.");
-
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 void RegisterGenericApiService<T>(IServiceCollection services, string baseUrl) where T : class {
-	services.AddHttpClient<GenericApiService<T>>(client => {
-		client.BaseAddress = new Uri(baseUrl);
-	});
+	services.AddHttpClient<GenericApiService<T>>(client => { client.BaseAddress = new Uri(baseUrl); });
 }
 
-RegisterGenericApiService<CategoryListDto>(builder.Services, "http://localhost:5097/api/Category/");
-
+RegisterGenericApiService<Category>(builder.Services, "http://localhost:5097/api/Category/");
 
 // add session support
 builder.Services.AddDistributedMemoryCache();
@@ -29,10 +24,7 @@ builder.Services.AddSession(options => {
 });
 builder.Services.AddHttpContextAccessor();
 
-
-
 // Add authentication
-
 
 var app = builder.Build();
 

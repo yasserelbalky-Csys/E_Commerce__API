@@ -1,28 +1,24 @@
-﻿using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-using E_Commerce_MVC.Models.UserViewModel;
+﻿using E_Commerce_MVC.Models.UserViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce_MVC.Controllers
 {
-	public class LoginController : Controller
+	public class UserController : Controller
 	{
 		private readonly HttpClient _httpClient;
 
-		public LoginController(HttpClient httpClient) {
+		public UserController(HttpClient httpClient) {
 			_httpClient = httpClient;
 			_httpClient.BaseAddress = new Uri("http://localhost:5097/api/User/"); // API base URL
 		}
 
-		[HttpGet]
-		public IActionResult Index() {
+		public IActionResult Login() {
 			return View();
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Index(LoginViewModel model) {
+		public async Task<IActionResult> Login(LoginViewModel model) {
 			if (!ModelState.IsValid) {
 				return View(model);
 			}
@@ -50,17 +46,37 @@ namespace E_Commerce_MVC.Controllers
 			return View(model);
 		}
 
+		public IActionResult Register() {
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Register(RegisterViewModel model) {
+			if (!ModelState.IsValid) {
+				return View(model);
+			}
+
+			try {
+				// Send registration request to the API
+				var response = await _httpClient.PostAsJsonAsync("Post/Register", model);
+				if (response.IsSuccessStatusCode) {
+					// Registration successful, redirect to login page
+					return RedirectToAction("Login");
+				} else {
+					ModelState.AddModelError(string.Empty, "Registration failed.");
+				}
+			} catch (Exception ex) {
+				ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
+			}
+
+			return View(model);
+		}
+
 		[HttpPost]
 		public IActionResult Logout() {
 			HttpContext.Session.Remove("JWTToken");
-			return RedirectToAction("Index", "Login");
+			return RedirectToAction("Index", "Home");
 		}
-	}
-
-	public class UserTokenDto
-	{
-		public string Token { get; set; }
-		public string Username { get; set; }
-		public string Email { get; set; }
 	}
 }

@@ -37,14 +37,17 @@
                             <span class="nav-link text-dark">Hello, @username!</span>
                         </li>
                         <li class="nav-item">
-                            <form asp-area="" asp-controller="Login" asp-action="Logout" method="post" class="form-inline">
+                            <form asp-area="" asp-controller="User" asp-action="Logout" method="post" class="form-inline">
                                 <button type="submit" class="btn btn-link nav-link text-dark">Logout</button>
                             </form>
                         </li>
                     } else {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register"> Register </a >
+                        </li >
                     }
                 </ul>
             </div>

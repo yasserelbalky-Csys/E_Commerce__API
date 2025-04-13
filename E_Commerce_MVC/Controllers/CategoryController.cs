@@ -1,12 +1,12 @@
-using E_Commerce_MVC.Models;
+using E_Commerce_MVC.Models.EntitiesViewModel;
 using E_Commerce_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce_MVC.Controllers {
 	public class CategoryController : Controller {
-		private readonly GenericApiService<CategoryListDto> _apiService;
+		private readonly GenericApiService<Category> _apiService;
 
-		public CategoryController(GenericApiService<CategoryListDto> apiService) {
+		public CategoryController(GenericApiService<Category> apiService) {
 			_apiService = apiService;
 		}
 
@@ -26,7 +26,7 @@ namespace E_Commerce_MVC.Controllers {
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create(CategoryListDto category) {
+		public async Task<IActionResult> Create(Category category) {
 			if (ModelState.IsValid) {
 				await _apiService.CreateAsync("Post", category);
 				return RedirectToAction(nameof(Index));
@@ -42,7 +42,7 @@ namespace E_Commerce_MVC.Controllers {
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(CategoryListDto category) {
+		public async Task<IActionResult> Edit(Category category) {
 			if (ModelState.IsValid) {
 				await _apiService.UpdateAsync("Put", category);
 				return RedirectToAction(nameof(Index));
