@@ -4,7 +4,15 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>64727284-241c-4b6e-a259-039516fc3494</UserSecretsId>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Areas\Identity\Data\**" />
+	  <Content Remove="Areas\Identity\Data\**" />
+	  <EmbeddedResource Remove="Areas\Identity\Data\**" />
+	  <None Remove="Areas\Identity\Data\**" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.15" />
@@ -25,7 +33,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Areas\Identity\Data\" />
+	  <Folder Include="Data\" />
+	  <Folder Include="Models\" />
+	  <Folder Include="wwwroot\css\" />
+	  <Folder Include="wwwroot\images\" />
+	  <Folder Include="wwwroot\js\" />
+	  <Folder Include="wwwroot\lib\bootstrap\" />
+	  <Folder Include="wwwroot\lib\bootstrap\dist\js\" />
+	  <Folder Include="wwwroot\lib\jquery-validation-unobtrusive\" />
+	  <Folder Include="wwwroot\lib\jquery-validation\" />
+	  <Folder Include="wwwroot\lib\jquery-validation\dist\" />
+	  <Folder Include="wwwroot\lib\jquery\" />
+	  <Folder Include="wwwroot\lib\jquery\dist\" />
 	</ItemGroup>
 
 </Project>

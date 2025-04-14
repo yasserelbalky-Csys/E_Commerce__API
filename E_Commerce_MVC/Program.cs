@@ -1,5 +1,7 @@
+using E_Commerce_MVC.ApiServices.AccountServices;
 using E_Commerce_MVC.Models.EntitiesViewModel;
 using E_Commerce_MVC.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +17,17 @@ void RegisterGenericApiService<T>(IServiceCollection services, string baseUrl) w
 
 RegisterGenericApiService<Category>(builder.Services, "http://localhost:5097/api/Category/");
 
+// Register the Authentication with Services
+builder.Services.AddAuthentication(options => {
+	options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+	options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+}).AddCookie(options => {
+	options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+	options.SlidingExpiration = true;
+	options.LoginPath = "/User/Login";
+	options.AccessDeniedPath = "/User/AccessDenied";
+});
+
 // add session support
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => {
@@ -23,7 +36,7 @@ builder.Services.AddSession(options => {
 	options.Cookie.IsEssential = true;
 });
 builder.Services.AddHttpContextAccessor();
-
+builder.Services.AddHttpClient<AccountService>();
 // Add authentication
 
 var app = builder.Build();
