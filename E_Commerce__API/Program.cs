@@ -60,7 +60,7 @@ namespace E_Commerce__API
 				options.Cookie.IsEssential = true;
 			});
 			builder.Services.AddHttpContextAccessor(); // Required to access HttpContext
-													   //End Session
+			//End Session
 
 			builder.Services.AddSession();
 			// builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -73,11 +73,11 @@ namespace E_Commerce__API
 
 			//Identity
 			builder.Services.AddIdentity<AppUser, IdentityRole>(options => {
-				options.Password.RequireDigit = true;
-				options.Password.RequireLowercase = true;
-				options.Password.RequireUppercase = true;
-				options.Password.RequiredLength = 12;
-			}).AddEntityFrameworkStores<AppDbContext>() // Link Identity to AppDbContext
+					options.Password.RequireDigit = true;
+					options.Password.RequireLowercase = true;
+					options.Password.RequireUppercase = true;
+					options.Password.RequiredLength = 12;
+				}).AddEntityFrameworkStores<AppDbContext>() // Link Identity to AppDbContext
 				.AddDefaultTokenProviders();
 			;
 

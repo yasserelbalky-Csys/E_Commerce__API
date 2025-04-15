@@ -24,7 +24,6 @@ namespace DAL.Entities
 		public string? PaymentStatus { get; set; }
 		public string? Traking { get; set; }
 		public DateTime PaymentDate { get; set; }
-
 		public DateOnly PaymentDueDate { get; set; }
 
 		//for Stripe

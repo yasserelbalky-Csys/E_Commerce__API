@@ -116,7 +116,7 @@ namespace E_Commerce__API.Controllers
 
 			// Guest user: Use session for cart storage
 			var sessionCart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ??
-							  new List<ShoppingCartInsertDto>();
+			                  new List<ShoppingCartInsertDto>();
 			if (sessionCart.Any(c => c.ProductId == cart.ProductId && c.UserId == userId)) {
 				return BadRequest(new { message = "Duplicate product found in the cart." });
 			}
@@ -149,7 +149,7 @@ namespace E_Commerce__API.Controllers
 			_shoppingCartService.UpdateShoppingCart(cart);
 
 			var sessionCart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ??
-							  new List<ShoppingCartInsertDto>();
+			                  new List<ShoppingCartInsertDto>();
 
 			var existingItem =
 				sessionCart.FirstOrDefault(c => c.ProductId == cart.ProductId && c.UserId == cart.UserId);
@@ -171,7 +171,8 @@ namespace E_Commerce__API.Controllers
 
 				_sessionManager.Set("Cart", sessionCart);
 
-				return Ok(new { message = "Shopping cart updated successfully in database and insert in session first time." });
+				return Ok(new
+					{ message = "Shopping cart updated successfully in database and insert in session first time." });
 			}
 		}
 

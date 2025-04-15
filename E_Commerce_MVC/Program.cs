@@ -2,8 +2,6 @@ using E_Commerce_MVC.ApiServices.AccountServices;
 using E_Commerce_MVC.Models.EntitiesViewModel;
 using E_Commerce_MVC.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,9 +54,9 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(name: "areas", pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 
