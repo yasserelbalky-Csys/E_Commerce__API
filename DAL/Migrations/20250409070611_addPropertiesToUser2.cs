@@ -4,35 +4,33 @@
 
 namespace DAL.Migrations
 {
-    /// <inheritdoc />
-    public partial class addPropertiesToUser2 : Migration
-    {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.RenameColumn(
-                name: "lastName",
-                table: "AspNetUsers",
-                newName: "LastName");
+	/// <inheritdoc />
+	public partial class addPropertiesToUser2 : Migration
+	{
+		/// <inheritdoc />
+		protected override void Up(MigrationBuilder migrationBuilder) {
+			migrationBuilder.RenameColumn(
+				name: "lastName",
+				table: "AspNetUsers",
+				newName: "LastName");
 
-            migrationBuilder.RenameColumn(
-                name: "firstName",
-                table: "AspNetUsers",
-                newName: "FirstName");
-        }
+			migrationBuilder.RenameColumn(
+				name: "firstName",
+				table: "AspNetUsers",
+				newName: "FirstName");
+		}
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.RenameColumn(
-                name: "LastName",
-                table: "AspNetUsers",
-                newName: "lastName");
+		/// <inheritdoc />
+		protected override void Down(MigrationBuilder migrationBuilder) {
+			migrationBuilder.RenameColumn(
+				name: "LastName",
+				table: "AspNetUsers",
+				newName: "lastName");
 
-            migrationBuilder.RenameColumn(
-                name: "FirstName",
-                table: "AspNetUsers",
-                newName: "firstName");
-        }
-    }
+			migrationBuilder.RenameColumn(
+				name: "FirstName",
+				table: "AspNetUsers",
+				newName: "firstName");
+		}
+	}
 }

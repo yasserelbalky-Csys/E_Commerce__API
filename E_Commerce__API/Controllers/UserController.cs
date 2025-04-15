@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace E_Commerce__API.Controllers {
+namespace E_Commerce__API.Controllers
+{
 	[Route("api/[controller]/[action]")]
 	[ApiController]
-	public class UserController : ControllerBase {
+	public class UserController : ControllerBase
+	{
 		private readonly UserManager<AppUser> _usermanger;
 		private readonly SignInManager<AppUser> _signInManager;
 		private readonly ITokenService _tokenService;

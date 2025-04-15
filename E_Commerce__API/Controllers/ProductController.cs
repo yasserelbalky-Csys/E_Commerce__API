@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_Commerce__API.Controllers {
-
+namespace E_Commerce__API.Controllers
+{
 	[Route("api/[controller]/[action]")]
 	[ApiController]
-
-	public class ProductController : ControllerBase {
+	public class ProductController : ControllerBase
+	{
 		protected readonly IProductService _productService;
 
 		public ProductController(IProductService productService) {

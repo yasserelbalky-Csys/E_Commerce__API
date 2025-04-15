@@ -7,8 +7,10 @@ using BLL.Contracts;
 using BLL.DTOs.OrderDtos;
 using DAL.Contracts;
 
-namespace BLL.Services {
-	class HelperService : IHelperService {
+namespace BLL.Services
+{
+	class HelperService : IHelperService
+	{
 		private readonly IUnitOfWork _uof;
 
 		public HelperService(IUnitOfWork uof) {

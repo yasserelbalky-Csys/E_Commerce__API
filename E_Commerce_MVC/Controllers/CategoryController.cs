@@ -2,8 +2,10 @@ using E_Commerce_MVC.Models.EntitiesViewModel;
 using E_Commerce_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_Commerce_MVC.Controllers {
-	public class CategoryController : Controller {
+namespace E_Commerce_MVC.Controllers
+{
+	public class CategoryController : Controller
+	{
 		private readonly GenericApiService<Category> _apiService;
 
 		public CategoryController(GenericApiService<Category> apiService) {

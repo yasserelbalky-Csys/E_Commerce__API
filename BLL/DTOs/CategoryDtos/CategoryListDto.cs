@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 
-namespace BLL.DTOs.CategoryDTOs {
-	public class CategoryListDto {
+namespace BLL.DTOs.CategoryDTOs
+{
+	public class CategoryListDto
+	{
 		public int CategoryId { get; set; }
 		public string? CategoryName { get; set; }
 		public string? CategoryDescription { get; set; }

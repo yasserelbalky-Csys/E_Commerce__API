@@ -7,8 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace E_Commerce__API {
-	public class Program {
+namespace E_Commerce__API
+{
+	public class Program
+	{
 		public static void Main(string[] args) {
 			var builder = WebApplication.CreateBuilder(args);
 
@@ -25,14 +27,15 @@ namespace E_Commerce__API {
 
 			builder.Services.AddSwaggerGen(option => {
 				option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
-				option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
-					In = ParameterLocation.Header,
-					Description = "Please enter a valid token",
-					Name = "Authorization",
-					Type = SecuritySchemeType.Http,
-					BearerFormat = "JWT",
-					Scheme = "Bearer"
-				});
+				option.AddSecurityDefinition("Bearer",
+					new OpenApiSecurityScheme {
+						In = ParameterLocation.Header,
+						Description = "Please enter a valid token",
+						Name = "Authorization",
+						Type = SecuritySchemeType.Http,
+						BearerFormat = "JWT",
+						Scheme = "Bearer"
+					});
 				option.AddSecurityRequirement(new OpenApiSecurityRequirement {
 					{
 						new OpenApiSecurityScheme {

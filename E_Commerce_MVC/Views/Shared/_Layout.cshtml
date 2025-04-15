@@ -34,7 +34,9 @@
                         var username = usernameClaim?.Value ?? "User";
 
                         <li class="nav-item">
-                            <span class="nav-link text-dark">Hello, @username!</span>
+                            <a asp-area="Admin" asp-controller="Home" asp-action="Index">
+                                <span class="nav-link text-dark">Hello, @username!</span>
+                            </a>
                         </li>
                         <li class="nav-item">
                             <form asp-area="" asp-controller="User" asp-action="Logout" method="post" class="form-inline">

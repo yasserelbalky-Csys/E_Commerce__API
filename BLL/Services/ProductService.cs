@@ -8,8 +8,10 @@ using BLL.DTOs.ProductDtos;
 using DAL.Contracts;
 using DAL.Entities;
 
-namespace BLL.Services {
-	internal class ProductService : IProductService {
+namespace BLL.Services
+{
+	internal class ProductService : IProductService
+	{
 		protected readonly IUnitOfWork _uow;
 
 		public ProductService(IUnitOfWork uow) {

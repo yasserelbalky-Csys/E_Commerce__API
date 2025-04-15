@@ -12,8 +12,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DAL {
-	public static class DataAcessExtensions {
+namespace DAL
+{
+	public static class DataAcessExtensions
+	{
 		public static IServiceCollection AddDataAccessServices(this IServiceCollection services,
 			IConfigurationManager config) {
 			string cs = config.GetConnectionString("DefaultConnection");

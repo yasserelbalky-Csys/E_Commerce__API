@@ -10,8 +10,10 @@ using DAL.Contracts;
 using DAL.Entities;
 using Microsoft.AspNetCore.Http;
 
-namespace BLL.Services {
-	internal class ShoppingCartService : IShoppingCartService {
+namespace BLL.Services
+{
+	internal class ShoppingCartService : IShoppingCartService
+	{
 		private readonly IUnitOfWork _uof;
 
 		public ShoppingCartService(IUnitOfWork uof) {

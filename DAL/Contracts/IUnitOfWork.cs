@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Contracts {
-	public interface IUnitOfWork {
+namespace DAL.Contracts
+{
+	public interface IUnitOfWork
+	{
 		ICategoryRepository Categories { get; }
 		ISubCategoryRepository subCategories { get; }
 		IProductRepository products { get; }

@@ -11,8 +11,10 @@ using BLL.DTOs.StoreDtos;
 using DAL.Contracts;
 using DAL.Entities;
 
-namespace BLL.Services {
-	class OrderService : IOrderService {
+namespace BLL.Services
+{
+	class OrderService : IOrderService
+	{
 		private readonly IUnitOfWork _uof;
 		private ShoppingCartService shoppingcart;
 
@@ -103,8 +105,12 @@ namespace BLL.Services {
 			_uof.Orders.Insert(new OrderMaster {
 				OrderNo = orderNumber,
 				UserId = order.UserId,
-				OrderDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour,
-					DateTime.Now.Minute, DateTime.Now.Second),
+				OrderDate = new DateTime(DateTime.Now.Year,
+					DateTime.Now.Month,
+					DateTime.Now.Day,
+					DateTime.Now.Hour,
+					DateTime.Now.Minute,
+					DateTime.Now.Second),
 				OrderShippedDate = order.OrderShippedDate,
 				OrderStatus = order.OrderStatus,
 				PaymentStatus = order.PaymentStatus,
@@ -130,8 +136,12 @@ namespace BLL.Services {
 				var ordernumber = found.OrderNo;
 				found.OrderNo = ordernumber;
 				found.UserId = order.UserId;
-				found.OrderDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
-					DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+				found.OrderDate = new DateTime(DateTime.Now.Year,
+					DateTime.Now.Month,
+					DateTime.Now.Day,
+					DateTime.Now.Hour,
+					DateTime.Now.Minute,
+					DateTime.Now.Second);
 				found.OrderShippedDate = order.OrderShippedDate;
 				found.OrderStatus = order.OrderStatus;
 				found.PaymentStatus = order.PaymentStatus;

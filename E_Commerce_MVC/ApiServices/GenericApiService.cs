@@ -2,8 +2,10 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
-namespace E_Commerce_MVC.Services {
-	public class GenericApiService<T> where T : class {
+namespace E_Commerce_MVC.Services
+{
+	public class GenericApiService<T> where T : class
+	{
 		private readonly HttpClient _httpClient;
 		private readonly IHttpContextAccessor _httpContextAccessor;
 

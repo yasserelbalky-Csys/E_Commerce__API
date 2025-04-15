@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 
-namespace DAL.Contracts {
-	public interface IProductRepository : IBaseRepository<Products> {
+namespace DAL.Contracts
+{
+	public interface IProductRepository : IBaseRepository<Products>
+	{
 		public IEnumerable<Products> GetProductsByCategory();
 	}
 }
