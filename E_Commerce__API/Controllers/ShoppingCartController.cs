@@ -126,12 +126,12 @@ namespace E_Commerce__API.Controllers {
 				return BadRequest(new { message = "Duplicate product found in the cart." });
 			}
 
-			_shoppingCartService.InsertShoppingCart(cart);
-			sessionCart.Add(cart);
-			_sessionManager.Set("Cart", sessionCart);
-			return Ok(new { message = "Item added to cart (Session)." });
-
-		}
+            _shoppingCartService.InsertShoppingCart(cart);
+            sessionCart.Add(cart);
+            _sessionManager.Set("Cart", sessionCart);
+            return Ok(new { message = "Item added to cart (Session)." });
+          
+        }
 
 		[Authorize]
 		[HttpPut]

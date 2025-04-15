@@ -25,7 +25,6 @@ namespace DAL.Entities
         [Required]
         public decimal ProductPrice { get; set; }
         public decimal TotalValue { get; set; }
-        public decimal Discount { get; set; }
 
     }
 }

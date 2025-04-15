@@ -13,7 +13,7 @@ namespace BLL.DTOs.ShoppingCartDtos
     {
        // public int ShoppingCartId { get; set; }
         public int ProductId { get; set; }
-        [Range (1,100)]
+        [Range (1,150)]
         public int Count { get; set; }
         public string UserId { get; set; }
     }
