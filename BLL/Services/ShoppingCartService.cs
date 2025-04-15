@@ -43,16 +43,20 @@ namespace BLL.Services
 			};
 		}
 
-		public void InsertShoppingCart(ShoppingCartInsertDto cart) {
-			// var temp = _ShoppingCartrepository.GetAll().OrderByDescending(c => c.ShoppingCartId).FirstOrDefault();
+        public void InsertShoppingCart(ShoppingCartInsertDto cart)
+        {
+           // var temp = _ShoppingCartrepository.GetAll().OrderByDescending(c => c.ShoppingCartId).FirstOrDefault();
 
-			_uof.ShoppingCarts.Insert(new ShoppingCart {
-				Count = cart.Count,
-				ProductId = cart.ProductId,
-				UserId = cart.UserId,
-			});
-			_uof.save();
-		}
+            
+            _uof.ShoppingCarts.Insert(new ShoppingCart
+            {
+                Count = cart.Count,
+                ProductId = cart.ProductId,
+                UserId = cart.UserId,
+
+            });
+            _uof.save();
+        }
 
 		public void UpdateShoppingCart(ShoppingCartUpdateDto shoppingcart) {
 			//var existingone = _ShoppingCartrepository.GetById(shoppingcart.ShoppingCartId);
