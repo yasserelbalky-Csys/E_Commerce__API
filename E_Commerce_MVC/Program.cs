@@ -1,9 +1,9 @@
-using BLL;
-using BLL.DTOs.CategoryDTOs;
-using BLL.DTOs.OrderDtos;
-using BLL.DTOs.ProductDtos;
-using DAL;
+using E_Commerce_MVC.ApiServices.AccountServices;
+using E_Commerce_MVC.Models.EntitiesViewModel;
 using E_Commerce_MVC.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,15 +12,21 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 void RegisterGenericApiService<T>(IServiceCollection services, string baseUrl) where T : class {
-	services.AddHttpClient<GenericApiService<T>>(client => {
-		client.BaseAddress = new Uri(baseUrl);
-	});
+	services.AddHttpClient<GenericApiService<T>>(client => { client.BaseAddress = new Uri(baseUrl); });
 }
 
-RegisterGenericApiService<CategoryListDto>(builder.Services, "http://localhost:5097/api/Category/");
-RegisterGenericApiService<ProductListDto>(builder.Services, "http://localhost:5097/api/Product/");
-RegisterGenericApiService<OrderListDto>(builder.Services, "http://localhost:5097/api/Order/");
+RegisterGenericApiService<Category>(builder.Services, "http://localhost:5097/api/Category/");
 
+// Register the Authentication with Services
+builder.Services.AddAuthentication(options => {
+	options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+	options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+}).AddCookie(options => {
+	options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+	options.SlidingExpiration = true;
+	options.LoginPath = "/User/Login";
+	options.AccessDeniedPath = "/User/AccessDenied";
+});
 
 // add session support
 builder.Services.AddDistributedMemoryCache();
@@ -30,12 +36,8 @@ builder.Services.AddSession(options => {
 	options.Cookie.IsEssential = true;
 });
 builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddApplicationLayerServices();
-builder.Services.AddDataAccessServices(builder.Configuration);
-
+builder.Services.AddHttpClient<AccountService>();
 // Add authentication
-
 
 var app = builder.Build();
 
@@ -55,5 +57,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();

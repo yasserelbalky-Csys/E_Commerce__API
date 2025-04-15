@@ -1,12 +1,12 @@
-using BLL.DTOs.CategoryDTOs;
+using E_Commerce_MVC.Models.EntitiesViewModel;
 using E_Commerce_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce_MVC.Controllers {
 	public class CategoryController : Controller {
-		private readonly GenericApiService<CategoryListDto> _apiService;
+		private readonly GenericApiService<Category> _apiService;
 
-		public CategoryController(GenericApiService<CategoryListDto> apiService) {
+		public CategoryController(GenericApiService<Category> apiService) {
 			_apiService = apiService;
 		}
 
@@ -26,7 +26,7 @@ namespace E_Commerce_MVC.Controllers {
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create(CategoryListDto category) {
+		public async Task<IActionResult> Create(Category category) {
 			if (ModelState.IsValid) {
 				await _apiService.CreateAsync("Post", category);
 				return RedirectToAction(nameof(Index));
@@ -42,7 +42,7 @@ namespace E_Commerce_MVC.Controllers {
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(CategoryListDto category) {
+		public async Task<IActionResult> Edit(Category category) {
 			if (ModelState.IsValid) {
 				await _apiService.UpdateAsync("Put", category);
 				return RedirectToAction(nameof(Index));
@@ -54,17 +54,14 @@ namespace E_Commerce_MVC.Controllers {
 		[HttpGet]
 		public async Task<IActionResult> Delete(int id) {
 			var category = await _apiService.GetByIdAsync("Get", id);
-			if (category == null) {
-				return NotFound();
-			}
 
 			return View(category); // Pass the category model to the view
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> DeleteConfirmed(int id) {
-			await _apiService.DeleteAsync("Delete", id);
+		public async Task<IActionResult> DeleteConfirmed(int CategoryId) {
+			await _apiService.DeleteAsync("Delete", CategoryId);
 			return RedirectToAction(nameof(Index));
 		}
 	}

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -26,21 +28,38 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
                 </ul>
-                <ul>
-                    <li>
+                <ul class="navbar-nav">
+                    @if (HttpContextAccessor.HttpContext?.Session.GetString("JWTToken") != null) {
+                        var usernameClaim = HttpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name);
+                        var username = usernameClaim?.Value ?? "User";
 
-                    </li>
+                        <li class="nav-item">
+                            <span class="nav-link text-dark">Hello, @username!</span>
+                        </li>
+                        <li class="nav-item">
+                            <form asp-area="" asp-controller="User" asp-action="Logout" method="post" class="form-inline">
+                                <button type="submit" class="btn btn-link nav-link text-dark">Logout</button>
+                            </form>
+                        </li>
+                    } else {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register"> Register </a >
+                        </li >
+                    }
                 </ul>
             </div>
         </div>
     </nav>
+    @*<partial name="_LoginPartial"/>*@
 </header>
 <div class="container">
     <main role="main" class="pb-3">
         @RenderBody()
     </main>
 </div>
-
 <footer class="border-top footer text-muted">
     <div class="container">
         &copy; 2025 - E_Commerce_MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
