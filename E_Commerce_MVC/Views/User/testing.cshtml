@@ -14,11 +14,20 @@
             </form>
         </li>
     } else {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register"> Register </a>
+        <li class=" dropdown">
+            <a href="#" class="dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <svg class="user">
+                    <use xlink:href="#user"></use>
+                </svg>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li>
+                    <a class="dropdown-item" asp-action="Login" asp-controller="User">Login</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="/User/Register">Register</a>
+                </li>
+            </ul>
         </li>
     }
 }

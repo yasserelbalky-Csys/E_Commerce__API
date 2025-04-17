@@ -1,4 +1,6 @@
-﻿using E_Commerce_MVC.Models.UserViewModel;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using E_Commerce_MVC.Models.UserViewModel;
 using NuGet.Protocol;
 
 namespace E_Commerce_MVC.ApiServices.AccountServices
@@ -26,6 +28,26 @@ namespace E_Commerce_MVC.ApiServices.AccountServices
 			} else {
 				return null;
 			}
+		}
+
+		public List<Claim> DecodeToken(string token) {
+			if (string.IsNullOrEmpty(token)) {
+				return new List<Claim>();
+			}
+
+			var handler = new JwtSecurityTokenHandler();
+			var jwtToken = handler.ReadJwtToken(token);
+
+			return [.. jwtToken.Claims];
+		}
+
+		public List<string> GetRolesFromToken(string token) {
+			var claims = DecodeToken(token);
+			foreach (var claim in claims) {
+				Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+			}
+
+			return claims.Where(c => c.Type == "role").Select(c => c.Value).ToList();
 		}
 	}
 }

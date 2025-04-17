@@ -32,10 +32,25 @@ public class UserController : Controller
 			// Send login request to the API
 			var result = await _accountService.Login(model);
 			Console.WriteLine($"result is: {result.ToJson()}");
-			HttpContext.Session.SetString("JWTToken", result.Token);
 
 			if (result != null) {
-				var singinResult = await SinginUser(result);
+				HttpContext.Session.SetString("JWTToken", result.Token);
+
+				// Decode the token and get user roles
+				var roles = _accountService.GetRolesFromToken(result.Token);
+
+				// log the roles data in the console
+				foreach (var role in roles) {
+					Console.WriteLine($"Role: {role}");
+				}
+
+				// sign in the user
+				var singinResult = await SinginUser(result, roles);
+
+				var claims = User.Claims.ToList();
+				foreach (var claim in claims) {
+					Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+				}
 			}
 
 			return RedirectToAction("Index", "Home");
@@ -76,12 +91,17 @@ public class UserController : Controller
 		return RedirectToAction("Index", "Home");
 	}
 
-	public async Task<bool> SinginUser(UserTokenDTO userToken) {
+	public async Task<bool> SinginUser(UserTokenDTO userToken, List<string> roles) {
 		try {
 			List<Claim> claims = new List<Claim> {
 				new(ClaimTypes.Name, userToken.Username),
 				new("jwt", userToken.Token)
 			};
+
+			// Add roles to claims
+			foreach (var role in roles) {
+				claims.Add(new Claim(ClaimTypes.Role, role));
+			}
 
 			var schema = CookieAuthenticationDefaults.AuthenticationScheme;
 

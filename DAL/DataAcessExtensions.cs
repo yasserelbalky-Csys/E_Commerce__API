@@ -27,6 +27,7 @@ namespace DAL
 			//services.AddScoped<IBrandRepository, BrandRepository>();
 			//services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 			//test unit of work
+
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			return services;
 		}
