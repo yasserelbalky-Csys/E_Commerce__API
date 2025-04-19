@@ -9,29 +9,29 @@ using System.Security.Claims;
 
 namespace E_Commerce__API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class OrderController : ControllerBase
-    {
-        private readonly IOrderService _orderservice;
-        private readonly IHelperService _helperService;
-        public OrderController(IOrderService orderservice,IHelperService helperservice)
-        {
-            _orderservice = orderservice;
-            _helperService = helperservice;
-        }
-        [Authorize]
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            return Ok(_orderservice.GetOrders());
-        }
-        [Authorize]
-        [HttpPost]
-        public IActionResult PostMaster(OrderInsertDto order)
-        {
-            //get userId
-            var claimsIdentity = User.Identity as ClaimsIdentity;
+	[Route("api/[controller]/[action]")]
+	[ApiController]
+	public class OrderController : ControllerBase
+	{
+		private readonly IOrderService _orderservice;
+		private readonly IHelperService _helperService;
+
+		public OrderController(IOrderService orderservice, IHelperService helperservice) {
+			_orderservice = orderservice;
+			_helperService = helperservice;
+		}
+
+		[Authorize]
+		[HttpGet]
+		public IActionResult GetAll() {
+			return Ok(_orderservice.GetOrders());
+		}
+
+		[Authorize]
+		[HttpPost]
+		public IActionResult PostMaster(OrderInsertDto order) {
+			//get userId
+			var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
             if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
@@ -56,11 +56,9 @@ namespace E_Commerce__API.Controllers
 			return Ok();
 		}
 
-
-        [HttpGet("{orderid:int}")]
-        public IActionResult GetById(int orderid)
-        {
-            var claimsIdentity = User.Identity as ClaimsIdentity;
+		[HttpGet("{orderid:int}")]
+		public IActionResult GetById(int orderid) {
+			var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
             if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
@@ -78,20 +76,17 @@ namespace E_Commerce__API.Controllers
 
             var userId = userIdClaim.Value;
 
-            var found = _orderservice.GetOrderById(orderid);
-            if (found != null)
-            {
-                return Ok(found);
-            }
-            else
-            {
-                return NotFound("Order Not Found");
-            }
-        }
-        [HttpPut]
-        public IActionResult Update(OrderUpdateRequestDto request)
-        {
-            var claimsIdentity = User.Identity as ClaimsIdentity;
+			var found = _orderservice.GetOrderById(orderid);
+			if (found != null) {
+				return Ok(found);
+			} else {
+				return NotFound("Order Not Found");
+			}
+		}
+
+		[HttpPut]
+		public IActionResult Update(OrderUpdateRequestDto request) {
+			var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
             if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
@@ -118,11 +113,9 @@ namespace E_Commerce__API.Controllers
             }
         }
 
-
-        [HttpPut ("{OrderNo}")]
-        public IActionResult Update(int OrderNo)
-        {
-            var claimsIdentity = User.Identity as ClaimsIdentity;
+		[HttpPut("{OrderNo}")]
+		public IActionResult Update(int OrderNo) {
+			var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
             if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
