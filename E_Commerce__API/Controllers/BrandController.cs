@@ -13,29 +13,34 @@ namespace E_Commerce__API.Controllers
 	{
 		private readonly IBrandService _brandService;
 
-		public BrandController(IBrandService brandService) {
+		public BrandController(IBrandService brandService)
+		{
 			_brandService = brandService;
 		}
 
 		//Get Operation0
 		[HttpGet]
-		public IActionResult Get() {
+		public IActionResult Get()
+		{
 			return Ok(_brandService.GetBrands());
 		}
 
 		[HttpGet("{id:int}")]
-		public IActionResult GetById(int id) {
+		public IActionResult GetById(int id)
+		{
 			return Ok(_brandService.GetBrand(id));
 		}
 
 		[HttpPost]
-		public IActionResult Post(BrandInsertDto brand) {
+		public IActionResult Post(BrandInsertDto brand)
+		{
 			_brandService.InsertBrand(brand);
 			return Ok(brand);
 		}
 
 		[HttpPut]
-		public IActionResult Put(BrandUpdateDto brand) {
+		public IActionResult Put(BrandUpdateDto brand)
+		{
 			var temp = _brandService.UpdateBrand(brand);
 			if (temp == 1) {
 				return Ok();
@@ -45,7 +50,8 @@ namespace E_Commerce__API.Controllers
 		}
 
 		[HttpDelete("{id:int}")]
-		public IActionResult Delete(int id) {
+		public IActionResult Delete(int id)
+		{
 			_brandService.DeleteBrand(id);
 			return Ok();
 		}

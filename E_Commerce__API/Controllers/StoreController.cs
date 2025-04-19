@@ -11,17 +11,20 @@ namespace E_Commerce__API.Controllers
 	{
 		private readonly IStoreService _storeService;
 
-		public StoreController(IStoreService storeService) {
+		public StoreController(IStoreService storeService)
+		{
 			_storeService = storeService;
 		}
 
 		[HttpGet]
-		public IActionResult Get() {
+		public IActionResult Get()
+		{
 			return Ok(_storeService.GetStores());
 		}
 
 		[HttpGet("{id}")]
-		public IActionResult GetById(int id) {
+		public IActionResult GetById(int id)
+		{
 			try {
 				var store = _storeService.GetStore(id);
 				if (store == null) {
@@ -37,19 +40,22 @@ namespace E_Commerce__API.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Post(StoreInsertDto store) {
+		public IActionResult Post(StoreInsertDto store)
+		{
 			_storeService.InsertStore(store);
 			return Ok("Store Added Successfully");
 		}
 
 		[HttpPut]
-		public IActionResult PUT(StoreUpdateDto store) {
+		public IActionResult PUT(StoreUpdateDto store)
+		{
 			_storeService.UpdateStore(store);
 			return Ok("Store Updated Successfully");
 		}
 
 		[HttpDelete]
-		public IActionResult Delete(int id) {
+		public IActionResult Delete(int id)
+		{
 			_storeService.DeleteStore(id);
 			return Ok("Store Deleted Successfully");
 		}
