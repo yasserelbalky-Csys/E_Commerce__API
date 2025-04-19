@@ -13,7 +13,7 @@ namespace BLL.Contracts
 	{
 		public IEnumerable<ShoppingCartListDto> GetShoppingCarts();
 		public ShoppingCartListDto GetShoppingCart(int id);
-		public int InsertShoppingCart(ShoppingCartInsertDto category);
+		public void InsertShoppingCart(ShoppingCartInsertDto category);
 		public void UpdateShoppingCart(ShoppingCartUpdateDto category);
 		public void DeleteShoppingCart(int id);
 		public decimal GetTotalCartPrice(string userId);
