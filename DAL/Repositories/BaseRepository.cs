@@ -13,28 +13,34 @@ namespace DAL.Repositories
 		protected readonly AppDbContext _appDbContext;
 		protected readonly DbSet<Entity> _entitySet;
 
-		public BaseRepository(AppDbContext appDbContext) {
+		public BaseRepository(AppDbContext appDbContext)
+		{
 			_appDbContext = appDbContext;
 			_entitySet = _appDbContext.Set<Entity>();
 		}
 
-		public virtual IEnumerable<Entity> GetAll() {
+		public virtual IEnumerable<Entity> GetAll()
+		{
 			return _entitySet.AsEnumerable();
 		}
 
-		public virtual Entity GetById(int id) {
+		public virtual Entity GetById(int id)
+		{
 			return _entitySet.Find(id)!;
 		}
 
-		public void Insert(Entity entity) {
+		public void Insert(Entity entity)
+		{
 			_entitySet.Add(entity);
 		}
 
-		public void Update(Entity entity) {
+		public void Update(Entity entity)
+		{
 			_entitySet.Update(entity);
 		}
 
-		public void Delete(int id) {
+		public void Delete(int id)
+		{
 			var entity = _entitySet.Find(id);
 			if (entity != null) {
 				_entitySet.Remove(entity);

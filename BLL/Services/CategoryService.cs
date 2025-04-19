@@ -14,11 +14,13 @@ namespace BLL.Services
 	{
 		private readonly IUnitOfWork _unitofwork;
 
-		public CategoryService(IUnitOfWork unitofwork) {
+		public CategoryService(IUnitOfWork unitofwork)
+		{
 			_unitofwork = unitofwork;
 		}
 
-		public IEnumerable<CategoryListDto> GetCategories() {
+		public IEnumerable<CategoryListDto> GetCategories()
+		{
 			return _unitofwork.Categories.GetAll().Select(cat => new CategoryListDto {
 				CategoryId = cat.CategoryId,
 				CategoryName = cat.CategoryName,
@@ -27,7 +29,8 @@ namespace BLL.Services
 			}).Where(m => m.b_deleted == false);
 		}
 
-		public CategoryListDto GetCategory(int id) {
+		public CategoryListDto GetCategory(int id)
+		{
 			var entity = _unitofwork.Categories.GetById(id);
 			return new CategoryListDto {
 				CategoryId = entity.CategoryId,
@@ -37,7 +40,8 @@ namespace BLL.Services
 			};
 		}
 
-		public void InsertCategory(CategoryInsertDto category) {
+		public void InsertCategory(CategoryInsertDto category)
+		{
 			_unitofwork.Categories.Insert(new Categories {
 				CategoryName = category.CategoryName, CategoryDescription = category.CategoryDescription,
 				b_deleted = false
@@ -45,7 +49,8 @@ namespace BLL.Services
 			_unitofwork.save();
 		}
 
-		public void UpdateCategory(CategoryUpdateDto category) {
+		public void UpdateCategory(CategoryUpdateDto category)
+		{
 			var cat = _unitofwork.Categories.GetById(category.CategoryId);
 			if (cat != null) {
 				cat.CategoryId = category.CategoryId;
@@ -60,7 +65,8 @@ namespace BLL.Services
 			_unitofwork.save();
 		}
 
-		public void DeleteCategory(int id) {
+		public void DeleteCategory(int id)
+		{
 			var cat = _unitofwork.Categories.GetById(id);
 			if (cat != null) {
 				cat.b_deleted = true;

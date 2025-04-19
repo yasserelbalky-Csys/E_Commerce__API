@@ -13,18 +13,21 @@ namespace DAL.Repositories
 	{
 		public OrderDetailsRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
-		public void DeleteOrderDetails(int OrderNo, int LineNo, int ProductId) {
+		public void DeleteOrderDetails(int OrderNo, int LineNo, int ProductId)
+		{
 			var entity = _entitySet.Find(OrderNo);
 			if (entity != null) {
 				_entitySet.Remove(entity);
 			}
 		}
 
-		public override IEnumerable<OrderDetails> GetAll() {
+		public override IEnumerable<OrderDetails> GetAll()
+		{
 			return _entitySet.Include(prod => prod.Product).AsEnumerable();
 		}
 
-		public override OrderDetails GetById(int id) {
+		public override OrderDetails GetById(int id)
+		{
 			return base.GetById(id);
 		}
 	}

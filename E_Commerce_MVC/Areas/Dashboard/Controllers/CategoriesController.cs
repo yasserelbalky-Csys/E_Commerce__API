@@ -10,24 +10,28 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
 	{
 		private readonly GenericApiService<Category> _apiService;
 
-		public CategoriesController(GenericApiService<Category> apiService) {
+		public CategoriesController(GenericApiService<Category> apiService)
+		{
 			_apiService = apiService;
 		}
 
 		// GET: CategoryController
-		public async Task<ActionResult> Index() {
+		public async Task<ActionResult> Index()
+		{
 			var categories = await _apiService.GetAllAsync("GetAll");
 			return View(categories);
 		}
 
 		// GET: CategoryController/Details/5
-		public async Task<ActionResult> Details(int id) {
+		public async Task<ActionResult> Details(int id)
+		{
 			var categroy = await _apiService.GetByIdAsync("Get", id);
 			return View(categroy);
 		}
 
 		// GET: CategoryController/Create
-		public ActionResult Create() {
+		public ActionResult Create()
+		{
 			return View();
 		}
 
@@ -35,7 +39,8 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create(Category category) {
+		public async Task<IActionResult> Create(Category category)
+		{
 			if (ModelState.IsValid) {
 				await _apiService.CreateAsync("Post", category);
 				return RedirectToAction(nameof(Index));
@@ -45,7 +50,8 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
 		}
 
 		// GET: CategoryController/Edit/5
-		public async Task<IActionResult> Edit(int id) {
+		public async Task<IActionResult> Edit(int id)
+		{
 			var category = await _apiService.GetByIdAsync("Get", id);
 			return View(category);
 		}
@@ -53,7 +59,8 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
 		// POST: CategoryController/Edit/5
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(Category category) {
+		public async Task<IActionResult> Edit(Category category)
+		{
 			if (ModelState.IsValid) {
 				await _apiService.UpdateAsync("Put", category);
 				return RedirectToAction(nameof(Index));
@@ -64,7 +71,8 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
 
 		// GET: CategoryController/Delete/5
 		[HttpGet]
-		public async Task<IActionResult> Delete(int id) {
+		public async Task<IActionResult> Delete(int id)
+		{
 			var category = await _apiService.GetByIdAsync("Get", id);
 
 			return View(category); // Pass the category model to the view
@@ -73,7 +81,8 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
 		// POST: CategoryController/Delete/5
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> DeleteConfirmed(int CategoryId) {
+		public async Task<IActionResult> DeleteConfirmed(int CategoryId)
+		{
 			await _apiService.DeleteAsync("Delete", CategoryId);
 			return RedirectToAction(nameof(Index));
 		}

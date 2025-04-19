@@ -20,12 +20,14 @@ namespace BLL.Services
 		private readonly IConfiguration _config;
 		private readonly SymmetricSecurityKey _key;
 
-		public TokenService(IConfiguration config) {
+		public TokenService(IConfiguration config)
+		{
 			_config = config;
 			_key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigningKey"]));
 		}
 
-		public string CreateToken(AppUser user, IList<string> roles) {
+		public string CreateToken(AppUser user, IList<string> roles)
+		{
 			var claims = new List<Claim> {
 				new Claim(ClaimTypes.NameIdentifier, user.Id),
 				new Claim(JwtRegisteredClaimNames.Email, user.Email),

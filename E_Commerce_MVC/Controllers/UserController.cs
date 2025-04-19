@@ -13,19 +13,22 @@ public class UserController : Controller
 	private readonly AccountService _accountService;
 	private readonly HttpClient _httpClient;
 
-	public UserController(HttpClient httpClient, AccountService accountService) {
+	public UserController(HttpClient httpClient, AccountService accountService)
+	{
 		_httpClient = httpClient;
 		_httpClient.BaseAddress = new Uri("http://localhost:5097/api/User/"); // API base URL
 		_accountService = accountService;
 	}
 
-	public IActionResult Login() {
+	public IActionResult Login()
+	{
 		return View();
 	}
 
 	[HttpPost]
 	[ValidateAntiForgeryToken]
-	public async Task<IActionResult> Login(LoginViewModel model) {
+	public async Task<IActionResult> Login(LoginViewModel model)
+	{
 		if (!ModelState.IsValid) return View(model);
 
 		try {
@@ -61,13 +64,15 @@ public class UserController : Controller
 		return View(model);
 	}
 
-	public IActionResult Register() {
+	public IActionResult Register()
+	{
 		return View();
 	}
 
 	[HttpPost]
 	[ValidateAntiForgeryToken]
-	public async Task<IActionResult> Register(RegisterViewModel model) {
+	public async Task<IActionResult> Register(RegisterViewModel model)
+	{
 		if (!ModelState.IsValid) return View(model);
 
 		try {
@@ -86,12 +91,14 @@ public class UserController : Controller
 	}
 
 	[HttpPost]
-	public IActionResult Logout() {
+	public IActionResult Logout()
+	{
 		HttpContext.Session.Remove("JWTToken");
 		return RedirectToAction("Index", "Home");
 	}
 
-	public async Task<bool> SinginUser(UserTokenDTO userToken, List<string> roles) {
+	public async Task<bool> SinginUser(UserTokenDTO userToken, List<string> roles)
+	{
 		try {
 			List<Claim> claims = new List<Claim> {
 				new(ClaimTypes.Name, userToken.Username),

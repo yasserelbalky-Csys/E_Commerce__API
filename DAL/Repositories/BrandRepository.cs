@@ -13,7 +13,8 @@ namespace DAL.Repositories
 	{
 		public BrandRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
-		public override IEnumerable<Brands> GetAll() {
+		public override IEnumerable<Brands> GetAll()
+		{
 			return base.GetAll();
 		}
 
@@ -22,7 +23,8 @@ namespace DAL.Repositories
 		//    return _entitySet.Include(p=>p.Products).AsEnumerable();
 		//}
 
-		public override Brands GetById(int id) {
+		public override Brands GetById(int id)
+		{
 			return base.GetById(id);
 		}
 	}

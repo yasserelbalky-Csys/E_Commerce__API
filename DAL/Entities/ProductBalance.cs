@@ -7,20 +7,12 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public  class ProductBalance
-    {
-
-        public int ProductId { get; set; }
-
-        public int StoreId { get; set; }
-
-
-        public int Qty { get; set; }
-
-        public bool b_order_done { get; set; }
-
-        public bool b_order_Pending { get; set; }    
-
-
-    }
+	public class ProductBalance
+	{
+		public int ProductId { get; set; }
+		public int StoreId { get; set; }
+		public int Qty { get; set; }
+		public bool b_order_done { get; set; }
+		public bool b_order_Pending { get; set; }
+	}
 }

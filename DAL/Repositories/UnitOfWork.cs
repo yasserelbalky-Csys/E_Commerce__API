@@ -23,7 +23,8 @@ namespace DAL.Repositories
 		private readonly Lazy<IOrderRepository> _OrderRepository;
 		private readonly Lazy<IOrderDetailsRepository> _OrderDetailsRepository;
 
-		public UnitOfWork(AppDbContext appDbContext) {
+		public UnitOfWork(AppDbContext appDbContext)
+		{
 			_appDbContext = appDbContext;
 			_CategoryRepository = new Lazy<ICategoryRepository>(new CategoryRepository(_appDbContext));
 			_SubCategoryRepository = new Lazy<ISubCategoryRepository>(new SubCategoryRepository(_appDbContext));
@@ -67,11 +68,13 @@ namespace DAL.Repositories
 			get { return _OrderDetailsRepository.Value; }
 		}
 
-		public void save() {
+		public void save()
+		{
 			_appDbContext.SaveChanges();
 		}
 
-		public void Dispose() {
+		public void Dispose()
+		{
 			_appDbContext.Dispose();
 		}
 	}

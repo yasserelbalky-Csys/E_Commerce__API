@@ -13,11 +13,13 @@ namespace DAL.Repositories
 	{
 		public OrderRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
-		public override IEnumerable<OrderMaster> GetAll() {
+		public override IEnumerable<OrderMaster> GetAll()
+		{
 			return _entitySet.Include(order => order.User).AsEnumerable();
 		}
 
-		public override OrderMaster GetById(int id) {
+		public override OrderMaster GetById(int id)
+		{
 			return _entitySet.Include(order => order.User).AsEnumerable().FirstOrDefault(order => order.OrderNo == id);
 		}
 	}

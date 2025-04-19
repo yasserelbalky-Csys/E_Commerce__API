@@ -12,11 +12,13 @@ namespace DAL.Repositories
 	{
 		public StoreRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
-		public override IEnumerable<Stores> GetAll() {
+		public override IEnumerable<Stores> GetAll()
+		{
 			return base.GetAll();
 		}
 
-		public override Stores GetById(int id) {
+		public override Stores GetById(int id)
+		{
 			return base.GetById(id);
 		}
 	}

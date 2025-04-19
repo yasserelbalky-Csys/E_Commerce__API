@@ -11,7 +11,8 @@ namespace E_Commerce_MVC.Areas.Admin.Controllers
 	public class HomeController : Controller
 	{
 		// GET: HomeController
-		public ActionResult Index() {
+		public ActionResult Index()
+		{
 			if (User.IsInRole("Admin"))
 				Console.WriteLine("Admin");
 			else

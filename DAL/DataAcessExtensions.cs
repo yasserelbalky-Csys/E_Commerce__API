@@ -17,7 +17,8 @@ namespace DAL
 	public static class DataAcessExtensions
 	{
 		public static IServiceCollection AddDataAccessServices(this IServiceCollection services,
-			IConfigurationManager config) {
+			IConfigurationManager config)
+		{
 			string cs = config.GetConnectionString("DefaultConnection");
 			services.AddDbContext<AppDbContext>(options => { options.UseSqlServer(cs); });
 

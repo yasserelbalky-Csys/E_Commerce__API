@@ -8,7 +8,8 @@ namespace BLL
 {
 	public static class ApplicationServices
 	{
-		public static IServiceCollection AddApplicationLayerServices(this IServiceCollection services) {
+		public static IServiceCollection AddApplicationLayerServices(this IServiceCollection services)
+		{
 			services.AddScoped<ICategoryService, CategoryService>();
 			services.AddScoped<ISubCategoryService, SubCategoryService>();
 			services.AddScoped<IProductService, ProductService>();
