@@ -7,10 +7,12 @@ using BLL.Contracts;
 using BLL.DTOs.StoreDtos;
 using DAL.Contracts;
 using DAL.Entities;
+using DAL.Migrations;
 
-
-namespace BLL.Services {
-	internal class StoreService : IStoreService {
+namespace BLL.Services
+{
+	internal class StoreService : IStoreService
+	{
 		private readonly IUnitOfWork _uof;
 
 		public StoreService(IUnitOfWork uof) {

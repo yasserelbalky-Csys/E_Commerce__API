@@ -8,8 +8,10 @@ using BLL.DTOs.CategoryDTOs;
 using DAL.Contracts;
 using DAL.Entities;
 
-namespace BLL.Services {
-	internal class CategoryService : ICategoryService {
+namespace BLL.Services
+{
+	internal class CategoryService : ICategoryService
+	{
 		private readonly IUnitOfWork _unitofwork;
 
 		public CategoryService(IUnitOfWork unitofwork) {

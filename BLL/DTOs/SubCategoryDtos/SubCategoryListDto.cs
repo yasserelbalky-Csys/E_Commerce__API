@@ -6,19 +6,13 @@ using System.Threading.Tasks;
 
 namespace BLL.DTOs.SubCategoryDtos
 {
-    public class SubCategoryListDto
-    {
-        public int SubCategoryId { get; set; }
-
-        public string? SubCategoryName { get; set; }
-
-
-        public string? SubCategoryDescription { get; set; }
-
-
-        public int MainCategoryId { get; set; }
-
-        public bool b_deleted { get; set; }
-        public string? MainCategoryName { get;set; }
-    }
+	public class SubCategoryListDto
+	{
+		public int SubCategoryId { get; set; }
+		public string? SubCategoryName { get; set; }
+		public string? SubCategoryDescription { get; set; }
+		public int MainCategoryId { get; set; }
+		public bool b_deleted { get; set; }
+		public string? MainCategoryName { get; set; }
+	}
 }

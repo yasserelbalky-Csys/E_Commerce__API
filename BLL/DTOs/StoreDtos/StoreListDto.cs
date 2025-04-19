@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace BLL.DTOs.StoreDtos
 {
-    public class StoreListDto
-    {
-        
-        public int StoreId { get; set; }
-        public string? StoreName { get; set; }
-
-        public bool b_deleted { get; set; }
-    }
+	public class StoreListDto
+	{
+		public int StoreId { get; set; }
+		public string? StoreName { get; set; }
+		public bool b_deleted { get; set; }
+	}
 }

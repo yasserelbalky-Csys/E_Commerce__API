@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using DAL.Contracts;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories {
-	internal class BaseRepository<Entity> : IBaseRepository<Entity> where Entity : class {
+namespace DAL.Repositories
+{
+	internal class BaseRepository<Entity> : IBaseRepository<Entity> where Entity : class
+	{
 		protected readonly AppDbContext _appDbContext;
 		protected readonly DbSet<Entity> _entitySet;
 

@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_Commerce__API.Controllers {
+namespace E_Commerce__API.Controllers
+{
 	[Route("api/[controller]/[action]")]
 	[ApiController]
-	public class CategoryController : ControllerBase {
-
+	public class CategoryController : ControllerBase
+	{
 		private readonly ICategoryService _categoryService;
 
 		public CategoryController(ICategoryService categoryService) {
@@ -16,13 +17,11 @@ namespace E_Commerce__API.Controllers {
 		}
 
 		[HttpGet]
-
 		public IActionResult GetAll() {
 			return Ok(_categoryService.GetCategories());
 		}
 
 		[HttpGet("{id}")]
-
 		public IActionResult Get(int id) {
 			return Ok(_categoryService.GetCategory(id));
 		}
@@ -37,10 +36,8 @@ namespace E_Commerce__API.Controllers {
 		[Authorize(Roles = "Admin")]
 		[HttpPut]
 		public IActionResult Put(CategoryUpdateDto cat) {
-
 			_categoryService.UpdateCategory(cat);
 			return Ok();
-
 		}
 
 		[Authorize(Roles = "Admin")]
