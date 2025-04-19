@@ -8,22 +8,19 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class ShoppingCart
-    {
-        [Key]
-        public int ShoppingCartId { get; set; }
+	public class ShoppingCart
+	{
+		[Key]
+		public int ShoppingCartId { get; set; }
 
-        public int ProductId { get; set; }
+		public int ProductId { get; set; }
+		public int Count { get; set; }
+		public string UserId { get; set; }
 
-        public int Count { get; set; }
+		[ForeignKey("ProductId")]
+		public Products? Product { get; set; }
 
-
-        public string UserId { get; set; }
-
-        [ForeignKey("ProductId")]
-        public Products? Product {  get; set; }
-
-        [ForeignKey("UserId")]
-        public AppUser? ApplicationUser { get; set; }
-    }
+		[ForeignKey("UserId")]
+		public AppUser? ApplicationUser { get; set; }
+	}
 }

@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Contracts {
-	public interface IUnitOfWork {
+namespace DAL.Contracts
+{
+	public interface IUnitOfWork
+	{
 		ICategoryRepository Categories { get; }
 		ISubCategoryRepository subCategories { get; }
 		IProductRepository products { get; }
@@ -17,12 +18,7 @@ namespace DAL.Contracts {
 		IStoreRepository stores { get; }
 		IOrderRepository Orders { get; }
 		IOrderDetailsRepository OrderDetails { get; }
-
-		UserManager<AppUser> UserManager { get; }
-        SignInManager<AppUser> SignInManager { get; }
-        RoleManager<IdentityRole> RoleManager { get; }
-
-        void save();
+		void save();
 		public void Dispose();
 	}
 }

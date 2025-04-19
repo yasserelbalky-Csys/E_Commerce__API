@@ -7,8 +7,10 @@ using DAL.Contracts;
 using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories {
-	internal class ApplicationUserRepository : BaseRepository<Brands>, IBrandRepository {
+namespace DAL.Repositories
+{
+	internal class ApplicationUserRepository : BaseRepository<Brands>, IBrandRepository
+	{
 		public ApplicationUserRepository(AppDbContext appDbContext) : base(appDbContext) { }
 	}
 }

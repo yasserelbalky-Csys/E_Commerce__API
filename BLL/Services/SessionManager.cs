@@ -7,8 +7,10 @@ using BLL.Contracts;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace BLL.Services {
-	internal class SessionManager : ISessionManager {
+namespace BLL.Services
+{
+	internal class SessionManager : ISessionManager
+	{
 		private readonly IHttpContextAccessor _httpContextAccessor;
 
 		public SessionManager(IHttpContextAccessor httpContextAccessor) {

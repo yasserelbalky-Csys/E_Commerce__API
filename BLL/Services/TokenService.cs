@@ -13,8 +13,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 
-namespace BLL.Services {
-	internal class TokenService : ITokenService {
+namespace BLL.Services
+{
+	internal class TokenService : ITokenService
+	{
 		private readonly IConfiguration _config;
 		private readonly SymmetricSecurityKey _key;
 

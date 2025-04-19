@@ -8,8 +8,10 @@ using BLL.DTOs.BrandDtos;
 using DAL.Contracts;
 using DAL.Entities;
 
-namespace BLL.Services {
-	internal class BrandService : IBrandService {
+namespace BLL.Services
+{
+	internal class BrandService : IBrandService
+	{
 		private readonly IUnitOfWork _unitofwork;
 
 		public BrandService(IUnitOfWork unitofwork) {
