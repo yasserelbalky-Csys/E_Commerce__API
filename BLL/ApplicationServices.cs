@@ -23,6 +23,7 @@ namespace BLL
             services.AddScoped<IStoreService, StoreService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IHelperService, HelperService>();
+            services.AddScoped<IAccountManager, AccountManager>();
             return services;
         }
     }

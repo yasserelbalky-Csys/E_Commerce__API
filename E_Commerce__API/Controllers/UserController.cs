@@ -17,162 +17,69 @@ namespace E_Commerce__API.Controllers
         private readonly UserManager<AppUser> _usermanger;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IAccountManager _accountManager;
 
-        public UserController(UserManager<AppUser> usermanger, ITokenService tokenService,SignInManager <AppUser> signInManager) 
+        public UserController(UserManager<AppUser> usermanger, ITokenService tokenService,
+            SignInManager <AppUser> signInManager, RoleManager<IdentityRole> roleManager
+            ,IAccountManager accountManager) 
         {
             _usermanger = usermanger;
             _tokenService = tokenService;
             _signInManager = signInManager;
+            _roleManager= roleManager;
+            _accountManager= accountManager; 
         }
 
 
 
-        [HttpPost("Login")]
+        [HttpPost]
 
-        public async Task<IActionResult> Login(UserLoginDto userLogin)
+        public async Task<IActionResult> Login(UserLoginDto user)
         {
-            /*if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            var user = await _usermanger.Users.FirstOrDefaultAsync(u => u.UserName == userLogin.UserName.ToLower());
-            if (user == null)
-                return Unauthorized("Invalid UserName!!");
-            var result = await _signInManager.CheckPasswordSignInAsync(user, userLogin.Password, false);
-
-            if (!result.Succeeded)
-                return Unauthorized("Username not found or Password isn't correct!");
-            return Ok(
-
-                new UserTokenDto
-                {
-                    email = user.Email,
-                    username = user.UserName,
-                    token = _tokenService.CreateToken(user)
-                }
-
-            );*/
 
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			var user = await _usermanger.Users.FirstOrDefaultAsync(u => u.UserName == userLogin.UserName.ToLower());
+			
+            var res = await _accountManager.LoginAsync(user);
+            if (res !=null)
+            {
+                return Ok(res);
+            }
+            else
+            {
+                return BadRequest("Login Failed");
+            }
 
-			if (user == null)
-				return Unauthorized("Invalid UserName!!");
-
-			var result = await _signInManager.CheckPasswordSignInAsync(user, userLogin.Password, false);
-
-			if (!result.Succeeded)
-				return Unauthorized("Username not found or Password isn't correct!");
-
-			// ✅ Fetch the user's roles
-			var roles = await _usermanger.GetRolesAsync(user);
-
-            return Ok(
-                new UserTokenDto
-                {
-                    email = user.Email,
-                    username = user.UserName,
-                    token = _tokenService.CreateToken(user, roles)
-                }
-            );
+               
         }
-        [HttpPost("register")]
-        public async Task<IActionResult> Post([FromBody] UserRegisterDto userRegisterDto)
+        
+        [HttpPost]
+        public async Task<IActionResult> PostRole(string newRole)
         {
-            /*  try
-              {
-                  if (!ModelState.IsValid)
-                  {
-                      return BadRequest(ModelState);
-                  }
-                  var appuser = new AppUser
-                  {
-                      Email = userRegisterDto.Email,
-                      UserName = userRegisterDto.UserName
-                  };
-                  var createduser=await _usermanger.CreateAsync(appuser,userRegisterDto.Password);
-                  if (createduser.Succeeded) 
-                  {
-                      var roleresult = await _usermanger.AddToRoleAsync(appuser, "User");
-                      if (roleresult.Succeeded)
-                      {
-                          return Ok(
-                              new UserTokenDto
-                              {
-                                  username = appuser.UserName,
-                                  email = appuser.Email,
-                                  token = _tokenService.CreateToken(appuser)
-                              }
-                              );
-                      }
-                      else 
-                      {
-                          return StatusCode(500,roleresult.Errors);
-                      }
-                  }
-                  else
-                  {
-                      return StatusCode(500,createduser.Errors);
-                  }
-              }
-              catch (Exception ex) {
+            if (string.IsNullOrWhiteSpace(newRole))
+                return BadRequest("Role name is required");
 
-                  return StatusCode(500, ex);
-              }
-              return Ok();*/
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var result = await _accountManager.CreateRole(newRole);
+            if (!result)
+                return BadRequest("Role already exists or creation failed");
 
-            var appUser = new AppUser
-            {
-                Email = userRegisterDto.Email,
-                UserName = userRegisterDto.UserName
-            };
-
-			var createdUser = await _usermanger.CreateAsync(appUser, userRegisterDto.Password);
-
-            if (!createdUser.Succeeded)
-            {
-                return StatusCode(500, createdUser.Errors);
-            }
-
-            /*Email Confirmation*/
-            // ✅ Generate Email Confirmation Token
-            //var token = await _usermanger.GenerateEmailConfirmationTokenAsync(appUser);
-
-            //var confirmationLink = Url.Action("ConfirmEmail", "Account",
-            //    new { userId = appUser.Id, token = token }, Request.Scheme);
-
-            //// ✅ Send confirmation email
-            //await _emailSender.SendEmailAsync(appUser.Email, "Confirm Your Email",
-            //    $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.");
-           ///////////////////////////////
-
-            // ✅ Assign "User" role
-            var roleResult = await _usermanger.AddToRoleAsync(appUser, "Admin");
-
-            if (!roleResult.Succeeded)
-            {
-                return StatusCode(500, roleResult.Errors);
-            }
-
-            // ✅ Fetch roles and generate token
-            var roles = await _usermanger.GetRolesAsync(appUser);
-            var token2 = _tokenService.CreateToken(appUser, roles);
-
-            return Ok(
-                new UserTokenDto
-                {
-                    username = appUser.UserName,
-                    email = appUser.Email,
-                    token = token2
-                }
-            );
-
-
-
+            return Ok("Role created successfully");
         }
+
+
+            [HttpPost]
+        public async Task<IActionResult> Register( UserRegisterDto userRegisterDto)
+        {
+
+
+
+            var result = await _accountManager.RegisterAsync(userRegisterDto);
+            if (!result)
+                return BadRequest("Registration failed");
+            return Ok("Registration succeeded");
+        }
+
     }
 }

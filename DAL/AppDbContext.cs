@@ -39,6 +39,9 @@ namespace DAL
             //    }
             //};
             //builder.Entity<IdentityRole>().HasData(roles);
+            base.OnModelCreating(builder);
+            builder.Entity<CurrentProductBalance>()
+          .HasNoKey();
 
         }
 
@@ -56,5 +59,7 @@ namespace DAL
         public DbSet<OrderMaster> OrderMaster { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
 
+
+        public DbSet<CurrentProductBalance> CurrentProductBalance { get; set; }
     }
 }

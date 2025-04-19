@@ -15,11 +15,6 @@ namespace E_Commerce__API {
 			// Add services to the container.
 
 			builder.Services.AddControllers();
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			//builder.Services.AddEndpointsApiExplorer();
-			//builder.Services.AddSwaggerGen();
-
-			//test athentication
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
@@ -46,9 +41,6 @@ namespace E_Commerce__API {
 				});
 			});
 
-			//test
-
-			//Session
 
 			builder.Services.AddDistributedMemoryCache(); // Required for session
 			builder.Services.AddSession(options => {
@@ -60,40 +52,11 @@ namespace E_Commerce__API {
 													   //End Session
 
 			builder.Services.AddSession();
-			// builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 			builder.Services.AddApplicationLayerServices();
 
 			builder.Services.AddDataAccessServices(builder.Configuration);
-			//builder.Services.AddDbContext<AppDbContext>
-			//    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-			//Identity
-			builder.Services.AddIdentity<AppUser, IdentityRole>(options => {
-				options.Password.RequireDigit = true;
-				options.Password.RequireLowercase = true;
-				options.Password.RequireUppercase = true;
-				options.Password.RequiredLength = 12;
-			}).AddEntityFrameworkStores<AppDbContext>() // Link Identity to AppDbContext
-				.AddDefaultTokenProviders();
-			;
-
-			builder.Services.AddAuthentication(options => {
-				options.DefaultAuthenticateScheme = options.DefaultChallengeScheme = options.DefaultForbidScheme =
-					options.DefaultScheme = options.DefaultSignInScheme =
-						options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
-			}).AddJwtBearer(options => {
-				options.TokenValidationParameters = new TokenValidationParameters {
-					ValidateIssuer = true,
-					ValidIssuer = builder.Configuration["JWT:Issuer"],
-					ValidateAudience = true,
-					ValidAudience = builder.Configuration["JWT:Audience"],
-					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey(
-						System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]))
-				};
-			});
-
+			builder.Services.AddAppIdentity(builder.Configuration);
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.

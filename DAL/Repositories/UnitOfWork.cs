@@ -1,5 +1,6 @@
 ﻿using DAL.Contracts;
 using DAL.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,10 @@ namespace DAL.Repositories
     class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _appDbContext;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<AppUser> _signInManager;
+
 
         //private set
         private readonly Lazy<ICategoryRepository> _CategoryRepository;
@@ -22,9 +27,14 @@ namespace DAL.Repositories
         private readonly Lazy<IShoppingCartRepository> _ShoppingCartRepository;
         private readonly Lazy<IOrderRepository> _OrderRepository;
         private readonly Lazy<IOrderDetailsRepository> _OrderDetailsRepository;
-        public UnitOfWork(AppDbContext appDbContext)
+        public UnitOfWork(AppDbContext appDbContext,UserManager<AppUser> userManager,
+            RoleManager<IdentityRole> roleManager,SignInManager<AppUser> signInManager
+            )
         {
             _appDbContext = appDbContext;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
             _CategoryRepository =  new Lazy<ICategoryRepository>(new CategoryRepository(_appDbContext));
             _SubCategoryRepository = new Lazy<ISubCategoryRepository>(new SubCategoryRepository(_appDbContext));
             _ProductRepository = new Lazy<IProductRepository>(new ProductRepository(_appDbContext));
@@ -34,6 +44,12 @@ namespace DAL.Repositories
             _OrderRepository = new Lazy<IOrderRepository>(new OrderRepository(_appDbContext));
             _OrderDetailsRepository = new Lazy<IOrderDetailsRepository>(new OrderDetailsRepository(_appDbContext));
         }
+
+
+
+        public UserManager<AppUser> UserManager => _userManager;
+        public SignInManager<AppUser> SignInManager => _signInManager;
+        public RoleManager<IdentityRole> RoleManager => _roleManager;
         public ICategoryRepository Categories { get {
                 return _CategoryRepository.Value;
             } }
