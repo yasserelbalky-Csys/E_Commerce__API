@@ -26,9 +26,9 @@ namespace DAL.Entities
 
 		public int Qty { get; set; }
 
-		[Required]
-		public decimal ProductPrice { get; set; }
+        [Required]
+        public decimal ProductPrice { get; set; }
+        public decimal TotalValue { get; set; }
 
-		public decimal TotalValue { get; set; }
-	}
+    }
 }

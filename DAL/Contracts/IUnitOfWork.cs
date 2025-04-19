@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Contracts
@@ -18,7 +19,12 @@ namespace DAL.Contracts
 		IStoreRepository stores { get; }
 		IOrderRepository Orders { get; }
 		IOrderDetailsRepository OrderDetails { get; }
-		void save();
+
+		UserManager<AppUser> UserManager { get; }
+        SignInManager<AppUser> SignInManager { get; }
+        RoleManager<IdentityRole> RoleManager { get; }
+
+        void save();
 		public void Dispose();
 	}
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250413151156_allowingNullForFirstNameAndLastNameProperties")]
-    partial class allowingNullForFirstNameAndLastNameProperties
+    [Migration("20250416102340_init1_with_fix")]
+    partial class init1_with_fix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,6 +83,10 @@ namespace DAL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("UserPassword")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -142,6 +146,26 @@ namespace DAL.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("DAL.Entities.CurrentProductBalance", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Qty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StoreId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("b_order_done")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("b_order_pending")
+                        .HasColumnType("bit");
+
+                    b.ToTable("CurrentProductBalance");
+                });
+
             modelBuilder.Entity("DAL.Entities.OrderDetails", b =>
                 {
                     b.Property<int>("LineNo")
@@ -149,9 +173,6 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LineNo"));
-
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("OrderNo")
                         .HasColumnType("int");
@@ -188,6 +209,9 @@ namespace DAL.Migrations
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -240,6 +264,9 @@ namespace DAL.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("b_confirmed")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("b_deleted")
                         .HasColumnType("bit");

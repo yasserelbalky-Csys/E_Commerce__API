@@ -9,14 +9,12 @@ using System.Threading.Tasks;
 
 namespace BLL.DTOs.ShoppingCartDtos
 {
-	public class ShoppingCartUpdateDto
-	{
-		// public int ShoppingCartId { get; set; }
-		public int ProductId { get; set; }
-
-		[Range(1, 150)]
-		public int Count { get; set; }
-
-		public string UserId { get; set; }
-	}
+    public class ShoppingCartUpdateDto
+    {
+       // public int ShoppingCartId { get; set; }
+        public int ProductId { get; set; }
+        [Range (1,150)]
+        public int Count { get; set; }
+        public string UserId { get; set; }
+    }
 }

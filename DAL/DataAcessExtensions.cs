@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens; // <-- ADD THIS
 
 namespace DAL
 {
@@ -21,16 +23,49 @@ namespace DAL
 		{
 			string cs = config.GetConnectionString("DefaultConnection");
 			services.AddDbContext<AppDbContext>(options => { options.UseSqlServer(cs); });
-
-			//services.AddScoped<ICategoryRepository, CategoryRepository>();
-			//services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
-			//services.AddScoped<IProductRepository, ProductRepository>();
-			//services.AddScoped<IBrandRepository, BrandRepository>();
-			//services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 			//test unit of work
 
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			return services;
 		}
-	}
+
+        public static IServiceCollection AddAppIdentity(this IServiceCollection services,
+           IConfigurationManager config)
+        {
+
+
+            //Identity
+            services.AddIdentity<AppUser, IdentityRole>(options => {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;
+            }).AddEntityFrameworkStores<AppDbContext>() // Link Identity to AppDbContext
+                .AddDefaultTokenProviders();
+            ;
+
+
+
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = options.DefaultChallengeScheme = options.DefaultForbidScheme =
+                    options.DefaultScheme = options.DefaultSignInScheme =
+                        options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options => {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = config["JWT:Issuer"],
+                    ValidateAudience = true,
+                    ValidAudience = config["JWT:Audience"],
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        System.Text.Encoding.UTF8.GetBytes(config["JWT:SigningKey"]))
+                };
+            });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            return services;
+        }
+
+    }
 }

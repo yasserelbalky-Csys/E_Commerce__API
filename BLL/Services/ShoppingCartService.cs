@@ -10,19 +10,15 @@ using DAL.Contracts;
 using DAL.Entities;
 using Microsoft.AspNetCore.Http;
 
-namespace BLL.Services
-{
-	internal class ShoppingCartService : IShoppingCartService
-	{
+namespace BLL.Services {
+	internal class ShoppingCartService : IShoppingCartService {
 		private readonly IUnitOfWork _uof;
 
-		public ShoppingCartService(IUnitOfWork uof)
-		{
+		public ShoppingCartService(IUnitOfWork uof) {
 			_uof = uof;
 		}
 
-		public IEnumerable<ShoppingCartListDto> GetShoppingCarts()
-		{
+		public IEnumerable<ShoppingCartListDto> GetShoppingCarts() {
 			var Result = _uof.ShoppingCarts.GetAll().Select(cart => new ShoppingCartListDto {
 				ShoppingCartId = cart.ShoppingCartId,
 				UserId = cart.UserId,
@@ -35,8 +31,7 @@ namespace BLL.Services
 			return Result;
 		}
 
-		public ShoppingCartListDto GetShoppingCart(int id)
-		{
+		public ShoppingCartListDto GetShoppingCart(int id) {
 			var temp = _uof.ShoppingCarts.GetById(id);
 			return new ShoppingCartListDto {
 				ShoppingCartId = temp.ShoppingCartId,
@@ -46,20 +41,22 @@ namespace BLL.Services
 			};
 		}
 
-		public void InsertShoppingCart(ShoppingCartInsertDto cart)
-		{
-			// var temp = _ShoppingCartrepository.GetAll().OrderByDescending(c => c.ShoppingCartId).FirstOrDefault();
+        public void InsertShoppingCart(ShoppingCartInsertDto cart)
+        {
+           // var temp = _ShoppingCartrepository.GetAll().OrderByDescending(c => c.ShoppingCartId).FirstOrDefault();
 
-			_uof.ShoppingCarts.Insert(new ShoppingCart {
-				Count = cart.Count,
-				ProductId = cart.ProductId,
-				UserId = cart.UserId,
-			});
-			_uof.save();
-		}
+            
+            _uof.ShoppingCarts.Insert(new ShoppingCart
+            {
+                Count = cart.Count,
+                ProductId = cart.ProductId,
+                UserId = cart.UserId,
 
-		public void UpdateShoppingCart(ShoppingCartUpdateDto shoppingcart)
-		{
+            });
+            _uof.save();
+        }
+
+		public void UpdateShoppingCart(ShoppingCartUpdateDto shoppingcart) {
 			//var existingone = _ShoppingCartrepository.GetById(shoppingcart.ShoppingCartId);
 
 			//var cartfromdatabase = _ShoppingCartrepository.GetAll().Select(cart1 =>
@@ -78,14 +75,12 @@ namespace BLL.Services
 			_uof.save();
 		}
 
-		public void DeleteShoppingCart(int id)
-		{
+		public void DeleteShoppingCart(int id) {
 			_uof.ShoppingCarts.Delete(id);
 			_uof.save();
 		}
 
-		public IEnumerable<ShoppingCartListDto> GetUserCart(string userId)
-		{
+		public IEnumerable<ShoppingCartListDto> GetUserCart(string userId) {
 			return _uof.ShoppingCarts.GetByuseridOnly(userId).Select(cart => new ShoppingCartListDto {
 				ShoppingCartId = cart.ShoppingCartId,
 				ProductId = cart.ProductId,
@@ -96,8 +91,7 @@ namespace BLL.Services
 			});
 		}
 
-		public void ClearUserCart(string userId)
-		{
+		public void ClearUserCart(string userId) {
 			var result = _uof.ShoppingCarts.GetByuseridOnly(userId);
 			foreach (var cart in result) {
 				_uof.ShoppingCarts.Delete(cart.ShoppingCartId);
@@ -105,10 +99,14 @@ namespace BLL.Services
 			}
 		}
 
-		public decimal GetTotalCartPrice(string userId)
-		{
+		public decimal GetTotalCartPrice(string userId) {
 			var result = _uof.ShoppingCarts.GetByuseridOnly(userId).Sum(cart => cart.Product.ProductPrice * cart.Count);
 			return result;
 		}
-	}
+
+        int IShoppingCartService.InsertShoppingCart(ShoppingCartInsertDto category)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
