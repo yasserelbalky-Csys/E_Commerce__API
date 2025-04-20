@@ -14,10 +14,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens; // <-- ADD THIS
 
-namespace DAL {
-	public static class DataAcessExtensions {
+namespace DAL
+{
+	public static class DataAcessExtensions
+	{
 		public static IServiceCollection AddDataAccessServices(this IServiceCollection services,
-			IConfigurationManager config) {
+			IConfigurationManager config)
+		{
 			string cs = config.GetConnectionString("DefaultConnection");
 			services.AddDbContext<AppDbContext>(options => { options.UseSqlServer(cs); });
 			//test unit of work
@@ -25,43 +28,36 @@ namespace DAL {
 			return services;
 		}
 
-        public static IServiceCollection AddAppIdentity(this IServiceCollection services,
-           IConfigurationManager config)
-        {
+		public static IServiceCollection AddAppIdentity(this IServiceCollection services, IConfigurationManager config)
+		{
+			//Identity
+			services.AddIdentity<AppUser, IdentityRole>(options => {
+					options.Password.RequireDigit = true;
+					options.Password.RequireLowercase = false;
+					options.Password.RequireUppercase = false;
+					options.Password.RequiredLength = 4;
+				}).AddEntityFrameworkStores<AppDbContext>() // Link Identity to AppDbContext
+				.AddDefaultTokenProviders();
+			;
 
+			services.AddAuthentication(options => {
+				options.DefaultAuthenticateScheme = options.DefaultChallengeScheme = options.DefaultForbidScheme =
+					options.DefaultScheme = options.DefaultSignInScheme =
+						options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+			}).AddJwtBearer(options => {
+				options.TokenValidationParameters = new TokenValidationParameters {
+					ValidateIssuer = true,
+					ValidIssuer = config["JWT:Issuer"],
+					ValidateAudience = true,
+					ValidAudience = config["JWT:Audience"],
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(
+						System.Text.Encoding.UTF8.GetBytes(config["JWT:SigningKey"]))
+				};
+			});
 
-            //Identity
-            services.AddIdentity<AppUser, IdentityRole>(options => {
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 4;
-            }).AddEntityFrameworkStores<AppDbContext>() // Link Identity to AppDbContext
-                .AddDefaultTokenProviders();
-            ;
-
-
-
-            services.AddAuthentication(options => {
-                options.DefaultAuthenticateScheme = options.DefaultChallengeScheme = options.DefaultForbidScheme =
-                    options.DefaultScheme = options.DefaultSignInScheme =
-                        options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidIssuer = config["JWT:Issuer"],
-                    ValidateAudience = true,
-                    ValidAudience = config["JWT:Audience"],
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                        System.Text.Encoding.UTF8.GetBytes(config["JWT:SigningKey"]))
-                };
-            });
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            return services;
-        }
-
-    }
+			services.AddScoped<IUnitOfWork, UnitOfWork>();
+			return services;
+		}
+	}
 }

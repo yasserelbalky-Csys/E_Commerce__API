@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace BLL.Contracts
 {
-    public interface IHelperService
-    {
-        public int UpdateOrderStatus(int order_no);
-    }
+	public interface IHelperService
+	{
+		public int UpdateOrderStatus(int order_no);
+	}
 }

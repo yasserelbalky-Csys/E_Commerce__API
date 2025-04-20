@@ -11,39 +11,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL
 {
-    public class AppDbContext : IdentityDbContext<AppUser>
-    {
-        public AppDbContext(DbContextOptions<AppDbContext> options):base(options) 
-        {
-                
-        }
+	public class AppDbContext : IdentityDbContext<AppUser>
+	{
+		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            ////Add Roles Run Onlyyy for first Time 
-            base.OnModelCreating(builder);
-            builder.Entity<OrderDetails>()
-          .HasKey(od => new {  od.LineNo });
-            //List<IdentityRole> roles = new List<IdentityRole>()
-            //{
-            //    new IdentityRole
-            //    {
-            //        Name="Admin",
-            //        NormalizedName="ADMIN"
-            //    }
-            //    ,new IdentityRole
-            //    {
-            //        Name="User",
-            //        NormalizedName="USER"
-            //    }
-            //};
-            //builder.Entity<IdentityRole>().HasData(roles);
-            base.OnModelCreating(builder);
-            builder.Entity<CurrentProductBalance>()
-          .HasNoKey();
-
-        }
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			////Add Roles Run Onlyyy for first Time 
+			base.OnModelCreating(builder);
+			builder.Entity<OrderDetails>().HasKey(od => new { od.LineNo });
+			//List<IdentityRole> roles = new List<IdentityRole>()
+			//{
+			//    new IdentityRole
+			//    {
+			//        Name="Admin",
+			//        NormalizedName="ADMIN"
+			//    }
+			//    ,new IdentityRole
+			//    {
+			//        Name="User",
+			//        NormalizedName="USER"
+			//    }
+			//};
+			//builder.Entity<IdentityRole>().HasData(roles);
+			base.OnModelCreating(builder);
+			builder.Entity<CurrentProductBalance>().HasNoKey();
+		}
 
 		//public DbSet<Categories> Categories { get; set; }
 		public DbSet<SubCategories> subCategories { get; set; }
@@ -55,11 +48,9 @@ namespace DAL
 		//Add User
 		public DbSet<AppUser> SysUsers { get; set; }
 
-        //Add Master and Details of Order
-        public DbSet<OrderMaster> OrderMaster { get; set; }
-        public DbSet<OrderDetails> OrderDetails { get; set; }
-
-
-        public DbSet<CurrentProductBalance> CurrentProductBalance { get; set; }
-    }
+		//Add Master and Details of Order
+		public DbSet<OrderMaster> OrderMaster { get; set; }
+		public DbSet<OrderDetails> OrderDetails { get; set; }
+		public DbSet<CurrentProductBalance> CurrentProductBalance { get; set; }
+	}
 }

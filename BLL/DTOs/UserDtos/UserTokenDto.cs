@@ -12,14 +12,8 @@ namespace BLL.DTOs.UserDtos
 		public string? username { get; set; }
 		public string? email { get; set; }
 		public string? token { get; set; }
-
 		public string FirstName { get; set; }
-
 		public string LastName { get; set; }
-
 		public string role { get; set; }
-		
-	
-
 	}
 }

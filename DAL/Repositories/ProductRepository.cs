@@ -9,26 +9,23 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    internal class ProductRepository : BaseRepository<Products>, IProductRepository
-    {
+	internal class ProductRepository : BaseRepository<Products>, IProductRepository
+	{
+		public ProductRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
-        public ProductRepository(AppDbContext appDbContext) : base(appDbContext)
-        {
-        }
+		public override IEnumerable<Products> GetAll()
+		{
+			return _entitySet.Include(prod => prod.Subcategory).AsEnumerable();
+		}
 
-        public override IEnumerable<Products> GetAll()
-        {
-            return _entitySet.Include(prod=>prod.Subcategory).AsEnumerable();
-        }
+		public override Products GetById(int id)
+		{
+			return _entitySet.Include(prod => prod.Subcategory).FirstOrDefault(prod => prod.ProductId == id);
+		}
 
-        public override Products GetById(int id)
-        {
-            return _entitySet.Include(prod => prod.Subcategory).FirstOrDefault(prod=>prod.ProductId==id);
-        }
-
-        public IEnumerable<Products> GetProductsByCategory()
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public IEnumerable<Products> GetProductsByCategory()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    internal class CategoryRepository : BaseRepository<Categories>, ICategoryRepository
-    {
-        public CategoryRepository(AppDbContext appDbContext) : base(appDbContext)
-        {
-        }
-    }
+	internal class CategoryRepository : BaseRepository<Categories>, ICategoryRepository
+	{
+		public CategoryRepository(AppDbContext appDbContext) : base(appDbContext) { }
+	}
 }

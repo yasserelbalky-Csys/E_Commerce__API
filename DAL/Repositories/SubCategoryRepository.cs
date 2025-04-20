@@ -7,16 +7,20 @@ using DAL.Contracts;
 using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories {
-	internal class SubCategoryRepository : BaseRepository<SubCategories>, ISubCategoryRepository {
+namespace DAL.Repositories
+{
+	internal class SubCategoryRepository : BaseRepository<SubCategories>, ISubCategoryRepository
+	{
 		public SubCategoryRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
-		public override IEnumerable<SubCategories> GetAll() {
+		public override IEnumerable<SubCategories> GetAll()
+		{
 			//    //return base.GetAll();
 			return _entitySet.Include(cat => cat.Category).AsEnumerable();
 		}
 
-		public override SubCategories GetById(int id) {
+		public override SubCategories GetById(int id)
+		{
 			return _entitySet.Include(cat => cat.Category).FirstOrDefault(cat => cat.SubCategoryId == id)!;
 		}
 	}

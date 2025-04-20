@@ -8,32 +8,31 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class Products
-    {
-        [Key]
-        public int ProductId { get; set; }
+	public class Products
+	{
+		[Key]
+		public int ProductId { get; set; }
 
-        [Required]
-        public string? ProductName { get; set; }
+		[Required]
+		public string? ProductName { get; set; }
 
-        public string? ProductDiscription { get; set; }
+		public string? ProductDiscription { get; set; }
 
+		[Required]
+		public decimal ProductPrice { get; set; }
 
-        [Required]
-        public decimal ProductPrice { get; set; }
+		[Required]
+		public int SubcategoryId { get; set; }
 
-        [Required]
-        public int SubcategoryId { get; set; }
+		[Required]
+		public int BrandId { get; set; }
 
-        [Required]
-        public int BrandId { get; set; }
+		public bool b_deleted { get; set; }
 
-        public bool b_deleted { get; set; }
+		[ForeignKey(nameof(SubcategoryId))]
+		public SubCategories? Subcategory { get; set; }
 
-        [ForeignKey(nameof(SubcategoryId))]
-        public SubCategories? Subcategory { get; set; }
-
-        [ForeignKey(nameof(BrandId))]
-        public Brands? Brand { get; set; }
-    }
+		[ForeignKey(nameof(BrandId))]
+		public Brands? Brand { get; set; }
+	}
 }

@@ -7,9 +7,9 @@ using DAL.Entities;
 
 namespace DAL.Contracts
 {
-    public interface IShoppingCartRepository:IBaseRepository<ShoppingCart>
-    {
-        public ShoppingCart GetProductByuserid(string userid,int productid);
-        public IEnumerable<ShoppingCart> GetByuseridOnly(string userid);
-    }
+	public interface IShoppingCartRepository : IBaseRepository<ShoppingCart>
+	{
+		public ShoppingCart GetProductByuserid(string userid, int productid);
+		public IEnumerable<ShoppingCart> GetByuseridOnly(string userid);
+	}
 }

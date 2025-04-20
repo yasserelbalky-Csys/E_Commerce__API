@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace BLL.DTOs.UserDtos
 {
-    public class UserLoginDto
-    {
-        [Required]
-        public string? UserName { get; set; }
+	public class UserLoginDto
+	{
+		[Required]
+		public string? UserName { get; set; }
 
-        [Required]
-        public string? Password { get; set; }
-    }
+		[Required]
+		public string? Password { get; set; }
+	}
 }

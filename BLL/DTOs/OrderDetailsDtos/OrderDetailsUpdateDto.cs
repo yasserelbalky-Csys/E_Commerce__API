@@ -9,18 +9,19 @@ using System.Threading.Tasks;
 
 namespace BLL.DTOs.OrderDetailsDtos
 {
-    public class OrderDetailsUpdateDto
-    {
+	public class OrderDetailsUpdateDto
+	{
+		public int LineNo { get; set; }
 
-        public int LineNo { get; set; }
-        [Required]
-        public int ProductId { get; set; }
+		[Required]
+		public int ProductId { get; set; }
 
-        public int Qty { get; set; }
+		public int Qty { get; set; }
 
-        [Required]
-        public decimal ProductPrice { get; set; }
-        public decimal TotalValue { get; set; }
-        public decimal Discount { get; set; }
-    }
+		[Required]
+		public decimal ProductPrice { get; set; }
+
+		public decimal TotalValue { get; set; }
+		public decimal Discount { get; set; }
+	}
 }
