@@ -22,7 +22,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 		private readonly UserManager<IdentityUser> _userManager;
 		private readonly IEmailSender _emailSender;
 
-		public ResendEmailConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender emailSender) {
+		public ResendEmailConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
+		{
 			_userManager = userManager;
 			_emailSender = emailSender;
 		}
@@ -51,7 +52,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 
 		public void OnGet() { }
 
-		public async Task<IActionResult> OnPostAsync() {
+		public async Task<IActionResult> OnPostAsync()
+		{
 			if (!ModelState.IsValid) {
 				return Page();
 			}

@@ -20,7 +20,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 		private readonly ILogger<LoginWithRecoveryCodeModel> _logger;
 
 		public LoginWithRecoveryCodeModel(SignInManager<IdentityUser> signInManager,
-			UserManager<IdentityUser> userManager, ILogger<LoginWithRecoveryCodeModel> logger) {
+			UserManager<IdentityUser> userManager, ILogger<LoginWithRecoveryCodeModel> logger)
+		{
 			_signInManager = signInManager;
 			_userManager = userManager;
 			_logger = logger;
@@ -56,7 +57,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			public string RecoveryCode { get; set; }
 		}
 
-		public async Task<IActionResult> OnGetAsync(string returnUrl = null) {
+		public async Task<IActionResult> OnGetAsync(string returnUrl = null)
+		{
 			// Ensure the user has gone through the username & password screen first
 			var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
 			if (user == null) {
@@ -68,7 +70,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPostAsync(string returnUrl = null) {
+		public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+		{
 			if (!ModelState.IsValid) {
 				return Page();
 			}

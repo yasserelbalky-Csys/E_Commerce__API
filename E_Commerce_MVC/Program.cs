@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-void RegisterGenericApiService<T>(IServiceCollection services, string baseUrl) where T : class {
+void RegisterGenericApiService<T>(IServiceCollection services, string baseUrl) where T : class
+{
 	services.AddHttpClient<GenericApiService<T>>(client => { client.BaseAddress = new Uri(baseUrl); });
 }
 

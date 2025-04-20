@@ -22,7 +22,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 		private readonly IEmailSender _emailSender;
 
 		public EmailModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,
-			IEmailSender emailSender) {
+			IEmailSender emailSender)
+		{
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_emailSender = emailSender;
@@ -70,7 +71,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			public string NewEmail { get; set; }
 		}
 
-		private async Task LoadAsync(IdentityUser user) {
+		private async Task LoadAsync(IdentityUser user)
+		{
 			var email = await _userManager.GetEmailAsync(user);
 			Email = email;
 
@@ -81,7 +83,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
 		}
 
-		public async Task<IActionResult> OnGetAsync() {
+		public async Task<IActionResult> OnGetAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -91,7 +94,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPostChangeEmailAsync() {
+		public async Task<IActionResult> OnPostChangeEmailAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -123,7 +127,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			return RedirectToPage();
 		}
 
-		public async Task<IActionResult> OnPostSendVerificationEmailAsync() {
+		public async Task<IActionResult> OnPostSendVerificationEmailAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");

@@ -31,7 +31,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 		private readonly IEmailSender _emailSender;
 
 		public RegisterModel(UserManager<IdentityUser> userManager, IUserStore<IdentityUser> userStore,
-			SignInManager<IdentityUser> signInManager, ILogger<RegisterModel> logger, IEmailSender emailSender) {
+			SignInManager<IdentityUser> signInManager, ILogger<RegisterModel> logger, IEmailSender emailSender)
+		{
 			_userManager = userManager;
 			_userStore = userStore;
 			_emailStore = GetEmailStore();
@@ -96,12 +97,14 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			public string ConfirmPassword { get; set; }
 		}
 
-		public async Task OnGetAsync(string returnUrl = null) {
+		public async Task OnGetAsync(string returnUrl = null)
+		{
 			ReturnUrl = returnUrl;
 			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 		}
 
-		public async Task<IActionResult> OnPostAsync(string returnUrl = null) {
+		public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+		{
 			returnUrl ??= Url.Content("~/");
 			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 			if (ModelState.IsValid) {
@@ -144,7 +147,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			return Page();
 		}
 
-		private IdentityUser CreateUser() {
+		private IdentityUser CreateUser()
+		{
 			try {
 				return Activator.CreateInstance<IdentityUser>();
 			} catch {
@@ -154,7 +158,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			}
 		}
 
-		private IUserEmailStore<IdentityUser> GetEmailStore() {
+		private IUserEmailStore<IdentityUser> GetEmailStore()
+		{
 			if (!_userManager.SupportsUserEmail) {
 				throw new NotSupportedException("The default UI requires a user store with email support.");
 			}

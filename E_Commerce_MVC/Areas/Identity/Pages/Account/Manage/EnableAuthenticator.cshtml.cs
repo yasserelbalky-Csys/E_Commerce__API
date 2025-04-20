@@ -24,7 +24,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 		private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
 		public EnableAuthenticatorModel(UserManager<IdentityUser> userManager, ILogger<EnableAuthenticatorModel> logger,
-			UrlEncoder urlEncoder) {
+			UrlEncoder urlEncoder)
+		{
 			_userManager = userManager;
 			_logger = logger;
 			_urlEncoder = urlEncoder;
@@ -82,7 +83,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			public string Code { get; set; }
 		}
 
-		public async Task<IActionResult> OnGetAsync() {
+		public async Task<IActionResult> OnGetAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -93,7 +95,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPostAsync() {
+		public async Task<IActionResult> OnPostAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -132,7 +135,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			}
 		}
 
-		private async Task LoadSharedKeyAndQrCodeUriAsync(IdentityUser user) {
+		private async Task LoadSharedKeyAndQrCodeUriAsync(IdentityUser user)
+		{
 			// Load the authenticator key & QR code URI to display on the form
 			var unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
 			if (string.IsNullOrEmpty(unformattedKey)) {
@@ -146,7 +150,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			AuthenticatorUri = GenerateQrCodeUri(email, unformattedKey);
 		}
 
-		private string FormatKey(string unformattedKey) {
+		private string FormatKey(string unformattedKey)
+		{
 			var result = new StringBuilder();
 			int currentPosition = 0;
 			while (currentPosition + 4 < unformattedKey.Length) {
@@ -161,7 +166,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			return result.ToString().ToLowerInvariant();
 		}
 
-		private string GenerateQrCodeUri(string email, string unformattedKey) {
+		private string GenerateQrCodeUri(string email, string unformattedKey)
+		{
 			return string.Format(CultureInfo.InvariantCulture,
 				AuthenticatorUriFormat,
 				_urlEncoder.Encode("Microsoft.AspNetCore.Identity.UI"),

@@ -18,7 +18,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 		private readonly ILogger<TwoFactorAuthenticationModel> _logger;
 
 		public TwoFactorAuthenticationModel(UserManager<IdentityUser> userManager,
-			SignInManager<IdentityUser> signInManager, ILogger<TwoFactorAuthenticationModel> logger) {
+			SignInManager<IdentityUser> signInManager, ILogger<TwoFactorAuthenticationModel> logger)
+		{
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_logger = logger;
@@ -56,7 +57,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 		[TempData]
 		public string StatusMessage { get; set; }
 
-		public async Task<IActionResult> OnGetAsync() {
+		public async Task<IActionResult> OnGetAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -70,7 +72,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPostAsync() {
+		public async Task<IActionResult> OnPostAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");

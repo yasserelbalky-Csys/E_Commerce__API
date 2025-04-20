@@ -31,7 +31,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 		private readonly ILogger<ExternalLoginModel> _logger;
 
 		public ExternalLoginModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,
-			IUserStore<IdentityUser> userStore, ILogger<ExternalLoginModel> logger, IEmailSender emailSender) {
+			IUserStore<IdentityUser> userStore, ILogger<ExternalLoginModel> logger, IEmailSender emailSender)
+		{
 			_signInManager = signInManager;
 			_userManager = userManager;
 			_userStore = userStore;
@@ -83,14 +84,16 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 
 		public IActionResult OnGet() => RedirectToPage("./Login");
 
-		public IActionResult OnPost(string provider, string returnUrl = null) {
+		public IActionResult OnPost(string provider, string returnUrl = null)
+		{
 			// Request a redirect to the external login provider.
 			var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
 			var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
 			return new ChallengeResult(provider, properties);
 		}
 
-		public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null) {
+		public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
+		{
 			returnUrl = returnUrl ?? Url.Content("~/");
 			if (remoteError != null) {
 				ErrorMessage = $"Error from external provider: {remoteError}";
@@ -131,7 +134,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			}
 		}
 
-		public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null) {
+		public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
+		{
 			returnUrl = returnUrl ?? Url.Content("~/");
 			// Get the information about the user from the external login provider
 			var info = await _signInManager.GetExternalLoginInfoAsync();
@@ -184,7 +188,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			return Page();
 		}
 
-		private IdentityUser CreateUser() {
+		private IdentityUser CreateUser()
+		{
 			try {
 				return Activator.CreateInstance<IdentityUser>();
 			} catch {
@@ -194,7 +199,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			}
 		}
 
-		private IUserEmailStore<IdentityUser> GetEmailStore() {
+		private IUserEmailStore<IdentityUser> GetEmailStore()
+		{
 			if (!_userManager.SupportsUserEmail) {
 				throw new NotSupportedException("The default UI requires a user store with email support.");
 			}

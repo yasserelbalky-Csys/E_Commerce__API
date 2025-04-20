@@ -17,7 +17,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 		private readonly UserManager<IdentityUser> _userManager;
 		private readonly SignInManager<IdentityUser> _signInManager;
 
-		public IndexModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager) {
+		public IndexModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+		{
 			_userManager = userManager;
 			_signInManager = signInManager;
 		}
@@ -57,7 +58,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			public string PhoneNumber { get; set; }
 		}
 
-		private async Task LoadAsync(IdentityUser user) {
+		private async Task LoadAsync(IdentityUser user)
+		{
 			var userName = await _userManager.GetUserNameAsync(user);
 			var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
@@ -68,7 +70,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			};
 		}
 
-		public async Task<IActionResult> OnGetAsync() {
+		public async Task<IActionResult> OnGetAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -78,7 +81,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPostAsync() {
+		public async Task<IActionResult> OnPostAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");

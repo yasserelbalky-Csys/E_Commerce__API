@@ -21,7 +21,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 		private readonly IUserStore<IdentityUser> _userStore;
 
 		public ExternalLoginsModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,
-			IUserStore<IdentityUser> userStore) {
+			IUserStore<IdentityUser> userStore)
+		{
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_userStore = userStore;
@@ -52,7 +53,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 		[TempData]
 		public string StatusMessage { get; set; }
 
-		public async Task<IActionResult> OnGetAsync() {
+		public async Task<IActionResult> OnGetAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -71,7 +73,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider, string providerKey) {
+		public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider, string providerKey)
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -88,7 +91,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			return RedirectToPage();
 		}
 
-		public async Task<IActionResult> OnPostLinkLoginAsync(string provider) {
+		public async Task<IActionResult> OnPostLinkLoginAsync(string provider)
+		{
 			// Clear the existing external cookie to ensure a clean login process
 			await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
@@ -101,7 +105,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			return new ChallengeResult(provider, properties);
 		}
 
-		public async Task<IActionResult> OnGetLinkLoginCallbackAsync() {
+		public async Task<IActionResult> OnGetLinkLoginCallbackAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");

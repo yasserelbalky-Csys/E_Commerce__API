@@ -18,7 +18,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 	{
 		private readonly UserManager<IdentityUser> _userManager;
 
-		public ConfirmEmailModel(UserManager<IdentityUser> userManager) {
+		public ConfirmEmailModel(UserManager<IdentityUser> userManager)
+		{
 			_userManager = userManager;
 		}
 
@@ -29,7 +30,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 		[TempData]
 		public string StatusMessage { get; set; }
 
-		public async Task<IActionResult> OnGetAsync(string userId, string code) {
+		public async Task<IActionResult> OnGetAsync(string userId, string code)
+		{
 			if (userId == null || code == null) {
 				return RedirectToPage("/Index");
 			}

@@ -19,7 +19,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 		private readonly ILogger<ChangePasswordModel> _logger;
 
 		public ChangePasswordModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,
-			ILogger<ChangePasswordModel> logger) {
+			ILogger<ChangePasswordModel> logger)
+		{
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_logger = logger;
@@ -76,7 +77,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			public string ConfirmPassword { get; set; }
 		}
 
-		public async Task<IActionResult> OnGetAsync() {
+		public async Task<IActionResult> OnGetAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -90,7 +92,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPostAsync() {
+		public async Task<IActionResult> OnPostAsync()
+		{
 			if (!ModelState.IsValid) {
 				return Page();
 			}

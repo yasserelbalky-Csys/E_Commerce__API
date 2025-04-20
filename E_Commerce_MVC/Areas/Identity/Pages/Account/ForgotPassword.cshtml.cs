@@ -21,7 +21,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 		private readonly UserManager<IdentityUser> _userManager;
 		private readonly IEmailSender _emailSender;
 
-		public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSender emailSender) {
+		public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
+		{
 			_userManager = userManager;
 			_emailSender = emailSender;
 		}
@@ -48,7 +49,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			public string Email { get; set; }
 		}
 
-		public async Task<IActionResult> OnPostAsync() {
+		public async Task<IActionResult> OnPostAsync()
+		{
 			if (ModelState.IsValid) {
 				var user = await _userManager.FindByEmailAsync(Input.Email);
 				if (user == null || !(await _userManager.IsEmailConfirmedAsync(user))) {

@@ -22,7 +22,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 		private readonly SignInManager<IdentityUser> _signInManager;
 		private readonly ILogger<LoginModel> _logger;
 
-		public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger) {
+		public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+		{
 			_signInManager = signInManager;
 			_logger = logger;
 		}
@@ -83,7 +84,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			public bool RememberMe { get; set; }
 		}
 
-		public async Task OnGetAsync(string returnUrl = null) {
+		public async Task OnGetAsync(string returnUrl = null)
+		{
 			if (!string.IsNullOrEmpty(ErrorMessage)) {
 				ModelState.AddModelError(string.Empty, ErrorMessage);
 			}
@@ -98,7 +100,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			ReturnUrl = returnUrl;
 		}
 
-		public async Task<IActionResult> OnPostAsync(string returnUrl = null) {
+		public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+		{
 			returnUrl ??= Url.Content("~/");
 
 			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();

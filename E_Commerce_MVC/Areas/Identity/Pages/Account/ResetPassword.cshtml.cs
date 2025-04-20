@@ -18,7 +18,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 	{
 		private readonly UserManager<IdentityUser> _userManager;
 
-		public ResetPasswordModel(UserManager<IdentityUser> userManager) {
+		public ResetPasswordModel(UserManager<IdentityUser> userManager)
+		{
 			_userManager = userManager;
 		}
 
@@ -71,7 +72,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			public string Code { get; set; }
 		}
 
-		public IActionResult OnGet(string code = null) {
+		public IActionResult OnGet(string code = null)
+		{
 			if (code == null) {
 				return BadRequest("A code must be supplied for password reset.");
 			} else {
@@ -82,7 +84,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			}
 		}
 
-		public async Task<IActionResult> OnPostAsync() {
+		public async Task<IActionResult> OnPostAsync()
+		{
 			if (!ModelState.IsValid) {
 				return Page();
 			}

@@ -19,7 +19,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 		private readonly ILogger<DeletePersonalDataModel> _logger;
 
 		public DeletePersonalDataModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,
-			ILogger<DeletePersonalDataModel> logger) {
+			ILogger<DeletePersonalDataModel> logger)
+		{
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_logger = logger;
@@ -53,7 +54,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 		/// </summary>
 		public bool RequirePassword { get; set; }
 
-		public async Task<IActionResult> OnGet() {
+		public async Task<IActionResult> OnGet()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -63,7 +65,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPostAsync() {
+		public async Task<IActionResult> OnPostAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");

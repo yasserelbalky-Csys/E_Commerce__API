@@ -21,16 +21,19 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 		private readonly ILogger<DownloadPersonalDataModel> _logger;
 
 		public DownloadPersonalDataModel(UserManager<IdentityUser> userManager,
-			ILogger<DownloadPersonalDataModel> logger) {
+			ILogger<DownloadPersonalDataModel> logger)
+		{
 			_userManager = userManager;
 			_logger = logger;
 		}
 
-		public IActionResult OnGet() {
+		public IActionResult OnGet()
+		{
 			return NotFound();
 		}
 
-		public async Task<IActionResult> OnPostAsync() {
+		public async Task<IActionResult> OnPostAsync()
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null) {
 				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -41,8 +44,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 
 			// Only include personal data for download
 			var personalData = new Dictionary<string, string>();
-			var personalDataProps = typeof(IdentityUser).GetProperties().Where(
-				prop => Attribute.IsDefined(prop, typeof(PersonalDataAttribute)));
+			var personalDataProps = typeof(IdentityUser).GetProperties()
+				.Where(prop => Attribute.IsDefined(prop, typeof(PersonalDataAttribute)));
 			foreach (var p in personalDataProps) {
 				personalData.Add(p.Name, p.GetValue(user)?.ToString() ?? "null");
 			}

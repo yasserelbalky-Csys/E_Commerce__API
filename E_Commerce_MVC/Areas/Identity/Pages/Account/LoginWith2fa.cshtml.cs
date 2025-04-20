@@ -21,7 +21,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 		private readonly ILogger<LoginWith2faModel> _logger;
 
 		public LoginWith2faModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,
-			ILogger<LoginWith2faModel> logger) {
+			ILogger<LoginWith2faModel> logger)
+		{
 			_signInManager = signInManager;
 			_userManager = userManager;
 			_logger = logger;
@@ -72,7 +73,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			public bool RememberMachine { get; set; }
 		}
 
-		public async Task<IActionResult> OnGetAsync(bool rememberMe, string returnUrl = null) {
+		public async Task<IActionResult> OnGetAsync(bool rememberMe, string returnUrl = null)
+		{
 			// Ensure the user has gone through the username & password screen first
 			var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
 
@@ -86,7 +88,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPostAsync(bool rememberMe, string returnUrl = null) {
+		public async Task<IActionResult> OnPostAsync(bool rememberMe, string returnUrl = null)
+		{
 			if (!ModelState.IsValid) {
 				return Page();
 			}

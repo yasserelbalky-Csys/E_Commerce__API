@@ -20,7 +20,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 		private readonly UserManager<IdentityUser> _userManager;
 		private readonly IEmailSender _sender;
 
-		public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender sender) {
+		public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender sender)
+		{
 			_userManager = userManager;
 			_sender = sender;
 		}
@@ -43,7 +44,8 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
 		/// </summary>
 		public string EmailConfirmationUrl { get; set; }
 
-		public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null) {
+		public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
+		{
 			if (email == null) {
 				return RedirectToPage("/Index");
 			}
