@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using BLL.DTOs.ProductDtos;
 using BLL.DTOs.SubCategoryDtos;
 
-namespace BLL.Contracts {
-	public interface IProductService {
+namespace BLL.Contracts
+{
+	public interface IProductService
+	{
 		public IEnumerable<ProductListDto> GetProducts();
 		public ProductListDto GetProduct(int id);
 		public void InsertProduct(ProductInsertDto product);

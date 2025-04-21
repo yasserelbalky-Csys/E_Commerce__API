@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 
-namespace DAL.Contracts {
-	public interface IBrandRepository : IBaseRepository<Brands> {
+namespace DAL.Contracts
+{
+	public interface IBrandRepository : IBaseRepository<Brands>
+	{
 		// public IEnumerable<Brands> getBrandsWithItsProducts(int brandid);
 	}
 }

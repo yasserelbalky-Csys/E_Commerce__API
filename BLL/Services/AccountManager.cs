@@ -61,57 +61,51 @@ namespace BLL.Services
             var userExist = await _uof.UserManager.Users.FirstOrDefaultAsync(u => u.UserName!.ToLower() == user.UserName.ToLower());
             var result = await _uof.SignInManager.CheckPasswordSignInAsync(userExist, userExist.UserPassword, false);
 
-            if (!result.Succeeded)
-                return null;
+			if (!result.Succeeded)
+				return null;
 
-            var roles = await _uof.UserManager.GetRolesAsync(userExist);
-            string role = roles.Any() ? roles[0] : null;
-            return new UserTokenDto
-            {
-                email = userExist.Email,
-                FirstName = userExist.FirstName,
-                LastName = userExist.LastName,
-                role = role,
-                username = userExist.UserName,
-                token = _tokenService.CreateToken(userExist, roles)
-            };
-            // throw new NotImplementedException();
-        }
+			var roles = await _uof.UserManager.GetRolesAsync(userExist);
+			string role = roles.Any() ? roles[0] : null;
+			return new UserTokenDto {
+				email = userExist.Email,
+				FirstName = userExist.FirstName,
+				LastName = userExist.LastName,
+				role = role,
+				username = userExist.UserName,
+				token = _tokenService.CreateToken(userExist, roles)
+			};
+			// throw new NotImplementedException();
+		}
 
-        public async Task<bool> RegisterAsync(UserRegisterDto user)
-        {
+		public async Task<bool> RegisterAsync(UserRegisterDto user)
+		{
+			var allowedRoles = new[] { "Admin", "User" };
+			if (!allowedRoles.Contains(user.Role)) {
+				return false;
+			}
 
-            var allowedRoles = new[] { "Admin", "User" };
-            if (!allowedRoles.Contains(user.Role))
-            {
-                return false;
-            }
+			var appUser = new AppUser {
+				Email = user.Email,
+				UserName = user.UserName,
+				UserPassword = user.Password,
+				FirstName = user.FirstName,
+				LastName = user.LastName
+			};
 
-            var appUser = new AppUser
-            {
-                Email = user.Email,
-                UserName = user.UserName,
-                UserPassword = user.Password,
-                FirstName = user.FirstName,
-                LastName = user.LastName
-            };
+			var createdUser = await _uof.UserManager.CreateAsync(appUser, user.Password);
 
-            var createdUser = await _uof.UserManager.CreateAsync(appUser, user.Password);
+			if (!createdUser.Succeeded) {
+				return false;
+			}
 
-            if (!createdUser.Succeeded)
-            {
-                return false;
-            }
+			var roleResult = await _uof.UserManager.AddToRoleAsync(appUser, user.Role);
 
-            var roleResult = await _uof.UserManager.AddToRoleAsync(appUser, user.Role);
+			if (!roleResult.Succeeded) {
+				return false;
+			}
 
-            if (!roleResult.Succeeded)
-            {
-                return false;
-            }
-
-            var roles = await _uof.UserManager.GetRolesAsync(appUser);
-            var token = _tokenService.CreateToken(appUser, roles);
+			var roles = await _uof.UserManager.GetRolesAsync(appUser);
+			var token = _tokenService.CreateToken(appUser, roles);
 
             return true;
             //throw new NotImplementedException();

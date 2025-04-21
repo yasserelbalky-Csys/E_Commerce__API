@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public static class OrderStatus
-    {
-      //  public const string orderstatus = "Pending";
-    }
+	public static class OrderStatus
+	{
+		//  public const string orderstatus = "Pending";
+	}
 }

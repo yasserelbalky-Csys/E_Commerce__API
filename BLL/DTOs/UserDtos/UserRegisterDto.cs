@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace BLL.DTOs.UserDtos
 {
-    public class UserRegisterDto
-    {
-        [Required]
-        public string? UserName { get; set; }
+	public class UserRegisterDto
+	{
+		[Required]
+		public string? UserName { get; set; }
 
 
         [Required]

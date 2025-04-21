@@ -8,15 +8,19 @@ using BLL.DTOs.ProductDtos;
 using DAL.Contracts;
 using DAL.Entities;
 
-namespace BLL.Services {
-	internal class ProductService : IProductService {
+namespace BLL.Services
+{
+	internal class ProductService : IProductService
+	{
 		protected readonly IUnitOfWork _uow;
 
-		public ProductService(IUnitOfWork uow) {
+		public ProductService(IUnitOfWork uow)
+		{
 			_uow = uow;
 		}
 
-		public IEnumerable<ProductListDto> GetProducts() {
+		public IEnumerable<ProductListDto> GetProducts()
+		{
 			return _uow.products.GetAll().Select(prod => new ProductListDto {
 				ProductId = prod.ProductId,
 				ProductName = prod.ProductName,
@@ -29,7 +33,8 @@ namespace BLL.Services {
 			}).Where(prod => prod.b_deleted == false);
 		}
 
-		public ProductListDto GetProduct(int id) {
+		public ProductListDto GetProduct(int id)
+		{
 			var prod = _uow.products.GetById(id);
 			return new ProductListDto {
 				ProductId = prod.ProductId,
@@ -43,7 +48,8 @@ namespace BLL.Services {
 			};
 		}
 
-		public void InsertProduct(ProductInsertDto product) {
+		public void InsertProduct(ProductInsertDto product)
+		{
 			_uow.products.Insert(new Products {
 				ProductDiscription = product.ProductDiscription,
 				ProductName = product.ProductName,
@@ -55,7 +61,8 @@ namespace BLL.Services {
 			_uow.save();
 		}
 
-		public void UpdateProduct(ProductUpdateDto product) {
+		public void UpdateProduct(ProductUpdateDto product)
+		{
 			var upproduct = _uow.products.GetById(product.ProductId);
 			if (upproduct != null) {
 				upproduct.ProductId = product.ProductId;
@@ -73,7 +80,8 @@ namespace BLL.Services {
 			_uow.save();
 		}
 
-		public void DeleteProduct(int id) {
+		public void DeleteProduct(int id)
+		{
 			var prod = _uow.products.GetById(id);
 			if (prod != null) {
 				prod.b_deleted = true;

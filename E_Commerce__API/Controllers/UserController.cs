@@ -49,12 +49,12 @@ namespace E_Commerce__API.Controllers
             if (string.IsNullOrWhiteSpace(newRole))
                 return BadRequest("Role name is required");
 
-            var result = await _accountManager.CreateRole(newRole);
-            if (!result)
-                return BadRequest("Role already exists or creation failed");
+			var result = await _accountManager.CreateRole(newRole);
+			if (!result)
+				return BadRequest("Role already exists or creation failed");
 
-            return Ok("Role created successfully");
-        }
+			return Ok("Role created successfully");
+		}
 
 
         [HttpPost]

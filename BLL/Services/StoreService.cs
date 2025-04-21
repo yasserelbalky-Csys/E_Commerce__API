@@ -8,16 +8,19 @@ using BLL.DTOs.StoreDtos;
 using DAL.Contracts;
 using DAL.Entities;
 
-
-namespace BLL.Services {
-	internal class StoreService : IStoreService {
+namespace BLL.Services
+{
+	internal class StoreService : IStoreService
+	{
 		private readonly IUnitOfWork _uof;
 
-		public StoreService(IUnitOfWork uof) {
+		public StoreService(IUnitOfWork uof)
+		{
 			_uof = uof;
 		}
 
-		public void DeleteStore(int id) {
+		public void DeleteStore(int id)
+		{
 			var store = _uof.stores.GetById(id);
 			if (store != null) {
 				store.b_deleted = true;
@@ -28,7 +31,8 @@ namespace BLL.Services {
 			_uof.save();
 		}
 
-		public StoreListDto GetStore(int id) {
+		public StoreListDto GetStore(int id)
+		{
 			var found = _uof.stores.GetById(id);
 			if (found != null) {
 				return new StoreListDto {
@@ -41,14 +45,16 @@ namespace BLL.Services {
 			}
 		}
 
-		public IEnumerable<StoreListDto> GetStores() {
+		public IEnumerable<StoreListDto> GetStores()
+		{
 			return _uof.stores.GetAll().Select(store => new StoreListDto {
 				StoreId = store.StoreId,
 				StoreName = store.StoreName
 			}).Where(storee => storee.b_deleted == false);
 		}
 
-		public void InsertStore(StoreInsertDto store) {
+		public void InsertStore(StoreInsertDto store)
+		{
 			_uof.stores.Insert(new Stores {
 				StoreName = store.StoreName,
 				b_deleted = false
@@ -56,7 +62,8 @@ namespace BLL.Services {
 			_uof.save();
 		}
 
-		public void UpdateStore(StoreUpdateDto store) {
+		public void UpdateStore(StoreUpdateDto store)
+		{
 			var found = _uof.stores.GetById(store.StoreId);
 			if (found != null) {
 				found.StoreId = store.StoreId;

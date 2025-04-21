@@ -6,8 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Entities {
-	public class SubCategories {
+namespace DAL.Entities
+{
+	public class SubCategories
+	{
 		[Key]
 		public int SubCategoryId { get; set; }
 

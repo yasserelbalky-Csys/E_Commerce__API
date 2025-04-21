@@ -8,15 +8,19 @@ using BLL.DTOs.BrandDtos;
 using DAL.Contracts;
 using DAL.Entities;
 
-namespace BLL.Services {
-	internal class BrandService : IBrandService {
+namespace BLL.Services
+{
+	internal class BrandService : IBrandService
+	{
 		private readonly IUnitOfWork _unitofwork;
 
-		public BrandService(IUnitOfWork unitofwork) {
+		public BrandService(IUnitOfWork unitofwork)
+		{
 			_unitofwork = unitofwork;
 		}
 
-		public void DeleteBrand(int id) {
+		public void DeleteBrand(int id)
+		{
 			var brandd = _unitofwork.brands.GetById(id);
 			if (brandd != null) {
 				brandd.b_deleted = true;
@@ -27,7 +31,8 @@ namespace BLL.Services {
 			_unitofwork.save();
 		}
 
-		public BrandListDto GetBrand(int id) {
+		public BrandListDto GetBrand(int id)
+		{
 			var temp = _unitofwork.brands.GetById(id);
 			if (temp != null) {
 				return new BrandListDto {
@@ -46,7 +51,8 @@ namespace BLL.Services {
 			}
 		}
 
-		public IEnumerable<BrandListDto> GetBrands() {
+		public IEnumerable<BrandListDto> GetBrands()
+		{
 			return _unitofwork.brands.GetAll().Select(b => new BrandListDto {
 				BrandId = b.BrandId,
 				BrandName = b.BrandName,
@@ -70,7 +76,8 @@ namespace BLL.Services {
 		//    );
 		//}
 
-		public void InsertBrand(BrandInsertDto brand) {
+		public void InsertBrand(BrandInsertDto brand)
+		{
 			_unitofwork.brands.Insert(new Brands {
 				BrandName = brand.BrandName,
 				BrandDescription = brand.BrandDescription,
@@ -79,7 +86,8 @@ namespace BLL.Services {
 			_unitofwork.save();
 		}
 
-		public int UpdateBrand(BrandUpdateDto brand) {
+		public int UpdateBrand(BrandUpdateDto brand)
+		{
 			var temp = _unitofwork.brands.GetById(brand.BrandId);
 			if (temp != null) {
 				temp.BrandName = brand.BrandName;

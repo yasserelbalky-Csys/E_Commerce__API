@@ -7,9 +7,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace E_Commerce__API {
-	public class Program {
-		public static void Main(string[] args) {
+namespace E_Commerce__API
+{
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
@@ -20,14 +23,15 @@ namespace E_Commerce__API {
 
 			builder.Services.AddSwaggerGen(option => {
 				option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
-				option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
-					In = ParameterLocation.Header,
-					Description = "Please enter a valid token",
-					Name = "Authorization",
-					Type = SecuritySchemeType.Http,
-					BearerFormat = "JWT",
-					Scheme = "Bearer"
-				});
+				option.AddSecurityDefinition("Bearer",
+					new OpenApiSecurityScheme {
+						In = ParameterLocation.Header,
+						Description = "Please enter a valid token",
+						Name = "Authorization",
+						Type = SecuritySchemeType.Http,
+						BearerFormat = "JWT",
+						Scheme = "Bearer"
+					});
 				option.AddSecurityRequirement(new OpenApiSecurityRequirement {
 					{
 						new OpenApiSecurityScheme {
@@ -41,7 +45,6 @@ namespace E_Commerce__API {
 				});
 			});
 
-
 			builder.Services.AddDistributedMemoryCache(); // Required for session
 			builder.Services.AddSession(options => {
 				options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
@@ -49,7 +52,7 @@ namespace E_Commerce__API {
 				options.Cookie.IsEssential = true;
 			});
 			builder.Services.AddHttpContextAccessor(); // Required to access HttpContext
-													   //End Session
+			//End Session
 
 			builder.Services.AddSession();
 
