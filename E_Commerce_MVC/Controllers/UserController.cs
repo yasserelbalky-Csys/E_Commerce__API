@@ -1,6 +1,8 @@
 ﻿using System.Security.Claims;
+using System.Text.Json;
 using E_Commerce_MVC.ApiServices.AccountServices;
 using E_Commerce_MVC.Models.UserViewModel;
+using E_Commerce_MVC.Models.UtilitesSupport;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -10,111 +12,147 @@ namespace E_Commerce_MVC.Controllers;
 
 public class UserController : Controller
 {
-	private readonly AccountService _accountService;
-	private readonly HttpClient _httpClient;
+    private readonly AccountService _accountService;
+    private readonly HttpClient _httpClient;
 
-	public UserController(HttpClient httpClient, AccountService accountService) {
-		_httpClient = httpClient;
-		_httpClient.BaseAddress = new Uri("http://localhost:5097/api/User/"); // API base URL
-		_accountService = accountService;
-	}
+    public UserController(HttpClient httpClient, AccountService accountService)
+    {
+        _httpClient = httpClient;
+        _httpClient.BaseAddress = new Uri("http://localhost:5097/api/User/"); // API base URL
+        _accountService = accountService;
+    }
 
-	public IActionResult Login() {
-		return View();
-	}
+    public IActionResult Login()
+    {
+        return View();
+    }
 
-	[HttpPost]
-	[ValidateAntiForgeryToken]
-	public async Task<IActionResult> Login(LoginViewModel model) {
-		if (!ModelState.IsValid) return View(model);
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginViewModel model)
+    {
+        if (!ModelState.IsValid) return View(model);
+        try {
+            // Send login request to the API
+            var result = await _accountService.Login(model);
+            Console.WriteLine($"result is: {result.ToJson()}");
+            if (result != null) {
+                HttpContext.Session.SetString("JWTToken", result?.Token!);
 
-		try {
-			// Send login request to the API
-			var result = await _accountService.Login(model);
-			Console.WriteLine($"result is: {result.ToJson()}");
+                // Decode the token and get user roles
+                var roles = _accountService.GetRolesFromToken(result?.Token!);
 
-			if (result != null) {
-				HttpContext.Session.SetString("JWTToken", result.Token);
+                // log the roles data in the console
+                foreach (var role in roles) {
+                    Console.WriteLine($"Role: {role}");
+                }
 
-				// Decode the token and get user roles
-				var roles = _accountService.GetRolesFromToken(result.Token);
+                // sign in the user
+                var singinResult = await SinginUser(result!, roles);
+                var claims = User.Claims.ToList();
+                foreach (var claim in claims) {
+                    Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+                }
+            }
 
-				// log the roles data in the console
-				foreach (var role in roles) {
-					Console.WriteLine($"Role: {role}");
-				}
+            return RedirectToAction("Index", "Home");
+        } catch (Exception ex) {
+            ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
+        }
 
-				// sign in the user
-				var singinResult = await SinginUser(result, roles);
+        return View(model);
+    }
 
-				var claims = User.Claims.ToList();
-				foreach (var claim in claims) {
-					Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-				}
-			}
+    public IActionResult Register()
+    {
+        return View();
+    }
 
-			return RedirectToAction("Index", "Home");
-		} catch (Exception ex) {
-			ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
-		}
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterViewModel model)
+    {
+        if (!ModelState.IsValid) return View(model);
+        try {
+            // Send registration request to the API
+            var result = await _accountService.Register(model);
+            if (result.IsSuccessStatusCode)
+                // Registration successful, redirect to login page
+                return RedirectToAction("Login");
 
-		return View(model);
-	}
+            // Directly deserialize the response content into the ErrorResponse object
+            //var errorResponse = await result.Content.ReadFromJsonAsync<ErrorResponse>();
+            var errorObject = await result.Content.ReadFromJsonAsync<object>();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Error Object: {errorObject}");
+            Console.ResetColor();
+            /*if (errorResponse != null) {
+                var errorMessage =
+                    $"{(string.IsNullOrWhiteSpace(errorResponse.Title) ? "Error" : errorResponse.Title.Trim('.'))}: {string.Join(", ", errorResponse.Errors.SelectMany(e => e.Value))}";
+                ModelState.AddModelError(string.Empty, errorMessage);
+            } else {
+                ModelState.AddModelError(string.Empty, "An unknown error occurred.");
+            }*/
 
-	public IActionResult Register() {
-		return View();
-	}
+            // Cast the object to JsonElement to access its properties
+            if (errorObject is JsonElement jsonElement) {
+                // Extract the "title" property
+                string title = jsonElement.GetProperty("title").GetString() ?? "Error";
 
-	[HttpPost]
-	[ValidateAntiForgeryToken]
-	public async Task<IActionResult> Register(RegisterViewModel model) {
-		if (!ModelState.IsValid) return View(model);
+                // Extract the "errors" property
+                if (jsonElement.TryGetProperty("errors", out JsonElement errorsElement)) {
+                    var errors = errorsElement.EnumerateObject()
+                        .SelectMany(e => e.Value.EnumerateArray().Select(v => v.GetString()))
+                        .Where(v => !string.IsNullOrWhiteSpace(v)).ToList();
 
-		try {
-			// Send registration request to the API
-			var result = await _accountService.Register(model);
-			if (result.IsSuccessStatusCode)
-				// Registration successful, redirect to login page
-				return RedirectToAction("Login");
+                    // Format the error message
+                    var errorMessage = $"{title.Trim('.')}: {string.Join(", ", errors)}";
+                    ModelState.AddModelError(string.Empty, errorMessage);
+                } else {
+                    ModelState.AddModelError(string.Empty, $"{title}: No detailed errors provided.");
+                }
+            } else {
+                ModelState.AddModelError(string.Empty, "An unknown error occurred.");
+            }
+        } catch (Exception ex) {
+            ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
+        }
 
-			ModelState.AddModelError(string.Empty, "Registration failed.");
-		} catch (Exception ex) {
-			ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
-		}
+        return View(model);
+    }
 
-		return View(model);
-	}
+    [HttpPost]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Remove("JWTToken");
+        return RedirectToAction("Index", "Home");
+    }
 
-	[HttpPost]
-	public IActionResult Logout() {
-		HttpContext.Session.Remove("JWTToken");
-		return RedirectToAction("Index", "Home");
-	}
+    public async Task<bool> SinginUser(UserTokenDTO userToken, List<string> roles)
+    {
+        try {
+            List<Claim> claims = new List<Claim> {
+                new(ClaimTypes.Name, userToken?.Username!), new("jwt", userToken?.Token!)
+            };
 
-	public async Task<bool> SinginUser(UserTokenDTO userToken, List<string> roles) {
-		try {
-			List<Claim> claims = new List<Claim> {
-				new(ClaimTypes.Name, userToken.Username),
-				new("jwt", userToken.Token)
-			};
+            // Add roles to claims
+            foreach (var role in roles) {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
-			// Add roles to claims
-			foreach (var role in roles) {
-				claims.Add(new Claim(ClaimTypes.Role, role));
-			}
+            var schema = CookieAuthenticationDefaults.AuthenticationScheme;
+            ClaimsIdentity claimsIdentity = new(claims, schema);
+            AuthenticationProperties authenticationProperties = new() { IsPersistent = true, AllowRefresh = true };
+            await HttpContext.SignInAsync(schema, new ClaimsPrincipal(claimsIdentity), authenticationProperties);
+            return true;
+        } catch (Exception ex) {
+            Console.WriteLine($"Error signing in user: {ex.Message}");
+            return false;
+        }
+    }
 
-			var schema = CookieAuthenticationDefaults.AuthenticationScheme;
-
-			ClaimsIdentity claimsIdentity = new(claims, schema);
-			AuthenticationProperties authenticationProperties = new() {
-				IsPersistent = true,
-				AllowRefresh = true
-			};
-			await HttpContext.SignInAsync(schema, new ClaimsPrincipal(claimsIdentity), authenticationProperties);
-			return true;
-		} catch (Exception ex) {
-			Console.WriteLine($"Error signing in user: {ex.Message}");
-			return false;
-		}
-	}
+    public IActionResult TestingCode()
+    {
+        return View();
+    }
 }
