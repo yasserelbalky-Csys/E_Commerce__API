@@ -13,5 +13,9 @@ namespace BLL.Contracts
         public Task<UserTokenDto> LoginAsync(UserLoginDto user);
         public Task<bool> CreateRole(string newrole);
 
+        public Task<bool> UpdateRole(string username);
+
+        public Task<IEnumerable<UserListDto>> GetAll();
+
     }
 }

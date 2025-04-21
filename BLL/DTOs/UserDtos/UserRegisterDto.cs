@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -21,9 +22,8 @@ namespace BLL.DTOs.UserDtos
         public string? LastName { get; set; }
         [Required]
         public string? Password { get; set; }
-
-
-        public string Role { get; set; }
+        [DefaultValue("User")]
+        public string Role { get; set; } = "User";
 
 
 

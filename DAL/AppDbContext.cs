@@ -21,24 +21,10 @@ namespace DAL
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            ////Add Roles Run Onlyyy for first Time 
             base.OnModelCreating(builder);
             builder.Entity<OrderDetails>()
           .HasKey(od => new {  od.LineNo });
-            //List<IdentityRole> roles = new List<IdentityRole>()
-            //{
-            //    new IdentityRole
-            //    {
-            //        Name="Admin",
-            //        NormalizedName="ADMIN"
-            //    }
-            //    ,new IdentityRole
-            //    {
-            //        Name="User",
-            //        NormalizedName="USER"
-            //    }
-            //};
-            //builder.Entity<IdentityRole>().HasData(roles);
+           
             base.OnModelCreating(builder);
             builder.Entity<CurrentProductBalance>()
           .HasNoKey();
@@ -58,8 +44,8 @@ namespace DAL
         //Add Master and Details of Order
         public DbSet<OrderMaster> OrderMaster { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
-
-
         public DbSet<CurrentProductBalance> CurrentProductBalance { get; set; }
+
+
     }
 }

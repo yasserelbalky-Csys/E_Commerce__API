@@ -34,6 +34,25 @@ namespace BLL.Services
             return result.Succeeded;
         }
 
+        public async Task<IEnumerable<UserListDto>> GetAll()
+        {
+
+            var users = _uof.UserManager.Users;
+            var userList = new List<UserListDto>();
+            foreach (var user in users)
+            {
+                var roles = await _uof.UserManager.GetRolesAsync(user);
+                userList.Add(new UserListDto
+                {
+                    Username = user.UserName,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Roles = roles.ToList()
+                });
+            }
+            return userList;
+        }
         public async Task<UserTokenDto> LoginAsync(UserLoginDto user)
         {
 
@@ -95,6 +114,28 @@ namespace BLL.Services
             var token = _tokenService.CreateToken(appUser, roles);
 
             return true;
+            //throw new NotImplementedException();
+        }
+
+        public async Task<bool> UpdateRole(string username)
+        {
+
+            var user = await _uof.UserManager.FindByNameAsync(username);
+            if (user == null)
+                return false;
+            var currentRoles = await _uof.UserManager.GetRolesAsync(user);
+            var currentRole = currentRoles.FirstOrDefault();
+            if (string.IsNullOrEmpty(currentRole))
+                return false;
+            var removeResult = await _uof.UserManager.RemoveFromRoleAsync(user, currentRole);
+            if (!removeResult.Succeeded)
+                return false;
+
+            var newRole = currentRole == "Admin" ? "User" : "Admin";
+            var addResult = await _uof.UserManager.AddToRoleAsync(user, newRole);
+
+            return addResult.Succeeded;
+
             //throw new NotImplementedException();
         }
     }

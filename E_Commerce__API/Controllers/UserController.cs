@@ -14,27 +14,15 @@ namespace E_Commerce__API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserManager<AppUser> _usermanger;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly ITokenService _tokenService;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IAccountManager _accountManager;
 
-        public UserController(UserManager<AppUser> usermanger, ITokenService tokenService,
-            SignInManager <AppUser> signInManager, RoleManager<IdentityRole> roleManager
-            ,IAccountManager accountManager) 
+        public UserController(IAccountManager accountManager) 
         {
-            _usermanger = usermanger;
-            _tokenService = tokenService;
-            _signInManager = signInManager;
-            _roleManager= roleManager;
             _accountManager= accountManager; 
         }
 
 
-
         [HttpPost]
-
         public async Task<IActionResult> Login(UserLoginDto user)
         {
 
@@ -54,7 +42,7 @@ namespace E_Commerce__API.Controllers
 
                
         }
-        
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> PostRole(string newRole)
         {
@@ -69,17 +57,37 @@ namespace E_Commerce__API.Controllers
         }
 
 
-            [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> Register( UserRegisterDto userRegisterDto)
         {
-
-
-
             var result = await _accountManager.RegisterAsync(userRegisterDto);
             if (!result)
                 return BadRequest("Registration failed");
             return Ok("Registration succeeded");
         }
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var result =await _accountManager.GetAll();
+            if (result == null)
+            {
+                return Ok("No Users");
+            }
+            else
+            {
+                return Ok(result);
+            }
+        }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateRole(string username)
+        {
+            var result=await _accountManager.UpdateRole(username);
+            if (result == false)
+                return Ok("UserName Not Found");
+            else
+                return Ok("User Role Updated Successfully");
+        }
     }
 }
