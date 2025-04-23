@@ -10,7 +10,7 @@ namespace DAL.Entities
 {
     public class Stores
     {
-        
+
         [Key]
         public int StoreId { get; set; }
 

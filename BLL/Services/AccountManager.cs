@@ -16,7 +16,7 @@ namespace BLL.Services
     {
         private readonly IUnitOfWork _uof;
         private readonly ITokenService _tokenService;
-      
+
         public AccountManager(IUnitOfWork uof, ITokenService tokenService)
         {
             _uof = uof;
@@ -27,7 +27,8 @@ namespace BLL.Services
         {
             //throw new NotImplementedException();
             var roleExists = await _uof.RoleManager.RoleExistsAsync(newrole);
-            if (roleExists) {
+            if (roleExists)
+            {
                 return false;
             }
             var result = await _uof.RoleManager.CreateAsync(new IdentityRole(newrole));

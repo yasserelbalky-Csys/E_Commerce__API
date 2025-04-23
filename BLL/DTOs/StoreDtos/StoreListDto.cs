@@ -9,7 +9,7 @@ namespace BLL.DTOs.StoreDtos
 {
     public class StoreListDto
     {
-        
+
         public int StoreId { get; set; }
         public string? StoreName { get; set; }
 

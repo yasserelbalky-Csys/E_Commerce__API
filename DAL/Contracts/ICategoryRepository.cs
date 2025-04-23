@@ -1,10 +1,16 @@
-﻿using System;
+﻿using DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Entities;
 
-namespace DAL.Contracts {
-	public interface ICategoryRepository : IBaseRepository<Categories> { }
+namespace DAL.Contracts
+{
+    public interface ICategoryRepository : IBaseRepository<Categories>
+    {
+        public IEnumerable<Categories> GetSubCategoriesByMainCategory(int mainCategoryId);
+
+
+    }
 }

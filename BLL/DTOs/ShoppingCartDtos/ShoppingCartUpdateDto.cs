@@ -11,9 +11,9 @@ namespace BLL.DTOs.ShoppingCartDtos
 {
     public class ShoppingCartUpdateDto
     {
-       // public int ShoppingCartId { get; set; }
+        // public int ShoppingCartId { get; set; }
         public int ProductId { get; set; }
-        [Range (1,150)]
+        [Range(1, 150)]
         public int Count { get; set; }
         public string UserId { get; set; }
     }

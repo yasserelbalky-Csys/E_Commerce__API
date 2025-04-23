@@ -8,6 +8,6 @@ namespace DAL.Entities
 {
     public static class OrderStatus
     {
-      //  public const string orderstatus = "Pending";
+        //  public const string orderstatus = "Pending";
     }
 }

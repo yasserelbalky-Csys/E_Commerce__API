@@ -18,12 +18,12 @@ namespace DAL.Repositories
 
         public override IEnumerable<Products> GetAll()
         {
-            return _entitySet.Include(prod=>prod.Subcategory).AsEnumerable();
+            return _entitySet.Include(prod => prod.Subcategory).AsEnumerable();
         }
 
         public override Products GetById(int id)
         {
-            return _entitySet.Include(prod => prod.Subcategory).FirstOrDefault(prod=>prod.ProductId==id);
+            return _entitySet.Include(prod => prod.Subcategory).FirstOrDefault(prod => prod.ProductId == id);
         }
 
         public IEnumerable<Products> GetProductsByCategory()

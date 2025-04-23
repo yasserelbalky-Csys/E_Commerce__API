@@ -9,7 +9,7 @@ namespace BLL.DTOs.StoreDtos
 {
     public class StoreInsertDto
     {
-  
+
         [Required]
         public string? StoreName { get; set; }
 

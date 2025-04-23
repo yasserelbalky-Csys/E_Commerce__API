@@ -44,6 +44,8 @@ namespace DAL.Entities
         public decimal Discount { get; set; }
 
         public bool b_confirmed { get; set; }
+
+        public bool b_cancel { get; set; }
         public ICollection<OrderDetails> orderDetailss { get; set; }
     }
 }

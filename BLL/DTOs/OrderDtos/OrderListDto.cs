@@ -1,8 +1,8 @@
 ﻿using DAL.Entities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,5 +39,9 @@ namespace BLL.DTOs.OrderDtos
         public bool b_deleted { get; set; }
 
         public bool b_confirmed { get; set; }
+
+        public decimal Discount { get; set; }
+
+        public bool b_cancel { get; set; }
     }
 }

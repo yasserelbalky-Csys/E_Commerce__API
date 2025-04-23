@@ -1,29 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.Contracts;
+﻿using DAL.Contracts;
 using DAL.Entities;
 using DAL.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens; // <-- ADD THIS
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DAL {
-	public static class DataAcessExtensions {
-		public static IServiceCollection AddDataAccessServices(this IServiceCollection services,
-			IConfigurationManager config) {
-			string cs = config.GetConnectionString("DefaultConnection");
-			services.AddDbContext<AppDbContext>(options => { options.UseSqlServer(cs); });
-			//test unit of work
-			services.AddScoped<IUnitOfWork, UnitOfWork>();
-			return services;
-		}
+namespace DAL
+{
+    public static class DataAcessExtensions
+    {
+        public static IServiceCollection AddDataAccessServices(this IServiceCollection services,
+            IConfigurationManager config)
+        {
+            string cs = config.GetConnectionString("DefaultConnection");
+            services.AddDbContext<AppDbContext>(options => { options.UseSqlServer(cs); });
+            //test unit of work
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            return services;
+        }
 
         public static IServiceCollection AddAppIdentity(this IServiceCollection services,
            IConfigurationManager config)
@@ -31,7 +34,8 @@ namespace DAL {
 
 
             //Identity
-            services.AddIdentity<AppUser, IdentityRole>(options => {
+            services.AddIdentity<AppUser, IdentityRole>(options =>
+            {
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
@@ -42,11 +46,13 @@ namespace DAL {
 
 
 
-            services.AddAuthentication(options => {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = options.DefaultChallengeScheme = options.DefaultForbidScheme =
                     options.DefaultScheme = options.DefaultSignInScheme =
                         options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => {
+            }).AddJwtBearer(options =>
+            {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,

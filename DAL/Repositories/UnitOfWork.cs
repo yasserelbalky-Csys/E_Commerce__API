@@ -27,15 +27,15 @@ namespace DAL.Repositories
         private readonly Lazy<IShoppingCartRepository> _ShoppingCartRepository;
         private readonly Lazy<IOrderRepository> _OrderRepository;
         private readonly Lazy<IOrderDetailsRepository> _OrderDetailsRepository;
-        public UnitOfWork(AppDbContext appDbContext,UserManager<AppUser> userManager,
-            RoleManager<IdentityRole> roleManager,SignInManager<AppUser> signInManager
+        public UnitOfWork(AppDbContext appDbContext, UserManager<AppUser> userManager,
+            RoleManager<IdentityRole> roleManager, SignInManager<AppUser> signInManager
             )
         {
             _appDbContext = appDbContext;
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
-            _CategoryRepository =  new Lazy<ICategoryRepository>(new CategoryRepository(_appDbContext));
+            _CategoryRepository = new Lazy<ICategoryRepository>(new CategoryRepository(_appDbContext));
             _SubCategoryRepository = new Lazy<ISubCategoryRepository>(new SubCategoryRepository(_appDbContext));
             _ProductRepository = new Lazy<IProductRepository>(new ProductRepository(_appDbContext));
             _BrandRepository = new Lazy<IBrandRepository>(new BrandRepository(_appDbContext));
@@ -50,9 +50,13 @@ namespace DAL.Repositories
         public UserManager<AppUser> UserManager => _userManager;
         public SignInManager<AppUser> SignInManager => _signInManager;
         public RoleManager<IdentityRole> RoleManager => _roleManager;
-        public ICategoryRepository Categories { get {
+        public ICategoryRepository Categories
+        {
+            get
+            {
                 return _CategoryRepository.Value;
-            } }
+            }
+        }
         public ISubCategoryRepository subCategories
         {
             get

@@ -11,13 +11,13 @@ namespace BLL.Contracts
     public interface IStoreService
     {
         public IEnumerable<StoreListDto> GetStores();
-        
+
         public StoreListDto GetStore(int id);
-        
+
         public void InsertStore(StoreInsertDto store);
 
         public void UpdateStore(StoreUpdateDto store);
-        
+
         public void DeleteStore(int id);
     }
 }

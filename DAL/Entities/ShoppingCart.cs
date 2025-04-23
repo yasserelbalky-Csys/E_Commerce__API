@@ -21,7 +21,7 @@ namespace DAL.Entities
         public string UserId { get; set; }
 
         [ForeignKey("ProductId")]
-        public Products? Product {  get; set; }
+        public Products? Product { get; set; }
 
         [ForeignKey("UserId")]
         public AppUser? ApplicationUser { get; set; }

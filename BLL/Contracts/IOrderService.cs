@@ -13,13 +13,13 @@ namespace BLL.Contracts
     public interface IOrderService
     {
         public IEnumerable<OrderListDto> GetOrders();
+
         public OrderListDto GetOrderById(int id);
-        public void InsertOrder(OrderInsertDto order);
+
+        public bool InsertOrder(OrderInsertDto order);
 
         public int UpdateOrder(OrderUpdateDto order, ICollection<OrderDetailsUpdateDto> details);
 
         public void DeleteOrder(int id);
-
-
     }
 }

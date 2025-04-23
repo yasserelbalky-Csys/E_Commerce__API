@@ -3,13 +3,15 @@ using BLL.DTOs.OrderDetailsDtos;
 using BLL.DTOs.OrderDtos;
 using DAL.Contracts;
 using DAL.Entities;
+using Microsoft.Data.SqlClient;
 
 namespace BLL.Services
 {
-    class OrderService : IOrderService
+    internal class OrderService : IOrderService
     {
         private readonly IUnitOfWork _uof;
         private ShoppingCartService shoppingcart;
+
         public OrderService(IUnitOfWork uof)
         {
             _uof = uof;
@@ -18,7 +20,6 @@ namespace BLL.Services
 
         public void DeleteOrder(int id)
         {
-            
         }
 
         public OrderListDto GetOrderById(int orderid)
@@ -46,7 +47,9 @@ namespace BLL.Services
                     PostalCode = found.PostalCode,
                     Name = found.Name,
                     NetValue = found.NetValue,
-                    b_deleted=found.b_deleted
+                    b_deleted = found.b_deleted,
+                    b_confirmed = found.b_confirmed,
+                    b_cancel = found.b_cancel
                 };
             }
             else
@@ -78,20 +81,19 @@ namespace BLL.Services
                 PostalCode = o.PostalCode,
                 Name = o.Name,
                 NetValue = o.NetValue,
-                b_deleted=o.b_deleted
-            }).Where(order=>order.b_deleted==false);
+                b_deleted = o.b_deleted,
+                b_confirmed = o.b_confirmed,
+                b_cancel = o.b_cancel
+            }).Where(order => order.b_deleted == false);
         }
 
-        public void InsertOrder(OrderInsertDto order)
+        public bool InsertOrder(OrderInsertDto order)
         {
-
             var details = shoppingcart.GetUserCart(order.UserId);// shoppingcart.GetUserCart(order.UserId);
             var CartTotalValue = shoppingcart.GetTotalCartPrice(order.UserId);
             _uof.save();
             var orderNumber = (_uof.Orders.GetAll().Select(o => (int?)o.OrderNo).DefaultIfEmpty(0).Max() ?? 0) + 1;
 
-
-            // var orderNumber = _uof.Orders.GetAll().Max(o => o.OrderNo);
             int serial = 0;
             order.orderDetailss = new List<OrderDetails>();
             foreach (var item in details)
@@ -99,9 +101,9 @@ namespace BLL.Services
                 serial = serial + 1;
                 var orderDetail = new OrderDetails
                 {
-                    OrderNo= orderNumber,
+                    OrderNo = orderNumber,
                     ProductId = item.ProductId,
-                    LineNo=serial,
+                    LineNo = serial,
                     Qty = item.Count,
                     ProductPrice = item.price,
                     TotalValue = item.Count * item.price,
@@ -109,9 +111,40 @@ namespace BLL.Services
                 _uof.OrderDetails.Insert(orderDetail);
                 order.orderDetailss.Add(orderDetail);
             }
+            bool res = false;
+            string connStr = "server=.;database=E_Commerce_Rewad;Trusted_Connection=SSPI;TrustServerCertificate=True;MultipleActiveResultSets=True";
+            foreach (var item in _uof.OrderDetails.GetAll())
+            {
+                string query = $"SELECT SUM(qty) FROM CurrentProductBalance WHERE product_id = '{item.ProductId}' AND order_no = '{item.OrderNo}'";
+
+                using (var conn = new SqlConnection(connStr))
+                {
+                    conn.Open();
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        var result = cmd.ExecuteScalar();
+                        var qty = result != null ? Convert.ToInt32(result) : 0;
+                        if (qty < item.Qty)
+                        {
+                            res = false;
+                        }
+                        else
+                        {
+                            res = true;
+                        }
+                        // Use qty here
+                    }
+                }
+            }
+
+            if (CartTotalValue >= 2000)
+            {
+                CartTotalValue = CartTotalValue - (CartTotalValue * 0.1m);
+            }
+
             _uof.Orders.Insert(new OrderMaster
             {
-                OrderNo=orderNumber,
+                OrderNo = orderNumber,
                 UserId = order.UserId,
                 OrderDate = new DateTime(
                DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
@@ -131,68 +164,79 @@ namespace BLL.Services
                 Name = order.Name,
                 NetValue = CartTotalValue,
                 b_deleted = false,
+                b_confirmed = false,
+                b_cancel = false
             });
-            _uof.save();
+
+            if (res == false)
+            {
+                return false;
+            }
+            else
+            {
+                _uof.save();
+                return true;
+            }
         }
 
         public int UpdateOrder(OrderUpdateDto order, ICollection<OrderDetailsUpdateDto> details)
         {
-            var found = GetOrderById(order.OrderNo);
-            if (found != null) {
-                var ordernumber = found.OrderNo;
-                found.OrderNo=ordernumber;
-                found.UserId = order.UserId;
-                found.OrderDate = new DateTime(
-                DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
-                DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                found.OrderShippedDate = order.OrderShippedDate;
-                found.OrderStatus = order.OrderStatus;
-                found.PaymentStatus = order.PaymentStatus;
-                found.Traking = order.Traking;
-                found.PaymentDate = order.PaymentDate;
-                found.PaymentDueDate = order.PaymentDueDate;
-                found.UserCardId = order.UserCardId;
-                found.PhoneNo = order.PhoneNo;
-                found.StreetAddress = order.StreetAddress;
-                found.City = order.City;
-                found.State = order.State;
-                found.PostalCode = order.PostalCode;
-                found.Name = order.Name;
-                
-                found.b_deleted = order.b_deleted;
+            var foundEntity = _uof.Orders.GetById(order.OrderNo);
+            if (foundEntity != null)
+            {
+                foundEntity.UserId = order.UserId;
+                foundEntity.OrderDate = DateTime.Now;
+                foundEntity.OrderShippedDate = order.OrderShippedDate;
+                foundEntity.OrderStatus = order.OrderStatus;
+                foundEntity.PaymentStatus = order.PaymentStatus;
+                foundEntity.Traking = order.Traking;
+                foundEntity.PaymentDate = order.PaymentDate;
+                foundEntity.PaymentDueDate = order.PaymentDueDate;
+                foundEntity.UserCardId = order.UserCardId;
+                foundEntity.PhoneNo = order.PhoneNo;
+                foundEntity.StreetAddress = order.StreetAddress;
+                foundEntity.City = order.City;
+                foundEntity.State = order.State;
+                foundEntity.PostalCode = order.PostalCode;
+                foundEntity.Name = order.Name;
+                foundEntity.b_deleted = order.b_deleted;
 
-                var detailsdeleted =_uof.OrderDetails.GetAll().Where(d=>d.OrderNo==found.OrderNo);
-
-                foreach (var itemm in detailsdeleted)
+                var existingDetails = _uof.OrderDetails.GetAll().Where(d => d.OrderNo == foundEntity.OrderNo).ToList();
+                foreach (var item in existingDetails)
                 {
-                    _uof.OrderDetails.Delete(itemm.LineNo);
+                    _uof.OrderDetails.Delete(item.LineNo);
                 }
 
-                decimal net_valuee = 0;
+                decimal netValue = 0;
                 int serial = 0;
                 foreach (var item in details)
                 {
-                    serial = serial + 1;
-                    var orderDetail = new OrderDetails
+                    serial++;
+                    var detail = new OrderDetails
                     {
-                        OrderNo = ordernumber,
+                        OrderNo = foundEntity.OrderNo,
                         ProductId = item.ProductId,
                         LineNo = serial,
                         Qty = item.Qty,
                         ProductPrice = item.ProductPrice,
-                        TotalValue = item.Qty * item.ProductPrice,
+                        TotalValue = item.Qty * item.ProductPrice
                     };
-                    net_valuee += orderDetail.TotalValue;
-                    _uof.OrderDetails.Insert(orderDetail);
+                    netValue += detail.TotalValue;
+                    _uof.OrderDetails.Insert(detail);
                 }
-                found.NetValue = net_valuee;
+
+                foundEntity.Discount = netValue * 0.1m;
+                if (netValue >= 2000)
+                {
+                    netValue = netValue - (netValue * 0.1m);
+                }
+                foundEntity.NetValue = netValue;
+
+                _uof.Orders.Update(foundEntity);
                 _uof.save();
                 return 1;
             }
-            else
-            {
-                return 0;
-            }
+            return 0;
         }
     }
 }

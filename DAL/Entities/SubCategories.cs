@@ -6,24 +6,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Entities {
-	public class SubCategories {
-		[Key]
-		public int SubCategoryId { get; set; }
+namespace DAL.Entities
+{
+    public class SubCategories
+    {
+        [Key]
+        public int SubCategoryId { get; set; }
 
-		[Required]
-		public string? SubCategoryName { get; set; }
+        [Required]
+        public string? SubCategoryName { get; set; }
 
-		public string? SubCategoryDescription { get; set; }
+        public string? SubCategoryDescription { get; set; }
 
-		[Required]
-		public int CategoryId { get; set; } // Explicit Foreign Key
+        [Required]
+        public int CategoryId { get; set; } // Explicit Foreign Key
 
-		public bool b_deleted { get; set; }
+        public bool b_deleted { get; set; }
 
-		[ForeignKey(nameof(CategoryId))]
-		public Categories Category { get; set; } // Navigation Property
+        [ForeignKey(nameof(CategoryId))]
+        public Categories Category { get; set; } // Navigation Property
 
-		public ICollection<Products>? Products { get; set; }
-	}
+        public ICollection<Products>? Products { get; set; }
+    }
 }

@@ -18,8 +18,8 @@ namespace DAL.Entities
 
         public bool b_order_done { get; set; }
 
+        public bool b_order_cancel { get; set; }
 
-
-
+        public int OrderNo { get; set; }
     }
 }

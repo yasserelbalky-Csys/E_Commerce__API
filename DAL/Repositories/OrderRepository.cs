@@ -22,8 +22,8 @@ namespace DAL.Repositories
 
         public override OrderMaster GetById(int id)
         {
-           return _entitySet.Include(order => order.User).AsEnumerable()
-                .FirstOrDefault(order => order.OrderNo == id); 
+            return _entitySet.Include(order => order.User).AsEnumerable()
+                 .FirstOrDefault(order => order.OrderNo == id);
         }
     }
 }

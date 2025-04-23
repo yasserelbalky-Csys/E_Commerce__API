@@ -15,17 +15,20 @@ namespace E_Commerce__API.Controllers
     {
         private readonly IOrderService _orderservice;
         private readonly IHelperService _helperService;
-        public OrderController(IOrderService orderservice,IHelperService helperservice)
+
+        public OrderController(IOrderService orderservice, IHelperService helperservice)
         {
             _orderservice = orderservice;
             _helperService = helperservice;
         }
+
         [Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
             return Ok(_orderservice.GetOrders());
         }
+
         [Authorize]
         [HttpPost]
         public IActionResult PostMaster(OrderInsertDto order)
@@ -51,11 +54,16 @@ namespace E_Commerce__API.Controllers
 
             order.UserId = userId; // Ensure UserId is assigned before inserting
 
-            _orderservice.InsertOrder(order);
-
-			return Ok();
-		}
-
+            var res = _orderservice.InsertOrder(order);
+            if (res == false)
+            {
+                return NotFound("No Available Qty");
+            }
+            else
+            {
+                return Ok("Order Placed Successfuly");
+            }
+        }
 
         [HttpGet("{orderid:int}")]
         public IActionResult GetById(int orderid)
@@ -88,6 +96,7 @@ namespace E_Commerce__API.Controllers
                 return NotFound("Order Not Found");
             }
         }
+
         [HttpPut]
         public IActionResult Update(OrderUpdateRequestDto request)
         {
@@ -108,7 +117,7 @@ namespace E_Commerce__API.Controllers
             var userId = userIdClaim.Value;
             var found = _orderservice.UpdateOrder(request.Order, request.Details);
             //  var found = _orderservice.UpdateOrder(order, details);
-            if (found ==1)
+            if (found == 1)
             {
                 return Ok(found);
             }
@@ -118,8 +127,7 @@ namespace E_Commerce__API.Controllers
             }
         }
 
-
-        [HttpPut ("{OrderNo}")]
+        [HttpPut("{OrderNo}")]
         public IActionResult Update(int OrderNo)
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;

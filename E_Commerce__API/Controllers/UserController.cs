@@ -16,9 +16,9 @@ namespace E_Commerce__API.Controllers
     {
         private readonly IAccountManager _accountManager;
 
-        public UserController(IAccountManager accountManager) 
+        public UserController(IAccountManager accountManager)
         {
-            _accountManager= accountManager; 
+            _accountManager = accountManager;
         }
 
 
@@ -26,12 +26,12 @@ namespace E_Commerce__API.Controllers
         public async Task<IActionResult> Login(UserLoginDto user)
         {
 
-			if (!ModelState.IsValid)
-				return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-			
+
             var res = await _accountManager.LoginAsync(user);
-            if (res !=null)
+            if (res != null)
             {
                 return Ok(res);
             }
@@ -40,7 +40,7 @@ namespace E_Commerce__API.Controllers
                 return BadRequest("Login Failed");
             }
 
-               
+
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -58,7 +58,7 @@ namespace E_Commerce__API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Register( UserRegisterDto userRegisterDto)
+        public async Task<IActionResult> Register(UserRegisterDto userRegisterDto)
         {
             var result = await _accountManager.RegisterAsync(userRegisterDto);
             if (!result)
@@ -69,7 +69,7 @@ namespace E_Commerce__API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
-            var result =await _accountManager.GetAll();
+            var result = await _accountManager.GetAll();
             if (result == null)
             {
                 return Ok("No Users");
@@ -83,7 +83,7 @@ namespace E_Commerce__API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateRole(string username)
         {
-            var result=await _accountManager.UpdateRole(username);
+            var result = await _accountManager.UpdateRole(username);
             if (result == false)
                 return Ok("UserName Not Found");
             else

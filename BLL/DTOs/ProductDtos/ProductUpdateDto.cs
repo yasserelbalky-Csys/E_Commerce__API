@@ -15,16 +15,16 @@ namespace BLL.DTOs.ProductDtos
         public string? ProductName { get; set; }
 
         public string? ProductDiscription { get; set; }
-        [Range(1, 1000)]
+
         [Required]
         public decimal ProductPrice { get; set; }
 
         [Required]
         public int SubcategoryId { get; set; }
 
-
         [Required]
         public int BrandId { get; set; }
+
         public bool b_deleted { get; set; }
     }
 }

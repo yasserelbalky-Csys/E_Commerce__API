@@ -12,7 +12,7 @@ namespace DAL.Entities
     {
         [Required]
         public int OrderNo { get; set; }
-        [ForeignKey (nameof(OrderNo))]
+        [ForeignKey(nameof(OrderNo))]
         public OrderMaster Order { get; set; }
         public int LineNo { get; set; }
         [Required]

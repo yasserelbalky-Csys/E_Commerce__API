@@ -16,11 +16,8 @@ namespace BLL.DTOs.BrandDtos
 
         public string? ProductName { get; set; }
 
-
         public string? ProductDescription { get; set; }
 
         public bool b_deleted { get; set; }
-
-
     }
 }
