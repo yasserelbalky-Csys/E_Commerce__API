@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
-using E_Commerce_MVC.ApiServices.AccountServices;
+using E_Commerce_MVC.ApiServices;
 using E_Commerce_MVC.Models.UserViewModel;
 using E_Commerce_MVC.Models.UtilitesSupport;
 using Microsoft.AspNetCore.Authentication;
@@ -50,9 +50,6 @@ public class UserController : Controller
                 // sign in the user
                 var singinResult = await SinginUser(result!, roles);
                 var claims = User.Claims.ToList();
-                foreach (var claim in claims) {
-                    Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-                }
             }
 
             return RedirectToAction("Index", "Home");

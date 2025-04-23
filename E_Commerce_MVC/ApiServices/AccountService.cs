@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using E_Commerce_MVC.Models.UserViewModel;
 
-namespace E_Commerce_MVC.ApiServices.AccountServices
+namespace E_Commerce_MVC.ApiServices
 {
     public class AccountService
     {
@@ -17,14 +17,17 @@ namespace E_Commerce_MVC.ApiServices.AccountServices
         public async Task<HttpResponseMessage> Register(RegisterViewModel model)
         {
             var response = await _httpClient.PostAsJsonAsync("Register", model);
+
             return response;
         }
 
         public async Task<UserTokenDTO?> Login(LoginViewModel model)
         {
             var response = await _httpClient.PostAsJsonAsync("Login", model);
+
             if (response.IsSuccessStatusCode) {
                 var userToken = await response.Content.ReadFromJsonAsync<UserTokenDTO>();
+
                 return userToken;
             } else {
                 return null;
@@ -39,15 +42,13 @@ namespace E_Commerce_MVC.ApiServices.AccountServices
 
             var handler = new JwtSecurityTokenHandler();
             var jwtToken = handler.ReadJwtToken(token);
+
             return [.. jwtToken.Claims];
         }
 
         public List<string> GetRolesFromToken(string token)
         {
             var claims = DecodeToken(token);
-            foreach (var claim in claims) {
-                Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-            }
 
             return claims.Where(c => c.Type == "role").Select(c => c.Value).ToList();
         }
