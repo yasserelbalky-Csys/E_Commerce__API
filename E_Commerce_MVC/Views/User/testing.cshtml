@@ -1,0 +1,33 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@using System.Security.Claims;
+@{
+    @if (HttpContextAccessor.HttpContext?.Session.GetString("JWTToken") != null) {
+        var usernameClaim = HttpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name);
+        var username = usernameClaim?.Value ?? "User";
+
+        <li class="nav-item">
+            <span class="nav-link text-dark">Hello, @username!</span>
+        </li>
+        <li class="nav-item">
+            <form asp-area="" asp-controller="User" asp-action="Logout" method="post" class="form-inline">
+                <button type="submit" class="btn btn-link nav-link text-dark">Logout</button>
+            </form>
+        </li>
+    } else {
+        <li class=" dropdown">
+            <a href="#" class="dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <svg class="user">
+                    <use xlink:href="#user"></use>
+                </svg>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li>
+                    <a class="dropdown-item" asp-action="Login" asp-controller="User">Login</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="/User/Register">Register</a>
+                </li>
+            </ul>
+        </li>
+    }
+}
