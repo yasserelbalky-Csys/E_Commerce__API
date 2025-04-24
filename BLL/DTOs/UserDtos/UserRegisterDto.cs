@@ -8,27 +8,24 @@ using System.Threading.Tasks;
 
 namespace BLL.DTOs.UserDtos
 {
-	public class UserRegisterDto
-	{
-		[Required]
-		public string? UserName { get; set; }
-
+    public class UserRegisterDto
+    {
+        [Required]
+        public string? UserName { get; set; }
 
         [Required]
         public string? Email { get; set; }
+
         [Required]
         public string? FirstName { get; set; }
+
         [Required]
         public string? LastName { get; set; }
+
         [Required]
         public string? Password { get; set; }
+
         [DefaultValue("User")]
         public string Role { get; set; } = "User";
-
-
-
-
-
-
     }
 }

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace BLL.DTOs.StoreDtos
 {
-	public class StoreInsertDto
-	{
-		[Required]
-		public string? StoreName { get; set; }
+    public class StoreInsertDto
+    {
+        [Required]
+        public string? StoreName { get; set; }
 
-		public bool b_deleted { get; set; }
-	}
+        public bool b_deleted { get; set; }
+    }
 }

@@ -240,7 +240,7 @@ window.Modernizr = function(a, b, c) {
             function() { return!!b.createElementNS && !!b.createElementNS(r.svg, "svg").createSVGRect }, s.inlinesvg =
             function() {
                 var a = b.createElement("div");
-                return a.innerHTML = "<svg/>", (a.firstChild && a.firstChild.namespaceURI) == r.svg
+                return a.innerHTML = "<svg />", (a.firstChild && a.firstChild.namespaceURI) == r.svg
             }, s.smil =
             function() { return!!b.createElementNS && /SVGAnimate/.test(m.call(b.createElementNS(r.svg, "animate"))) },
         s.svgclippaths = function() {

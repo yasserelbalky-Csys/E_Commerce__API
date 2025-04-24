@@ -9,6 +9,7 @@ namespace E_Commerce_MVC.Models.UserViewModel
 
         [Required]
         public required string Password { get; set; }
+
         [Display(Name = "Remember ME")]
         public bool RememberMe { get; set; }
     }

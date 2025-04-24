@@ -1,4 +1,5 @@
-﻿using BLL.DTOs.CategoryDTOs;
+﻿using BLL.DTOs.CategoryDtos;
+using BLL.DTOs.CategoryDTOs;
 using DAL.Contracts;
 using System;
 using System.Collections.Generic;
@@ -8,12 +9,16 @@ using System.Threading.Tasks;
 
 namespace BLL.Contracts
 {
-	public interface ICategoryService
-	{
-		public IEnumerable<CategoryListDto> GetCategories();
-		public CategoryListDto GetCategory(int id);
-		public void InsertCategory(CategoryInsertDto category);
-		public void UpdateCategory(CategoryUpdateDto category);
-		public void DeleteCategory(int id);
-	}
+    public interface ICategoryService
+    {
+        public IEnumerable<CategoryListDto> GetCategories();
+
+        public IEnumerable<SubCategoryByMainCategoryDto> GetSubCategoriesBymainCategoryId(int mainCategoryId);
+        public CategoryListDto GetCategory(int id);
+        public void InsertCategory(CategoryInsertDto category);
+
+        public void UpdateCategory(CategoryUpdateDto category);
+
+        public void DeleteCategory(int id);
+    }
 }

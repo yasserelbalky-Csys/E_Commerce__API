@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BLL.DTOs.BrandDtos
 {
-	public class BrandUpdateDto
-	{
-		public int BrandId { get; set; }
-		public string? BrandName { get; set; }
-		public string? BrandDescription { get; set; }
-		public bool b_deleted { get; set; }
-	}
+    public class BrandUpdateDto
+    {
+        public int BrandId { get; set; }
+        public string? BrandName { get; set; }
+        public string? BrandDescription { get; set; }
+        public bool b_deleted { get; set; }
+    }
 }

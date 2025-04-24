@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace BLL.DTOs.OrderDetailsDtos
 {
-	public class OrderUpdateRequestDto
-	{
-		public OrderUpdateDto Order { get; set; }
-		public ICollection<OrderDetailsUpdateDto> Details { get; set; }
-	}
+    public class OrderUpdateRequestDto
+    {
+        public OrderUpdateDto Order { get; set; }
+        public ICollection<OrderDetailsUpdateDto> Details { get; set; }
+    }
 }

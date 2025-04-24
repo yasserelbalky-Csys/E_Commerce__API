@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+;
 
 void RegisterGenericApiService<T>(IServiceCollection services, string baseUrl) where T : class
 {
@@ -41,6 +42,7 @@ builder.Services.AddHttpClient<SubCategoryService>();
 builder.Services.AddHttpClient<BrandService>();
 builder.Services.AddHttpClient<ProductService>();
 builder.Services.AddHttpClient<StoreService>();
+builder.Services.AddHttpClient<ShoppingCartService>();
 
 // starting the application 
 var app = builder.Build();

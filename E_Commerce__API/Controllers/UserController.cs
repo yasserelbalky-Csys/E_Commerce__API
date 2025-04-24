@@ -16,32 +16,26 @@ namespace E_Commerce__API.Controllers
     {
         private readonly IAccountManager _accountManager;
 
-        public UserController(IAccountManager accountManager) 
+        public UserController(IAccountManager accountManager)
         {
-            _accountManager= accountManager; 
+            _accountManager = accountManager;
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Login(UserLoginDto user)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-			if (!ModelState.IsValid)
-				return BadRequest(ModelState);
-
-			
             var res = await _accountManager.LoginAsync(user);
-            if (res !=null)
-            {
+
+            if (res != null) {
                 return Ok(res);
-            }
-            else
-            {
+            } else {
                 return BadRequest("Login Failed");
             }
-
-               
         }
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> PostRole(string newRole)
@@ -49,33 +43,34 @@ namespace E_Commerce__API.Controllers
             if (string.IsNullOrWhiteSpace(newRole))
                 return BadRequest("Role name is required");
 
-			var result = await _accountManager.CreateRole(newRole);
-			if (!result)
-				return BadRequest("Role already exists or creation failed");
+            var result = await _accountManager.CreateRole(newRole);
 
-			return Ok("Role created successfully");
-		}
+            if (!result)
+                return BadRequest("Role already exists or creation failed");
 
+            return Ok("Role created successfully");
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Register( UserRegisterDto userRegisterDto)
+        public async Task<IActionResult> Register(UserRegisterDto userRegisterDto)
         {
             var result = await _accountManager.RegisterAsync(userRegisterDto);
+
             if (!result)
                 return BadRequest("Registration failed");
+
             return Ok("Registration succeeded");
         }
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
-            var result =await _accountManager.GetAll();
-            if (result == null)
-            {
+            var result = await _accountManager.GetAll();
+
+            if (result == null) {
                 return Ok("No Users");
-            }
-            else
-            {
+            } else {
                 return Ok(result);
             }
         }
@@ -83,7 +78,8 @@ namespace E_Commerce__API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateRole(string username)
         {
-            var result=await _accountManager.UpdateRole(username);
+            var result = await _accountManager.UpdateRole(username);
+
             if (result == false)
                 return Ok("UserName Not Found");
             else

@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-	public class Stores
-	{
-		[Key]
-		public int StoreId { get; set; }
+    public class Stores
+    {
+        [Key]
+        public int StoreId { get; set; }
 
-		[Required]
-		public string? StoreName { get; set; }
+        [Required]
+        public string? StoreName { get; set; }
 
-		public bool b_deleted { get; set; }
-	}
+        public bool b_deleted { get; set; }
+    }
 }

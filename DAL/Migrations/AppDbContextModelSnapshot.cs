@@ -154,6 +154,9 @@ namespace DAL.Migrations
                     b.Property<int>("StoreId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("b_order_cancel")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("b_order_done")
                         .HasColumnType("bit");
 
@@ -261,6 +264,9 @@ namespace DAL.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("b_cancel")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("b_confirmed")
                         .HasColumnType("bit");
@@ -411,6 +417,22 @@ namespace DAL.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "64ce2ffc-1b98-40aa-bfd2-a9fa7ab4e26e",
+                            ConcurrencyStamp = "admin-role",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "7a6c7350-b5db-4e15-a6de-c9e68e4d9d7f",
+                            ConcurrencyStamp = "user-role",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

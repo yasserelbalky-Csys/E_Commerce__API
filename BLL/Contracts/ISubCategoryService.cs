@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace BLL.Contracts
 {
-	public interface ISubCategoryService
-	{
-		public IEnumerable<SubCategoryListDto> GetSubCategories();
-		public SubCategoryListDto GetSubCategory(int id);
-		public void InsertSubCategory(SubCategoryInsertDto subcategory);
-		public void UpdateSubCategory(SubCategoryUpdateDto category);
-		public void DeleteCategory(int id);
-	}
+    public interface ISubCategoryService
+    {
+        public IEnumerable<SubCategoryListDto> GetSubCategories();
+        public SubCategoryListDto GetSubCategory(int id);
+        public void InsertSubCategory(SubCategoryInsertDto subcategory);
+
+        public void UpdateSubCategory(SubCategoryUpdateDto category);
+
+        public void DeleteCategory(int id);
+    }
 }

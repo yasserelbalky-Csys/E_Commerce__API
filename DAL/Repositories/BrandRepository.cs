@@ -9,23 +9,24 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-	internal class BrandRepository : BaseRepository<Brands>, IBrandRepository
-	{
-		public BrandRepository(AppDbContext appDbContext) : base(appDbContext) { }
+    internal class BrandRepository : BaseRepository<Brands>, IBrandRepository
 
-		public override IEnumerable<Brands> GetAll()
-		{
-			return base.GetAll();
-		}
+    {
+        public BrandRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
-		//public IEnumerable<Brands> getBrandsWithItsProducts(int brandid)
-		//{
-		//    return _entitySet.Include(p=>p.Products).AsEnumerable();
-		//}
+        public override IEnumerable<Brands> GetAll()
+        {
+            return base.GetAll();
+        }
 
-		public override Brands GetById(int id)
-		{
-			return base.GetById(id);
-		}
-	}
+        //public IEnumerable<Brands> getBrandsWithItsProducts(int brandid)
+        //{
+        //    return _entitySet.Include(p=>p.Products).AsEnumerable();
+        //}
+
+        public override Brands GetById(int id)
+        {
+            return base.GetById(id);
+        }
+    }
 }

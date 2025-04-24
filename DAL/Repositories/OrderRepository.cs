@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-	internal class OrderRepository : BaseRepository<OrderMaster>, IOrderRepository
-	{
-		public OrderRepository(AppDbContext appDbContext) : base(appDbContext) { }
+    internal class OrderRepository : BaseRepository<OrderMaster>, IOrderRepository
+    {
+        public OrderRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
-		public override IEnumerable<OrderMaster> GetAll()
-		{
-			return _entitySet.Include(order => order.User).AsEnumerable();
-		}
+        public override IEnumerable<OrderMaster> GetAll()
+        {
+            return _entitySet.Include(order => order.User).AsEnumerable();
+        }
 
-		public override OrderMaster GetById(int id)
-		{
-			return _entitySet.Include(order => order.User).AsEnumerable().FirstOrDefault(order => order.OrderNo == id);
-		}
-	}
+        public override OrderMaster GetById(int id)
+        {
+            return _entitySet.Include(order => order.User).AsEnumerable().FirstOrDefault(order => order.OrderNo == id);
+        }
+    }
 }

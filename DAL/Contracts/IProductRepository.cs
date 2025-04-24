@@ -1,14 +1,14 @@
-﻿using System;
+﻿using DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Entities;
 
 namespace DAL.Contracts
 {
-	public interface IProductRepository : IBaseRepository<Products>
-	{
-		public IEnumerable<Products> GetProductsByCategory();
-	}
+    public interface IProductRepository : IBaseRepository<Products>
+    {
+        public IEnumerable<Products> GetProductsByCategory();
+    }
 }

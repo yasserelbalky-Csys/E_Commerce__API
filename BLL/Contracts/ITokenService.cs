@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace BLL.Contracts
 {
-	public interface ITokenService
-	{
-		public string CreateToken(AppUser user, IList<string> roles);
-	}
+    public interface ITokenService
+    {
+        public string CreateToken(AppUser user, IList<string> roles);
+    }
 }

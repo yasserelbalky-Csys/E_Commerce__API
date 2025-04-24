@@ -32,10 +32,12 @@ public class UserController : Controller
     public async Task<IActionResult> Login(LoginViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
+
         try {
             // Send login request to the API
             var result = await _accountService.Login(model);
             Console.WriteLine($"result is: {result.ToJson()}");
+
             if (result != null) {
                 HttpContext.Session.SetString("JWTToken", result?.Token!);
 
@@ -70,9 +72,11 @@ public class UserController : Controller
     public async Task<IActionResult> Register(RegisterViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
+
         try {
             // Send registration request to the API
             var result = await _accountService.Register(model);
+
             if (result.IsSuccessStatusCode)
                 // Registration successful, redirect to login page
                 return RedirectToAction("Login");
@@ -122,6 +126,7 @@ public class UserController : Controller
     public IActionResult Logout()
     {
         HttpContext.Session.Remove("JWTToken");
+
         return RedirectToAction("Index", "Home");
     }
 
@@ -141,9 +146,11 @@ public class UserController : Controller
             ClaimsIdentity claimsIdentity = new(claims, schema);
             AuthenticationProperties authenticationProperties = new() { IsPersistent = true, AllowRefresh = true };
             await HttpContext.SignInAsync(schema, new ClaimsPrincipal(claimsIdentity), authenticationProperties);
+
             return true;
         } catch (Exception ex) {
             Console.WriteLine($"Error signing in user: {ex.Message}");
+
             return false;
         }
     }

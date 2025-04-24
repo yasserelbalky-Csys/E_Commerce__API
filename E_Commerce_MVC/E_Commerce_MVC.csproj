@@ -9,18 +9,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Areas\Dashboard\Data\**" />
-	  <Compile Remove="Areas\Dashboard\Models\**" />
-	  <Compile Remove="Data\**" />
-	  <Content Remove="Areas\Dashboard\Data\**" />
-	  <Content Remove="Areas\Dashboard\Models\**" />
-	  <Content Remove="Data\**" />
-	  <EmbeddedResource Remove="Areas\Dashboard\Data\**" />
-	  <EmbeddedResource Remove="Areas\Dashboard\Models\**" />
-	  <EmbeddedResource Remove="Data\**" />
-	  <None Remove="Areas\Dashboard\Data\**" />
-	  <None Remove="Areas\Dashboard\Models\**" />
-	  <None Remove="Data\**" />
+		<Compile Remove="Areas\Dashboard\Data\**" />
+		<Compile Remove="Areas\Dashboard\Models\**" />
+		<Compile Remove="Data\**" />
+		<Content Remove="Areas\Dashboard\Data\**" />
+		<Content Remove="Areas\Dashboard\Models\**" />
+		<Content Remove="Data\**" />
+		<EmbeddedResource Remove="Areas\Dashboard\Data\**" />
+		<EmbeddedResource Remove="Areas\Dashboard\Models\**" />
+		<EmbeddedResource Remove="Data\**" />
+		<None Remove="Areas\Dashboard\Data\**" />
+		<None Remove="Areas\Dashboard\Models\**" />
+		<None Remove="Data\**" />
 	</ItemGroup>
 
 	<ItemGroup>
