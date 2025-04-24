@@ -10,12 +10,12 @@ using NuGet.Protocol;
 
 namespace E_Commerce_MVC.Controllers;
 
-public class UserController : Controller
+public class AccountController : Controller
 {
     private readonly AccountService _accountService;
     private readonly HttpClient _httpClient;
 
-    public UserController(HttpClient httpClient, AccountService accountService)
+    public AccountController(HttpClient httpClient, AccountService accountService)
     {
         _httpClient = httpClient;
         _httpClient.BaseAddress = new Uri("http://localhost:5097/api/User/"); // API base URL

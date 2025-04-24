@@ -1,17 +1,47 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using E_Commerce_MVC.Models.UserViewModel;
+using Newtonsoft.Json;
+using NuGet.Protocol;
 
 namespace E_Commerce_MVC.ApiServices
 {
     public class AccountService
     {
         private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AccountService(HttpClient httpClient)
+        public AccountService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("http://localhost:5097/api/User/");
+            _httpContextAccessor = httpContextAccessor;
+
+            var token = httpContextAccessor.HttpContext?.Session.GetString("JWTToken");
+
+            if (!string.IsNullOrEmpty(token)) {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+        }
+
+        public async Task<List<UserTokenDTO>> GetAllUsers()
+        {
+            var response = await _httpClient.GetAsync("GetAllUsers");
+
+            if (response.IsSuccessStatusCode) {
+                var users = await response.Content.ReadFromJsonAsync<List<UserTokenDTO>>();
+
+                if (users != null) {
+                    foreach (var user in users) {
+                        Console.WriteLine(user.ToJson());
+                    }
+                }
+
+                return users ?? [];
+            } else {
+                return new List<UserTokenDTO>();
+            }
         }
 
         public async Task<HttpResponseMessage> Register(RegisterViewModel model)
@@ -40,10 +70,9 @@ namespace E_Commerce_MVC.ApiServices
                 return new List<Claim>();
             }
 
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(token);
+            var handler = new JwtSecurityTokenHandler().ReadJwtToken(token);
 
-            return [.. jwtToken.Claims];
+            return [.. handler.Claims];
         }
 
         public List<string> GetRolesFromToken(string token)

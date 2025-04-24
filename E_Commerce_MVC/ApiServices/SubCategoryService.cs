@@ -24,6 +24,7 @@ namespace E_Commerce_MVC.ApiServices
         public async Task<IEnumerable<SubCategory>> GetAllSubCategories()
         {
             var response = await _httpClient.GetAsync("Get");
+            Console.WriteLine($"response is {response}");
 
             if (response.IsSuccessStatusCode) {
                 var result = await response.Content.ReadFromJsonAsync<IEnumerable<SubCategory>>();

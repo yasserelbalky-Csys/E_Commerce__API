@@ -24,8 +24,9 @@ builder.Services.AddAuthentication(options => {
 }).AddCookie(options => {
     options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
     options.SlidingExpiration = true;
-    options.LoginPath = "/User/Login";
-    options.AccessDeniedPath = "/User/AccessDenied";
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.AccessDeniedPath = "/AccessDenied/AccessDenied";
 });
 
 // add session support

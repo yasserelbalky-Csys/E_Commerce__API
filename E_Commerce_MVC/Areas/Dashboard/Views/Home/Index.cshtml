@@ -1,19 +1,104 @@
-﻿@{
+﻿@using E_Commerce_MVC.ApiServices
+@inject E_Commerce_MVC.ApiServices.AccountService UserApiService  
+@inject E_Commerce_MVC.ApiServices.ProductService ProductApiService  
+@{
     ViewData["Title"] = "Home";
+    var products = await ProductApiService.GetAllProducts();
+    var productCount = products.Count().ToString();
+
+    var users = await UserApiService.GetAllUsers();
+    var userCount = users.Count().ToString();
 }
-<!-- Topbar -->
-<!-- End of Topbar -->
-<!-- Begin Page Content -->
-<div class="container-fluid">
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
-        </a>
+<div class="container my-4">
+    <!-- Dashboard Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Dashboard</h1>
+        <button class="btn btn-primary">Add New Item</button>
     </div>
-    <div>
-        here we will show the content of the page
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Users</h5>
+                    <p class="card-text h3">@userCount</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Products</h5>
+                    <p class="card-text h3">@productCount</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Sales</h5>
+                    <p class="card-text h3">$12,345</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Orders</h5>
+                    <p class="card-text h3">567</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- Content Row -->
+    <!-- Data Table -->
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            Recent Activities
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Activity</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>John Doe</td>
+                        <td>Purchased Product A</td>
+                        <td>2025-04-23</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary">View</button>
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Jane Smith</td>
+                        <td>Registered an Account</td>
+                        <td>2025-04-22</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary">View</button>
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Bob Johnson</td>
+                        <td>Added Product to Wishlist</td>
+                        <td>2025-04-21</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary">View</button>
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
