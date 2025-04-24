@@ -1,34 +1,41 @@
 ﻿@model E_Commerce_MVC.Models.EntitiesViewModel.Category
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Category";
 }
-<h1>Edit</h1>
-<h4>Category</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <input asp-for="CategoryId" class="form-control" type="hidden" />
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label>
-                <input asp-for="CategoryName" class="form-control" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryDescription" class="control-label"></label>
-                <input asp-for="CategoryDescription" class="form-control" />
-                <span asp-validation-for="CategoryDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+
+<div class="container my-5">
+    <h1 class="h3 mb-4">Edit Category</h1>
+    <div class="card shadow">
+        <div class="card-body">
+            <!-- Form Starts -->
+            <form asp-action="Edit">
+                <!-- Validation Summary -->
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                <!-- Hidden Input for Category ID -->
+                <input asp-for="CategoryId" type="hidden" />
+
+                <!-- Input: Category Name -->
+                <div class="mb-3">
+                    <label asp-for="CategoryName" class="form-label">Category Name</label>
+                    <input asp-for="CategoryName" class="form-control" placeholder="Enter category name" />
+                    <span asp-validation-for="CategoryName" class="text-danger"></span>
+                </div>
+
+                <!-- Textarea: Category Description -->
+                <div class="mb-3">
+                    <label asp-for="CategoryDescription" class="form-label">Category Description</label>
+                    <textarea asp-for="CategoryDescription" class="form-control" rows="3" placeholder="Enter category description"></textarea>
+                    <span asp-validation-for="CategoryDescription" class="text-danger"></span>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+            <!-- Form Ends -->
+        </div>
     </div>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>

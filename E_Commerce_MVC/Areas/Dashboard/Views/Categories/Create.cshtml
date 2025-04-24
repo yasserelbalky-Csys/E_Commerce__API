@@ -1,35 +1,101 @@
-﻿@model E_Commerce_MVC.Models.EntitiesViewModel.Category
+﻿@model E_Commerce_MVC.Models.EntitiesViewModel.ProductViewModel
 @{
     ViewData["Title"] = "Create";
+    Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
-<h1>Create</h1>
-<h4>Category</h4>
+
+<h1>Create Product</h1>
+<h4>Product</h4>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 offset-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label>
-                <input asp-for="CategoryName" class="form-control" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            <!-- Validation Summary -->
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <!-- Product Name -->
+            <div class="mb-4">
+                <label asp-for="ProductName" class="form-label">Product Name</label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CategoryDescription" class="control-label"></label>
-                <input asp-for="CategoryDescription" class="form-control" />
-                <span asp-validation-for="CategoryDescription" class="text-danger"></span>
+
+            <!-- Product Description -->
+            <div class="mb-4">
+                <label asp-for="ProductDiscription" class="form-label">Product Description</label>
+                <input asp-for="ProductDiscription" class="form-control" />
+                <span asp-validation-for="ProductDiscription" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <!-- Product Price -->
+            <div class="mb-4">
+                <label asp-for="ProductPrice" class="form-label">Product Price</label>
+                <input asp-for="ProductPrice" class="form-control" />
+                <span asp-validation-for="ProductPrice" class="text-danger"></span>
+            </div>
+
+            <!-- Subcategory Dropdown -->
+            <div class="mb-4">
+                <label asp-for="SubcategoryId" class="form-label">Subcategory</label>
+                <select asp-for="SubcategoryId" class="form-control" asp-items="ViewBag.SubCategories" id="SubCategoryId"></select>
+                <span asp-validation-for="SubcategoryId" class="text-danger"></span>
+            </div>
+
+            <!-- Subcategory Name (readonly) -->
+            <div class="mb-4">
+                <label asp-for="SubcategoryName" class="form-label">Subcategory Name</label>
+                <input asp-for="SubcategoryName" class="form-control" readonly id="SubCategoryName" />
+                <span asp-validation-for="SubcategoryName" class="text-danger"></span>
+            </div>
+
+            <!-- Brand Dropdown -->
+            <div class="mb-4">
+                <label asp-for="BrandId" class="form-label">Brand</label>
+                <select asp-for="BrandId" class="form-control" asp-items="ViewBag.Brands"></select>
+                <span asp-validation-for="BrandId" class="text-danger"></span>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid mb-4">
+                <button type="submit" class="btn btn-gradient-primary">
+                    <i class="fas fa-save"></i> Create
+                </button>
             </div>
         </form>
     </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
+
+<!-- Back to List Link -->
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Back to List
+    </a>
 </div>
+
+@section Styles {
+    <!-- Custom Gradient Button Style -->
+    <style>
+        .btn-gradient-primary {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+            .btn-gradient-primary:hover {
+                background: linear-gradient(135deg, #4338ca, #4f46e5);
+                transform: scale(1.05);
+            }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Update SubcategoryName field based on the selected SubcategoryId
+        document.getElementById('SubCategoryId').addEventListener('change', function() {
+            const selectedCategoryName = this.options[this.selectedIndex].text;
+            document.getElementById('SubCategoryName').value = selectedCategoryName;
+        });
+    </script>
+}

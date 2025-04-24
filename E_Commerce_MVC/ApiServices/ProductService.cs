@@ -53,6 +53,7 @@ namespace E_Commerce_MVC.ApiServices
         public async Task<object> CreateProduct(ProductViewModel product)
         {
             var response = await _httpClient.PostAsJsonAsync("Post", product);
+            Console.WriteLine($"Respnse of Creating Product is: \n{response}");
 
             if (response.IsSuccessStatusCode) {
                 var result = await response.Content.ReadAsStringAsync();

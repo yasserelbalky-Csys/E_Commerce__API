@@ -3,48 +3,84 @@
     ViewData["Title"] = "Create";
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
-<h1>Create</h1>
-<h4>SubCategory</h4>
+
+<h1>Create SubCategory</h1>
+<h4>Sub-Category</h4>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 offset-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SubCategoryName" class="control-label"></label>
+            <!-- Validation Summary -->
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <!-- SubCategory Name -->
+            <div class="mb-4">
+                <label asp-for="SubCategoryName" class="form-label">SubCategory Name</label>
                 <input asp-for="SubCategoryName" class="form-control" />
                 <span asp-validation-for="SubCategoryName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SubCategoryDescription" class="control-label"></label>
+
+            <!-- SubCategory Description -->
+            <div class="mb-4">
+                <label asp-for="SubCategoryDescription" class="form-label">SubCategory Description</label>
                 <input asp-for="SubCategoryDescription" class="form-control" />
                 <span asp-validation-for="SubCategoryDescription" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="MainCategoryId" class="control-label"></label>
+
+            <!-- Main Category Dropdown -->
+            <div class="mb-4">
+                <label asp-for="MainCategoryId" class="form-label">Main Category</label>
                 <select asp-for="MainCategoryId" class="form-control" asp-items="ViewBag.Categories" id="MainCategoryId"></select>
                 <span asp-validation-for="MainCategoryId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="MainCategoryName" class="control-label"></label>
+
+            <!-- Main Category Name (readonly) -->
+            <div class="mb-4">
+                <label asp-for="MainCategoryName" class="form-label">Main Category Name</label>
                 <input asp-for="MainCategoryName" class="form-control" id="MainCategoryName" readonly />
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <!-- Submit Button -->
+            <div class="d-grid mb-4">
+                <button type="submit" class="btn btn-gradient-primary">
+                    <i class="fas fa-save"></i> Create
+                </button>
             </div>
         </form>
     </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-<script>
-    document.getElementById('MainCategoryId').addEventListener('change',
-        function() {
-            // Get the selected option's text
-            const selectedCategoryName = this.options[this.selectedIndex].text;
 
-            // Set the MainCategoryName input value
+<!-- Back to List Link -->
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Back to List
+    </a>
+</div>
+
+@section Styles {
+    <!-- Custom Gradient Button Style -->
+    <style>
+        .btn-gradient-primary {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+            .btn-gradient-primary:hover {
+                background: linear-gradient(135deg, #4338ca, #4f46e5);
+                transform: scale(1.05);
+            }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Update MainCategoryName field based on the selected MainCategoryId
+        document.getElementById('MainCategoryId').addEventListener('change', function() {
+            const selectedCategoryName = this.options[this.selectedIndex].text;
             document.getElementById('MainCategoryName').value = selectedCategoryName;
         });
-</script>
+    </script>
+}

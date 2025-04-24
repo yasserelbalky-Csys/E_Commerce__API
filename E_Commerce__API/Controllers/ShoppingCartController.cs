@@ -206,7 +206,7 @@ namespace E_Commerce__API.Controllers
             var userId = userIdClaim.Value;
 
             var cartItems = _shoppingCartService.GetShoppingCarts();
-            var item = cartItems.FirstOrDefault(c => c.UserId == userId && c.ProductId == productId);
+            var item = cartItems.FirstOrDefault(c => c.UserId == userId && c.ShoppingCartId == productId);
             //item.UserId = userId;
 
             if (item == null) {
@@ -216,7 +216,7 @@ namespace E_Commerce__API.Controllers
             _shoppingCartService.DeleteShoppingCart(productId);
 
             var sessionCart = _sessionManager.Get<List<ShoppingCartListDto>>("Cart") ?? new List<ShoppingCartListDto>();
-            sessionCart.RemoveAll(c => c.ProductId == productId);
+            sessionCart.RemoveAll(c => c.ShoppingCartId == productId);
             _sessionManager.Set("Cart", sessionCart);
 
             return Ok(new { message = "Product removed from cart and database successfully." });

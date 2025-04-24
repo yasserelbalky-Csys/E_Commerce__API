@@ -81,5 +81,21 @@ namespace E_Commerce_MVC.Services
                 }
             }
         }
+
+        // Getting sub Category 
+
+        public async Task<IEnumerable<T>> GetSubCatAsync(string endpoint, int id)
+        {
+            var response = await _httpClient.GetAsync($"{endpoint}/{id}");
+            Console.WriteLine($"Response from getting subCategories is: {response}");
+
+            if (response.IsSuccessStatusCode) {
+                var result = await response.Content.ReadFromJsonAsync<IEnumerable<T>>();
+
+                return result ?? throw new Exception("Error fetching data: Response content is null.");
+            }
+
+            throw new Exception($"Error fetching data: {response.ReasonPhrase}");
+        }
     }
 }

@@ -1,0 +1,204 @@
+﻿@model List<E_Commerce_MVC.Models.EntitiesViewModel.ShopingCartViewModel>
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+<div class="cart-wrapper">
+    <div class="container py-5">
+        <!-- Header Section -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-gradient">Your Shopping Cart</h1>
+            <p class="text-muted">Review your items before you checkout</p>
+        </div>
+        <div class="row g-5">
+            <!-- Cart Items Section -->
+            <div class="col-lg-8">
+                <div class="cart-items bg-white shadow-lg rounded p-4">
+                    <h3 class="mb-4 text-primary fw-bold">Items in Your Cart: @Model.Count</h3>
+                    <!-- Product Item -->
+                    @{
+                        foreach (var cart in Model) {
+                            <div class="product-card d-flex align-items-center p-3 mb-4 border rounded shadow-sm">
+                                <img src="https://via.placeholder.com/150" alt="Product" class="product-image me-3 rounded shadow">
+                                <div class="flex-grow-1">
+                                    <h5 class="fw-bold mb-1">@cart.ProductName</h5>
+                                    <p class="text-muted mb-2">
+                                        <spand id="count-@cart.ProductId">@cart.Count</spand>
+                                    </p>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <button class="quantity-btn" onclick="updateCartCount(@cart.ProductId, -1)">-</button>
+                                        <input type="number" id="quantity-@cart.ProductId" class="quantity-input" value="@cart.Count" min="1" onchange="updateCartCount(@cart.ProductId, this.value - @cart.Count)" />
+                                        <button class="quantity-btn" onclick="updateCartCount(@cart.ProductId, 1)">+</button>
+                                    </div>
+                                </div>
+                                <form method="post">
+                                    @Html.AntiForgeryToken()
+                                    <div class="text-center d-flex align-items-center column-gap-2">
+                                        <span id="subtotal-@cart.ProductId" class="fw-bold" data-price="@cart.Price">@(cart.Price * cart.Count)</span>
+                                        <button type="submit" class="btn btn-danger btn-sm " asp-action="DeleteCart" asp-controller="Cart" asp-route-ProductId="@cart.ShoppingCartId">Remove</button>
+                                    </div>
+                                </form>
+                            </div>
+                        }
+                    }
+                    <!-- Additional Product Cards -->
+                </div>
+            </div>
+            <!-- Summary Section -->
+            <div class="col-lg-4">
+                <div class="summary-card bg-white shadow-lg rounded p-4">
+                    <h3 class="fw-bold mb-4 text-success">Order Summary</h3>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Subtotal</span>
+                        <span>@ViewBag.TotalPrice</span>
+                    </div>
+                    @* <div class="d-flex justify-content-between mb-3"> *@
+                    @*     <span>Discount</span> *@
+                    @*     <span class="text-success">- $20.00</span> *@
+                    @* </div> *@
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Shipping</span>
+                        <span>$25.00</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold mb-4">
+                        <span>Total</span>
+                        <span class="text-danger">$@(ViewBag.TotalPrice + 25)</span>
+                    </div>
+                    <button class="btn btn-gradient-primary btn-lg w-100 mb-3">Proceed to Checkout</button>
+                    <div class="text-center">
+                        <small class="text-muted">
+                            <i class="bi bi-shield-check text-success"></i> Secure Payment Guaranteed
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Cart Notification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="cartModalMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Styles -->
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/site.css" />
+}
+
+<!-- Scripts -->
+
+@section Scripts {
+    <script>
+        async function updateCartCount(productId, change) {
+            const input = document.getElementById(`quantity-${productId}`);
+            let newCount = parseInt(input.value) + parseInt(change);
+
+            if (newCount < 1) {
+                alert("Quantity cannot be less than 1.");
+                input.value = 1;
+                return;
+            }
+
+            // Update the input field value
+            input.value = newCount;
+
+            // Prepare the data for the API call
+            const data = {
+                ProductId: productId,
+                Count: newCount
+            };
+
+            try {
+                // Make the API call to update the cart count
+                const response = await fetch('/Cart/UpdateCart',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                if (!response.ok) {
+                    throw new Error("Failed to update cart count.");
+                }
+
+                const result = await response.json();
+                console.log(result.message);
+
+                // Update the count dynamically in the DOM
+                const countElement = document.getElementById(`count-${productId}`);
+                if (countElement) {
+                    countElement.textContent = newCount;
+                }
+
+                // Update the subtotal for the specific product
+                const productSubtotal = document.querySelector(`#subtotal-${productId}`);
+                if (productSubtotal) {
+                    const pricePerItem = parseFloat(productSubtotal.dataset.price);
+                    productSubtotal.textContent = `$${(pricePerItem * newCount).toFixed(2)}`;
+                }
+
+                // Update the total price dynamically
+                await updateTotalPrice();
+            } catch (error) {
+                console.error(error);
+                alert("An error occurred while updating the cart.");
+            }
+        }
+
+        async function updateTotalPrice() {
+            try {
+                // Fetch the updated total price from the server
+                const response = await fetch('/Cart/GetCartTotalPrice');
+                if (!response.ok) {
+                    throw new Error("Failed to fetch total price.");
+                }
+
+                const totalPrice = await response.text();
+                const totalPriceElement = document.querySelector('.text-danger');
+                if (totalPriceElement) {
+                    totalPriceElement.textContent = `$${parseFloat(totalPrice).toFixed(2)}`;
+                }
+            } catch (error) {
+                console.error(error);
+                alert("An error occurred while fetching the total price.");
+            }
+        }
+
+        async function addToCart(productId) {
+            try {
+                const response = await fetch(`/Cart/AddToCart?ProductId=${productId}`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                const result = await response.json();
+
+                // Show the modal with the appropriate message
+                const modalMessage = document.getElementById('cartModalMessage');
+                modalMessage.textContent = result.message;
+
+                const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+                cartModal.show();
+            } catch (error) {
+                console.error('An error occurred while adding the product to the cart:', error);
+            }
+        }
+    </script>
+}

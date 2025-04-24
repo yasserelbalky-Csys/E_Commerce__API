@@ -2,6 +2,7 @@
 using E_Commerce_MVC.Models.EntitiesViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace E_Commerce_MVC.Areas.Dashboard.Controllers
@@ -10,16 +11,20 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
     public class ShopingCartController : Controller
     {
         private readonly ShoppingCartService _shoppingCartService;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public ShopingCartController(ShoppingCartService shoppingCartService)
+        public ShopingCartController(ShoppingCartService shoppingCartService, IHttpContextAccessor httpContext)
         {
             _shoppingCartService = shoppingCartService;
+            _httpContext = httpContext;
         }
 
         // GET: ShopingCartController
         public async Task<ActionResult> Index()
         {
-            var carts = await _shoppingCartService.GetAllCarts();
+            var userId = _httpContext?.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            Console.WriteLine(userId);
+            var carts = await _shoppingCartService.GetByUserId(userId);
 
             return View(carts);
         }

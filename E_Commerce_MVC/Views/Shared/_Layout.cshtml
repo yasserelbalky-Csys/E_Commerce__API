@@ -1,5 +1,7 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @using System.Security.Claims
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,23 +10,13 @@
     <title>@ViewData["Title"] - E-Commerce</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    @*<link rel="stylesheet" href="~/E_Commerce_MVC.styles.css" asp-append-version="true"/>*@
-    <!-- Google font -->
-    @*<link rel="stylesheet" type="text/css" href="~/css/bootstrap.min.css">*@
     <link rel="stylesheet" type="text/css" href="~/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <!-- Custom fonts for this template-->
-    <link href="~/Dashboard/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet" />
-    <!-- Custom styles for this template-->
-    <link href="~/Dashboard/css/sb-admin-2.min.css" rel="stylesheet">
-    <!-- script
-    ================================================== -->
-    <script src="~/js/modernizr.js"></script>
+    @await RenderSectionAsync("Styles", required: false)
+
 </head>
 <body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" tabindex="0">
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -121,28 +113,26 @@
                                 <a class="nav-link me-4 active" asp-controller="Home" asp-action="Index">Home </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link me-4" href="#company-services">Services</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link me-4" href="#mobile-products">Products</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link me-4" href="#smart-watches">Watches</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link me-4" href="#yearly-sale">Sale</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link me-4" href="#latest-blog">Blog</a>
+                                <a class="nav-link me-4" href="#smart-watches">Categories</a>
                             </li>
                             <li class="nav-item">
                                 <div class="user-items ps-5">
                                     <ul class="d-flex justify-content-center align-items-center list-unstyled">
                                         <li class="pe-3">
-                                            <a href="cart.html">
+                                            <a href="/Cart/CartIndex" class="position-relative">
                                                 <svg class="cart">
                                                     <use xlink:href="#cart"></use>
                                                 </svg>
+                                                @{
+                                                    @if (HttpContextAccessor.HttpContext?.Session.GetInt32("CartItemCount") >= 0) {
+                                                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="cartItemCount">
+                                                            @HttpContextAccessor.HttpContext.Session.GetInt32("CartItemCount")
+                                                        </span>
+                                                    }
+                                                }
                                             </a>
                                         </li>
                                         @if (HttpContextAccessor.HttpContext?.Session.GetString("JWTToken") != null) {
@@ -154,9 +144,13 @@
                                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">@username!</span>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
-                                                    <a class="dropdown-item" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a>
-                                                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Profile">Profile</a>
-                                                    <form asp-area="" asp-controller="User" asp-action="Logout" method="post" class="dropdown-item">
+                                                    @{
+                                                        @if (User.IsInRole("Admin")) {
+                                                            <a class="dropdown-item" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a>
+                                                        }
+                                                    }
+                                                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Profile">Profile</a>
+                                                    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="dropdown-item">
                                                         <button type="submit" class="btn btn-link p-0 text-decoration-none">Logout</button>
                                                     </form>
                                                 </div>
@@ -169,8 +163,8 @@
                                                     </svg>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
-                                                    <a class="dropdown-item" asp-action="Login" asp-controller="User">Login</a>
-                                                    <a class="dropdown-item" href="/User/Register">Register</a>
+                                                    <a class="dropdown-item" asp-action="Login" asp-controller="Account">Login</a>
+                                                    <a class="dropdown-item" href="/Account/Register">Register</a>
                                                 </div>
                                             </li>
                                         }
@@ -184,7 +178,7 @@
         </nav>
     </header>
     <!-- Main Body Render -->
-    <div class="">
+    <div class="flex-grow-1">
         <main class="pb-3">
             @RenderBody()
         </main>
@@ -304,7 +298,7 @@
         <hr>
     </footer>
     <!--Footer -->
-    <div id="footer-bottom">
+    <dv id="footer-bottom">
         <div class="container">
             <div class="row d-flex flex-wrap justify-content-between">
                 <div class="col-md-4 col-sm-6">
@@ -330,26 +324,23 @@
                     <div class="copyright">
                         <p>
                             © Copyright 2023 MiniStore. Design by
-                            <a href="https://templatesjungle.com/">TemplatesJungle</a> Distribution by
-                            <a href="https://themewagon.com">ThemeWagon</a>
+                            <a href="#">TemplatesJungle</a> Distribution by
+                            <a href="#">ThemeWagon</a>
                         </p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </dv>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-    @*<script src="~/js/jquery-1.11.0.min.js"></script>*@
-    @*<script type="text/javascript" src="~/js/bootstrap.bundle.min.js"></script>*@
     <script type="text/javascript" src="~/js/plugins.js"></script>
     <script type="text/javascript" src="~/js/script.js"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="~/Dashboard/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="~/Dashboard/js/sb-admin-2.min.js"></script>
+    <script src="~/js/modernizr.js"></script>
+    <script>
+
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
