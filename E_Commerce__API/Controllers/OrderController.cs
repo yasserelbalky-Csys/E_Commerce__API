@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace E_Commerce__API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class OrderController : ControllerBase
     {

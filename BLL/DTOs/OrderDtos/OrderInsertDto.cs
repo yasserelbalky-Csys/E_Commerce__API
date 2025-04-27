@@ -43,7 +43,7 @@ namespace BLL.DTOs.OrderDtos
         public bool b_deleted { get; set; }
         public bool b_confirmed { get; set; }
 
-        public ICollection<OrderDetails> orderDetailss { get; set; } = new List<OrderDetails>();
+        //  public ICollection<OrderDetails> orderDetailss { get; set; } = new List<OrderDetails>();
         //public ICollection<OrderDetails> orderDetailss { get; }
     }
 }

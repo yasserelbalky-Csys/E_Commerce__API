@@ -157,7 +157,7 @@ namespace BLL.Services
                 };
                 _uof.OrderDetails.Insert(orderDetail);
                 _uof.save();
-                order.orderDetailss.Add(orderDetail);
+                //  order.orderDetailss.Add(orderDetail);
             }
             bool res = false;
             var resultdetails = _uof.OrderDetails.GetByOrderNo(orderNumber);
