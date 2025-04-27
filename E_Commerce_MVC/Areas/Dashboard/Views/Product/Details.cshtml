@@ -1,68 +1,33 @@
 ﻿@model E_Commerce_MVC.Models.EntitiesViewModel.ProductViewModel
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Product Details";
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
-<h1>Details</h1>
-<div>
-    <h4>ProductViewModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProductId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductDiscription)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProductDiscription)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductPrice)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProductPrice)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SubcategoryId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SubcategoryId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SubcategoryName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SubcategoryName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BrandId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BrandId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.b_deleted)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.b_deleted)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit",
-        "Edit",
-        new {
-            /* id = Model.PrimaryKey */
-        }) |
-    <a asp-action="Index">Back to List</a>
+<div class="container my-5">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Product Details</h1>
+    </div>
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h6 class="m-0">Product Information</h6>
+        </div>
+        <div class="card-body">
+            <!-- Product Details Section -->
+            <dl class="row mb-0">
+                <dt class="col-sm-3 fw-bold">Product Name</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductName)</dd>
+                <dt class="col-sm-3 fw-bold">Description</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductDiscription)</dd>
+                <dt class="col-sm-3 fw-bold">Price</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductPrice)</dd>
+                <dt class="col-sm-3 fw-bold">Subcategory Name</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.SubcategoryName)</dd>
+            </dl>
+        </div>
+        <div class="card-footer bg-light d-flex justify-content-between">
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-warning" })
+        </div>
+    </div>
 </div>

@@ -1,5 +1,7 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @using System.Security.Claims
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     @await RenderSectionAsync("Styles", required: false)
-    <script src="~/js/modernizr.js"></script>
+
 </head>
 <body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" tabindex="0">
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -116,15 +118,21 @@
                             <li class="nav-item">
                                 <a class="nav-link me-4" href="#smart-watches">Categories</a>
                             </li>
-                            
                             <li class="nav-item">
                                 <div class="user-items ps-5">
                                     <ul class="d-flex justify-content-center align-items-center list-unstyled">
                                         <li class="pe-3">
-                                            <a href="/Cart/CartIndex">
+                                            <a href="/Cart/CartIndex" class="position-relative">
                                                 <svg class="cart">
                                                     <use xlink:href="#cart"></use>
                                                 </svg>
+                                                @{
+                                                    @if (HttpContextAccessor.HttpContext?.Session.GetInt32("CartItemCount") >= 0) {
+                                                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="cartItemCount">
+                                                            @HttpContextAccessor.HttpContext.Session.GetInt32("CartItemCount")
+                                                        </span>
+                                                    }
+                                                }
                                             </a>
                                         </li>
                                         @if (HttpContextAccessor.HttpContext?.Session.GetString("JWTToken") != null) {
@@ -136,7 +144,11 @@
                                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">@username!</span>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
-                                                    <a class="dropdown-item" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a>
+                                                    @{
+                                                        @if (User.IsInRole("Admin")) {
+                                                            <a class="dropdown-item" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a>
+                                                        }
+                                                    }
                                                     <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Profile">Profile</a>
                                                     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="dropdown-item">
                                                         <button type="submit" class="btn btn-link p-0 text-decoration-none">Logout</button>
@@ -166,7 +178,7 @@
         </nav>
     </header>
     <!-- Main Body Render -->
-    <div class="">
+    <div class="flex-grow-1">
         <main class="pb-3">
             @RenderBody()
         </main>
@@ -325,6 +337,10 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script type="text/javascript" src="~/js/plugins.js"></script>
     <script type="text/javascript" src="~/js/script.js"></script>
+    <script src="~/js/modernizr.js"></script>
+    <script>
+
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

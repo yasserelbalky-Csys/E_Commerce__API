@@ -7,6 +7,9 @@
 		<UserSecretsId>64727284-241c-4b6e-a259-039516fc3494</UserSecretsId>
 		<BootstrapVersion>5</BootstrapVersion>
 		<EnableHotReload>true</EnableHotReload>
+		<HotReloadHost>dotnet</HotReloadHost>
+		<RazorCompileOnBuild>true</RazorCompileOnBuild>
+		<RazorCompileOnPublish>true</RazorCompileOnPublish>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -28,6 +31,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.15" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.15" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.14" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.15">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -40,6 +44,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+		<PackageReference Include="Westwind.AspNetCore.LiveReload" Version="0.5.2" />
 	</ItemGroup>
 
 	<ItemGroup>

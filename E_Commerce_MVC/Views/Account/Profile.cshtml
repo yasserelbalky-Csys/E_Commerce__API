@@ -1,0 +1,76 @@
+﻿@model E_Commerce_MVC.Models.UserViewModel.UserProfileViewModel;
+@{
+    ViewData["Title"] = "My Profile";
+}
+<div class="container py-5">
+    <div class="row">
+        <!-- Sidebar Profile Summary -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow rounded-4 p-4 text-center">
+                <img src="@Model.ProfilePictureUrl" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;" alt="Profile Picture">
+                <h4 class="fw-bold">@Model.FullName</h4>
+                <p class="text-muted">@Model.Email</p>
+                <p class="text-muted small">@Model.Role</p>
+                <a href="@Url.Action("EditProfilePicture", "Account")" class="btn btn-outline-primary btn-sm mt-3">Change Picture</a>
+            </div>
+        </div>
+        <!-- Main Profile Form -->
+        <div class="col-lg-8">
+            <div class="card shadow rounded-4 p-4">
+                <h3 class="mb-4 fw-bold text-gradient">Edit Your Profile</h3>
+                <form asp-action="UpdateProfile" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Full Name</label>
+                        <input type="text" class="form-control" name="FullName" value="@Model.FullName" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email</label>
+                        <input type="email" class="form-control" name="Email" value="@Model.Email" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Phone Number</label>
+                        <input type="text" class="form-control" name="PhoneNumber" value="@Model.PhoneNumber" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Address</label>
+                        <textarea class="form-control" name="Address" rows="3">@Model.Address</textarea>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-gradient-primary">Save Changes</button>
+                    </div>
+                </form>
+                <hr class="my-4">
+                <div class="text-center">
+                    <a href="@Url.Action("ChangePassword", "Account")" class="btn btn-danger btn-sm">Change Password</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .text-gradient {
+            background: linear-gradient(45deg, #4f46e5, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-gradient-primary {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-gradient-primary:hover {
+            background: linear-gradient(135deg, #4338ca, #4f46e5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+        }
+    </style>
+}

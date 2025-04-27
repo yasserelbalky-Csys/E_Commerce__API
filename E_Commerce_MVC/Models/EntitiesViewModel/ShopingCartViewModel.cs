@@ -14,10 +14,10 @@ namespace E_Commerce_MVC.Models.EntitiesViewModel
         public string ProductName { get; set; }
 
         [Display(Name = "Product Count")]
-        public int Count { get; set; }
+        public int Count { get; set; } = 1;
 
         [Display(Name = "Product Price")]
-        public decimal price { get; set; }
+        public decimal Price { get; set; }
 
         [Display(Name = "User")]
         public string UserId { get; set; }

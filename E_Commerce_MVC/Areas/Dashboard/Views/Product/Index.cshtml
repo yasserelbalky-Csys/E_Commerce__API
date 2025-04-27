@@ -1,57 +1,53 @@
 ﻿@model IEnumerable<E_Commerce_MVC.Models.EntitiesViewModel.ProductViewModel>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Products";
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
-<h1>Index</h1>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductDiscription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubcategoryName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductDiscription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SubcategoryName)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+<div class="container my-5">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Products</h1>
+        <a class="btn btn-primary" asp-action="Create">
+            <i class="fas fa-plus"></i> New Product
+        </a>
+    </div>
+
+    <!-- Products Table -->
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h6 class="m-0">Products Table</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Product Description</th>
+                            <th>Product Price</th>
+                            <th>Subcategory Name</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ProductDiscription)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ProductPrice)</td>
+                                <td>@Html.DisplayFor(modelItem => item.SubcategoryName)</td>
+                                <td class="text-center">
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }, new { @class = "btn btn-sm btn-warning me-1" })
+                                    @Html.ActionLink("Details", "Details", new { id = item.ProductId }, new { @class = "btn btn-sm btn-info me-1" })
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductId }, new { @class = "btn btn-sm btn-danger" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

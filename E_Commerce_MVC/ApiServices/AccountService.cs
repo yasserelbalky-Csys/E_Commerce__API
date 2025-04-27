@@ -81,5 +81,14 @@ namespace E_Commerce_MVC.ApiServices
 
             return claims.Where(c => c.Type == "role").Select(c => c.Value).ToList();
         }
+
+        public string? GetUserIdFromToken(string token)
+        {
+            var claims = DecodeToken(token);
+            var userIdClaim = claims.FirstOrDefault(c => c.Type == "nameid");
+            _httpContextAccessor?.HttpContext?.Session.SetString("UserId", userIdClaim?.Value!);
+
+            return userIdClaim?.Value;
+        }
     }
 }

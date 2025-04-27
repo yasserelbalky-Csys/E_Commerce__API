@@ -1,39 +1,129 @@
 ﻿@model IEnumerable<E_Commerce_MVC.Models.EntitiesViewModel.BrandViewModel>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Brand Index";
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
-<h1>Index</h1>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.BrandName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BrandDescription)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BrandName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BrandDescription)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.BrandId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.BrandId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.BrandId })
-                </td>
-            </tr>
+
+<h1>Brand Index</h1>
+<h4>Brands</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="mb-4 text-end">
+            <a asp-action="Create" class="btn btn-gradient-primary">
+                <i class="fas fa-plus"></i> Create New Brand
+            </a>
+        </div>
+
+        <div class="card shadow border-0">
+            <div class="card-body p-4">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.BrandName)</th>
+                            <th>@Html.DisplayNameFor(model => model.BrandDescription)</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.BrandName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.BrandDescription)</td>
+                                    <td class="text-center">
+                                        <a asp-action="Edit" asp-route-id="@item.BrandId" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        |
+                                        <a asp-action="Details" asp-route-id="@item.BrandId" class="btn btn-sm btn-outline-info">
+                                            <i class="fas fa-info-circle"></i> Details
+                                        </a>
+                                        |
+                                        <a asp-action="Delete" asp-route-id="@item.BrandId" class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="text-center">No brands available.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Custom Gradient Button */
+        .btn-gradient-primary {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
         }
-    </tbody>
-</table>
+
+            .btn-gradient-primary:hover {
+                background: linear-gradient(135deg, #4338ca, #4f46e5);
+                transform: scale(1.05);
+            }
+
+        /* Outlined Button Colors */
+        .btn-outline-primary {
+            border-color: #4f46e5;
+            color: #4f46e5;
+        }
+
+            .btn-outline-primary:hover {
+                background-color: #4f46e5;
+                color: white;
+            }
+
+        .btn-outline-info {
+            border-color: #0dcaf0;
+            color: #0dcaf0;
+        }
+
+            .btn-outline-info:hover {
+                background-color: #0dcaf0;
+                color: white;
+            }
+
+        .btn-outline-danger {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+            .btn-outline-danger:hover {
+                background-color: #dc3545;
+                color: white;
+            }
+
+        .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: #6c757d;
+                color: white;
+            }
+    </style>
+}

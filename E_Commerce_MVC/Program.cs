@@ -2,13 +2,15 @@ using E_Commerce_MVC.ApiServices;
 using E_Commerce_MVC.Models.EntitiesViewModel;
 using E_Commerce_MVC.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Westwind.AspNetCore.LiveReload;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-;
+
+builder.Services.AddLiveReload();
 
 void RegisterGenericApiService<T>(IServiceCollection services, string baseUrl) where T : class
 {
@@ -44,19 +46,21 @@ builder.Services.AddHttpClient<BrandService>();
 builder.Services.AddHttpClient<ProductService>();
 builder.Services.AddHttpClient<StoreService>();
 builder.Services.AddHttpClient<ShoppingCartService>();
-
+builder.Services.AddSession();
 // starting the application 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment()) {
     app.UseExceptionHandler("/Home/Error");
+    
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
 
 app.UseRouting();
 app.UseSession();

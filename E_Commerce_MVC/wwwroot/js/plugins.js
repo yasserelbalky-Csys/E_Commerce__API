@@ -62,7 +62,7 @@ var $jscomp$this = this;
             var b = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(a);
             a = parseInt(b[1], 16);
             var d = parseInt(b[2], 16), b = parseInt(b[3], 16);
-            return"rgb(" + a + "," + d + "," + b + ")"
+            return "rgb(" + a + "," + d + "," + b + ")"
         }
 
         function T(a) {
@@ -82,7 +82,7 @@ var $jscomp$this = this;
                 var e = .5 > d ? d * (1 + c) : d + c - d * c, l = 2 * d - e, c = b(l, e, a + 1 / 3), d = b(l, e, a);
                 a = b(l, e, a - 1 / 3)
             }
-            return"rgb(" + 255 * c + "," + 255 * d + "," + 255 * a + ")"
+            return "rgb(" + 255 * c + "," + 255 * d + "," + 255 * a + ")"
         }
 
         function x(a) {
@@ -90,8 +90,8 @@ var $jscomp$this = this;
         }
 
         function U(a) {
-            if (-1 < a.indexOf("translate")) return"px";
-            if (-1 < a.indexOf("rotate") || -1 < a.indexOf("skew")) return"deg"
+            if (-1 < a.indexOf("translate")) return "px";
+            if (-1 < a.indexOf("rotate") || -1 < a.indexOf("skew")) return "deg"
         }
 
         function H(a, b) { return g.fnc(a) ? a(b.target, b.id, b.total) : a }
@@ -102,10 +102,10 @@ var $jscomp$this = this;
         }
 
         function I(a, b) {
-            if (g.dom(a) && F(V, b)) return"transform";
-            if (g.dom(a) && (a.getAttribute(b) || g.svg(a) && a[b])) return"attribute";
-            if (g.dom(a) && "transform" !== b && C(a, b)) return"css";
-            if (null != a[b]) return"object"
+            if (g.dom(a) && F(V, b)) return "transform";
+            if (g.dom(a) && (a.getAttribute(b) || g.svg(a) && a[b])) return "attribute";
+            if (g.dom(a) && "transform" !== b && C(a, b)) return "css";
+            if (null != a[b]) return "object"
         }
 
         function W(a, b) {
@@ -174,7 +174,7 @@ var $jscomp$this = this;
                 b = b ? a + b : a
             }
             b += "";
-            return{
+            return {
                 original: b,
                 numbers: b.match(d) ? b.match(d).map(Number) : [0],
                 strings: b.split(d)
@@ -184,12 +184,12 @@ var $jscomp$this = this;
         function Y(a, b) { return b.reduce(function(b, c, e) { return b + a[e - 1] + c }) }
 
         function M(a) {
-            return(a ? p(g.arr(a) ? a.map(w) : w(a)) : []).filter(function(a, d, c) { return c.indexOf(a) === d })
+            return (a ? p(g.arr(a) ? a.map(w) : w(a)) : []).filter(function(a, d, c) { return c.indexOf(a) === d })
         }
 
         function Z(a) {
             var b = M(a);
-            return b.map(function(a, c) { return{ target: a, id: c, total: b.length } })
+            return b.map(function(a, c) { return { target: a, id: c, total: b.length } })
         }
 
         function aa(a, b) {
@@ -259,7 +259,7 @@ var $jscomp$this = this;
                     } else b = void 0;
                     return b
                 })
-            })).filter(function(a) { return!g.und(a) })
+            })).filter(function(a) { return !g.und(a) })
         }
 
         function O(a, b, d) {
@@ -405,15 +405,15 @@ var $jscomp$this = this;
             E,
             g = {
                 arr: function(a) { return Array.isArray(a) },
-                obj: function(a) { return-1 < Object.prototype.toString.call(a).indexOf("Object") },
+                obj: function(a) { return -1 < Object.prototype.toString.call(a).indexOf("Object") },
                 svg: function(a) { return a instanceof SVGElement },
                 dom: function(a) { return a.nodeType || g.svg(a) },
-                str: function(a) { return"string" === typeof a },
-                fnc: function(a) { return"function" === typeof a },
-                und: function(a) { return"undefined" === typeof a },
-                hex: function(a) { return/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(a) },
-                rgb: function(a) { return/^rgb/.test(a) },
-                hsl: function(a) { return/^hsl/.test(a) },
+                str: function(a) { return "string" === typeof a },
+                fnc: function(a) { return "function" === typeof a },
+                und: function(a) { return "undefined" === typeof a },
+                hex: function(a) { return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(a) },
+                rgb: function(a) { return /^rgb/.test(a) },
+                hsl: function(a) { return /^hsl/.test(a) },
                 col: function(a) {
                     return g.hex(a) ||
                         g.rgb(a) ||
@@ -421,7 +421,7 @@ var $jscomp$this = this;
                 }
             },
             y = function() {
-                function a(a, d, c) { return(((1 - 3 * c + 3 * d) * a + (3 * c - 6 * d)) * a + 3 * d) * a }
+                function a(a, d, c) { return (((1 - 3 * c + 3 * d) * a + (3 * c - 6 * d)) * a + 3 * d) * a }
 
                 return function(b, d, c, e) {
                     if (0 <= b && 1 >= b && 0 <= c && 1 >= c) {
@@ -531,7 +531,7 @@ var $jscomp$this = this;
         n.getValue = J;
         n.path = function(a, b) {
             var d = g.str(a) ? v(a)[0] : a, c = b || 100;
-            return function(a) { return{ el: d, property: a, totalLength: d.getTotalLength() * (c / 100) } }
+            return function(a) { return { el: d, property: a, totalLength: d.getTotalLength() * (c / 100) } }
         };
         n.setDashoffset = function(a) {
             var b = a.getTotalLength();
@@ -600,7 +600,7 @@ var $jscomp$this = this;
             ? self
             : {};
         var i = t;
-        const{ navigator:o } = i,
+        const { navigator: o } = i,
             n = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(o.userAgent);
         let a, s;
 
@@ -622,7 +622,7 @@ var $jscomp$this = this;
         function m() {
             r.length &&
             (r.forEach(((e, t) => {
-                const{ instance:o, oldData:n } = e,
+                const { instance: o, oldData: n } = e,
                     a = o.$item.getBoundingClientRect(),
                     l = { width: a.width, height: a.height, top: a.top, bottom: a.bottom, wndW: i.innerWidth, wndH: s },
                     m = !n || n.wndW !== l.wndW || n.wndH !== l.wndH || n.width !== l.width || n.height !== l.height,
@@ -692,7 +692,7 @@ var $jscomp$this = this;
             }
 
             css(e, t) {
-                return"string" == typeof t
+                return "string" == typeof t
                     ? i.getComputedStyle(e).getPropertyValue(t)
                     : (Object.keys(t).forEach((i => { e.style[i] = t[i] })), e)
             }
@@ -704,7 +704,7 @@ var $jscomp$this = this;
             }
 
             getWindowData() {
-                return{
+                return {
                     width: i.innerWidth || document.documentElement.clientWidth,
                     height: s,
                     y: document.documentElement.scrollTop
@@ -728,7 +728,7 @@ var $jscomp$this = this;
                             "none" === e.image.bgImage))
             }
 
-            canInitParallax() { return!this.options.disableParallax() }
+            canInitParallax() { return !this.options.disableParallax() }
 
             init() {
                 const e = this,
@@ -827,7 +827,7 @@ var $jscomp$this = this;
                 const e = this,
                     t = e.image.$container.getBoundingClientRect(),
                     i = t.height,
-                    { speed:o } = e.options,
+                    { speed: o } = e.options,
                     n = "scroll" === e.options.type || "scroll-opacity" === e.options.type;
                 let a = 0, l = i, r = 0;
                 return n &&
@@ -914,7 +914,7 @@ var $jscomp$this = this;
             const e = function(...e) {
                 Array.prototype.unshift.call(e, this);
                 const t = d.apply(i, e);
-                return"object" != typeof t ? t : this
+                return "object" != typeof t ? t : this
             };
             e.constructor = d.constructor;
             const t = g.fn.jarallax;
@@ -942,7 +942,7 @@ var $jscomp$this = this;
         })
     }
 
-    function s({ src:e, srcset:t, sizes:s }) {
+    function s({ src: e, srcset: t, sizes: s }) {
         const i = new Image;
         return i.src = e, t && (i.srcset = t), s && (i.sizes = s), "decode" in i
             ? new Promise((e, t) => { i.decode().then(() => { e(i) }).catch(() => { t(i) }) })
@@ -951,17 +951,17 @@ var $jscomp$this = this;
 
     function i(e) {
         let t, s;
-        const{
-                 imgHeight:i,
-                 imgWidth:l,
-                 containerHeight:n,
-                 containerWidth:a,
-                 canvasWidth:o,
-                 canvasHeight:c,
-                 imageSize:h
-             } = e,
+        const {
+                  imgHeight: i,
+                  imgWidth: l,
+                  containerHeight: n,
+                  containerWidth: a,
+                  canvasWidth: o,
+                  canvasHeight: c,
+                  imageSize: h
+              } = e,
             r = i / l;
-        return"cover" == h
+        return "cover" == h
             ? r < n / a
             ? s = (t = n) / r
             : t = (s = a) * r
@@ -1004,7 +1004,7 @@ var $jscomp$this = this;
         currentImageIndex: void 0,
         allowZoom: !0,
         closeOnBackgroundClick: !0,
-        setTitle: function() { return"" },
+        setTitle: function() { return "" },
         description: function() { return this.images[this.settings.currentImageIndex].title },
         pagination: function() {
             const e = this.settings.lastImageIndex + 1;
@@ -1093,7 +1093,7 @@ var $jscomp$this = this;
             })
         }
 
-        position({ naturalHeight:e, naturalWidth:s }) {
+        position({ naturalHeight: e, naturalWidth: s }) {
             const l = {
                       imgHeight: e,
                       imgWidth: s,
@@ -1103,7 +1103,7 @@ var $jscomp$this = this;
                       canvasHeight: this.elems.imageCanvas.clientHeight,
                       imageSize: this.settings.imageSize
                   },
-                { width:n, height:a } = i(l);
+                { width: n, height: a } = i(l);
             return t(() => { Object.assign(this.elems.imageWrapper.style, { width: n + "px", height: a + "px" }) },
                 this.elems.imageWrapper)
         }
@@ -1152,7 +1152,7 @@ var $jscomp$this = this;
 
         destroy() {
             for (let e = this.events.length - 1; e >= 0; e--) {
-                const{ element:t, eventName:s } = this.events[e];
+                const { element: t, eventName: s } = this.events[e];
                 this.off(t, s)
             }
             this.state.initialized &&
@@ -1313,7 +1313,7 @@ var $jscomp$this = this;
                                               canvasHeight: this.elems.imageCanvas.clientHeight,
                                               imageSize: this.settings.imageSize
                                           },
-                                        { width:t, height:s } = i(e);
+                                        { width: t, height: s } = i(e);
                                     this.position(this.elems.img).then(() => {
                                         this.elems.container.classList.toggle("chocolat-zoomable",
                                             this.zoomable(this.elems.img, this.elems.wrapper))
@@ -1409,8 +1409,8 @@ jQuery.extend(jQuery.easing,
         easeInSine: function(e, f, a, h, g) { return -h * Math.cos(f / g * (Math.PI / 2)) + h + a },
         easeOutSine: function(e, f, a, h, g) { return h * Math.sin(f / g * (Math.PI / 2)) + a },
         easeInOutSine: function(e, f, a, h, g) { return -h / 2 * (Math.cos(Math.PI * f / g) - 1) + a },
-        easeInExpo: function(e, f, a, h, g) { return(f == 0) ? a : h * Math.pow(2, 10 * (f / g - 1)) + a },
-        easeOutExpo: function(e, f, a, h, g) { return(f == g) ? a + h : h * (-Math.pow(2, -10 * f / g) + 1) + a },
+        easeInExpo: function(e, f, a, h, g) { return (f == 0) ? a : h * Math.pow(2, 10 * (f / g - 1)) + a },
+        easeOutExpo: function(e, f, a, h, g) { return (f == g) ? a + h : h * (-Math.pow(2, -10 * f / g) + 1) + a },
         easeInOutExpo: function(e, f, a, h, g) {
             if (f == 0) {
                 return a

@@ -80,8 +80,8 @@
                                         </div>
                                         <div class="cart-concern position-absolute">
                                             <div class="cart-button d-flex">
-                                                <a href="#" class="btn btn-medium btn-black">
-                                                    Add to Cart
+                                                <a class="btn btn-medium btn-black" onclick="AddToCart(@product.ProductId)">
+                                                    Add To Cart
                                                     <svg class="cart-outline">
                                                         <use xlink:href="#cart-outline"></use>
                                                     </svg>
@@ -476,3 +476,70 @@
         </div>
     </div>
 </section>
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Cart Notification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="cartModalMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        async function AddToCart(productId) {
+            try {
+                // Call the MVC controller method
+                const response = await fetch(`/Cart/AddToCart?productId=${productId}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                if (!response.ok) {
+                    throw new Error("Failed to check product in cart.");
+                }
+
+                const result = await response.json();
+                console.log(result);
+
+                // Show the modal with the appropriate message
+                const modalMessage = document.getElementById('cartModalMessage');
+                if (result.success) {
+                    if (result.exists) {
+                        modalMessage.textContent = "This product is already in your cart.";
+                    } else {
+                        modalMessage.textContent = "This product is Added to your card cart.";
+                    }
+                } else {
+                    modalMessage.textContent = result.message || "An error occurred.";
+                }
+
+                const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+                cartModal.show();
+            } catch (error) {
+                console.error('An error occurred while checking the product in the cart:', error);
+                showCartModal("An error occurred while processing your request.");
+            }
+        }
+
+        function showCartModal(message) {
+            const modalMessage = document.getElementById('cartModalMessage');
+            modalMessage.textContent = message;
+
+            const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+            cartModal.show();
+        }
+
+    </script>
+}

@@ -18,7 +18,6 @@ namespace E_Commerce_MVC.ApiServices
 
             httpClient.BaseAddress = new Uri("http://localhost:5097/api/Store/");
             var token = _httpContextAccessor.HttpContext?.Session.GetString("JWTToken");
-            Console.WriteLine($"token is: {token}");
 
             if (!string.IsNullOrEmpty(token)) {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
