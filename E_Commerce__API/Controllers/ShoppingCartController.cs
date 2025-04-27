@@ -27,14 +27,16 @@ namespace E_Commerce__API.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
-            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated) {
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
+            {
                 return Unauthorized(new { message = "User is not authenticated." });
             }
 
             var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // Ensure the claim exists
-            if (userIdClaim == null) {
+            if (userIdClaim == null)
+            {
                 return BadRequest(new { message = "User ID claim is missing from the token." });
             }
 
@@ -63,14 +65,16 @@ namespace E_Commerce__API.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
-            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated) {
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
+            {
                 return Unauthorized(new { message = "User is not authenticated." });
             }
 
             var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // Ensure the claim exists
-            if (userIdClaim == null) {
+            if (userIdClaim == null)
+            {
                 return BadRequest(new { message = "User ID claim is missing from the token." });
             }
 
@@ -97,14 +101,16 @@ namespace E_Commerce__API.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
-            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated) {
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
+            {
                 return Unauthorized(new { message = "User is not authenticated." });
             }
 
             var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // Ensure the claim exists
-            if (userIdClaim == null) {
+            if (userIdClaim == null)
+            {
                 return BadRequest(new { message = "User ID claim is missing from the token." });
             }
 
@@ -113,25 +119,21 @@ namespace E_Commerce__API.Controllers
             cart.UserId = userId; // Ensure UserId is assigned before inserting
 
             bool exists = _shoppingCartService.GetShoppingCarts()
-                .Any(cart1 => cart1.UserId == userId && cart1.ProductId == cart.ProductId);
-
-            if (exists) {
+            .Any(cart1 => cart1.UserId == userId && cart1.ProductId == cart.ProductId);
+            if (exists)
+            {
                 return BadRequest(new { message = "Duplicate product found in the cart." });
             }
 
-            // Guest user: Use session for cart storage
-            var sessionCart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ??
-                              new List<ShoppingCartInsertDto>();
-
-            if (sessionCart.Any(c => c.ProductId == cart.ProductId && c.UserId == userId)) {
-                return BadRequest(new { message = "Duplicate product found in the cart." });
+            var res = _shoppingCartService.InsertShoppingCart(cart);
+            if (res == 0)
+            {
+                return Ok(new { message = "Item added to cart (Session)." });
             }
-
-            _shoppingCartService.InsertShoppingCart(cart);
-            sessionCart.Add(cart);
-            _sessionManager.Set("Cart", sessionCart);
-
-            return Ok(new { message = "Item added to cart (Session)." });
+            else
+            {
+                return NotFound("No Available Qty");
+            }
         }
 
         [Authorize]
@@ -141,47 +143,30 @@ namespace E_Commerce__API.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
-            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated) {
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
+            {
                 return Unauthorized(new { message = "User is not authenticated." });
             }
 
             var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // Ensure the claim exists
-            if (userIdClaim == null) {
+            if (userIdClaim == null)
+            {
                 return BadRequest(new { message = "User ID claim is missing from the token." });
             }
 
             var userId = userIdClaim.Value;
             cart.UserId = userId;
-            _shoppingCartService.UpdateShoppingCart(cart);
 
-            var sessionCart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ??
-                              new List<ShoppingCartInsertDto>();
-
-            var existingItem =
-                sessionCart.FirstOrDefault(c => c.ProductId == cart.ProductId && c.UserId == cart.UserId);
-
-            if (existingItem != null) {
-                existingItem.Count = cart.Count;
-                _sessionManager.Set("Cart", sessionCart);
-
-                return Ok(new { message = "Shopping cart updated successfully in database and session." });
-            } else {
-                //existingItem.Count = cart.Count;
-                //existingItem.ProductId = cart.ProductId;
-                // existingItem.UserId = cart.UserId;
-
-                sessionCart.Add(new ShoppingCartInsertDto {
-                    ProductId = cart.ProductId,
-                    UserId = cart.UserId,
-                    Count = cart.Count
-                });
-
-                _sessionManager.Set("Cart", sessionCart);
-
-                return Ok(new
-                    { message = "Shopping cart updated successfully in database and insert in session first time." });
+            var res = _shoppingCartService.UpdateShoppingCart(cart);
+            if (res == 0)
+            {
+                return Ok(new { message = "Shopping cart updated successfully in database" });
+            }
+            else
+            {
+                return NotFound(new { message = "No Available Qty" });
             }
         }
 
@@ -192,31 +177,34 @@ namespace E_Commerce__API.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
-            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated) {
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
+            {
                 return Unauthorized(new { message = "User is not authenticated." });
             }
 
             var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // Ensure the claim exists
-            if (userIdClaim == null) {
+            if (userIdClaim == null)
+            {
                 return BadRequest(new { message = "User ID claim is missing from the token." });
             }
 
             var userId = userIdClaim.Value;
 
             var cartItems = _shoppingCartService.GetShoppingCarts();
-            var item = cartItems.FirstOrDefault(c => c.UserId == userId && c.ShoppingCartId == productId);
+            var item = cartItems.FirstOrDefault(c => c.UserId == userId && c.ProductId == productId);
             //item.UserId = userId;
 
-            if (item == null) {
+            if (item == null)
+            {
                 return NotFound(new { message = "Product not found in the cart." });
             }
 
             _shoppingCartService.DeleteShoppingCart(productId);
 
             var sessionCart = _sessionManager.Get<List<ShoppingCartListDto>>("Cart") ?? new List<ShoppingCartListDto>();
-            sessionCart.RemoveAll(c => c.ShoppingCartId == productId);
+            sessionCart.RemoveAll(c => c.ProductId == productId);
             _sessionManager.Set("Cart", sessionCart);
 
             return Ok(new { message = "Product removed from cart and database successfully." });
@@ -229,14 +217,16 @@ namespace E_Commerce__API.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
-            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated) {
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
+            {
                 return Unauthorized(new { message = "User is not authenticated." });
             }
 
             var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // Ensure the claim exists
-            if (userIdClaim == null) {
+            if (userIdClaim == null)
+            {
                 return BadRequest(new { message = "User ID claim is missing from the token." });
             }
 
@@ -245,9 +235,12 @@ namespace E_Commerce__API.Controllers
             var cartItems = _shoppingCartService.GetUserCart(userId);
             //item.UserId = userId;
 
-            if (cartItems == null) {
+            if (cartItems == null)
+            {
                 return NotFound(new { message = "Product not found in the cart." });
-            } else {
+            }
+            else
+            {
                 _shoppingCartService.ClearUserCart(userId);
             }
 

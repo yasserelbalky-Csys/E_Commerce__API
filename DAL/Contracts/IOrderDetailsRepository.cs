@@ -10,5 +10,7 @@ namespace DAL.Contracts
     public interface IOrderDetailsRepository : IBaseRepository<OrderDetails>
     {
         void DeleteOrderDetails(int OrderNo, int LineNo, int ProductId);
+
+        IEnumerable<OrderDetails> GetByOrderNo(int orderNo);
     }
 }

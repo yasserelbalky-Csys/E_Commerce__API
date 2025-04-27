@@ -22,10 +22,12 @@ namespace BLL.Services
         public void DeleteBrand(int id)
         {
             var brandd = _unitofwork.brands.GetById(id);
-
-            if (brandd != null) {
+            if (brandd != null)
+            {
                 brandd.b_deleted = true;
-            } else {
+            }
+            else
+            {
                 throw new KeyNotFoundException($"Brand with ID {id} not found.");
             }
 
@@ -35,16 +37,20 @@ namespace BLL.Services
         public BrandListDto GetBrand(int id)
         {
             var temp = _unitofwork.brands.GetById(id);
-
-            if (temp != null) {
-                return new BrandListDto {
+            if (temp != null)
+            {
+                return new BrandListDto
+                {
                     BrandId = temp.BrandId,
                     BrandName = temp.BrandName,
                     BrandDescription = temp.BrandDescription,
                     b_deleted = temp.b_deleted,
                 };
-            } else {
-                return new BrandListDto {
+            }
+            else
+            {
+                return new BrandListDto
+                {
                     BrandId = 0,
                     BrandName = "",
                     BrandDescription = "",
@@ -55,7 +61,8 @@ namespace BLL.Services
 
         public IEnumerable<BrandListDto> GetBrands()
         {
-            return _unitofwork.brands.GetAll().Select(b => new BrandListDto {
+            return _unitofwork.brands.GetAll().Select(b => new BrandListDto
+            {
                 BrandId = b.BrandId,
                 BrandName = b.BrandName,
                 BrandDescription = b.BrandDescription,
@@ -80,7 +87,8 @@ namespace BLL.Services
 
         public void InsertBrand(BrandInsertDto brand)
         {
-            _unitofwork.brands.Insert(new Brands {
+            _unitofwork.brands.Insert(new Brands
+            {
                 BrandName = brand.BrandName,
                 BrandDescription = brand.BrandDescription,
                 b_deleted = false
@@ -91,16 +99,17 @@ namespace BLL.Services
         public int UpdateBrand(BrandUpdateDto brand)
         {
             var temp = _unitofwork.brands.GetById(brand.BrandId);
-
-            if (temp != null) {
+            if (temp != null)
+            {
                 temp.BrandName = brand.BrandName;
                 temp.BrandDescription = brand.BrandDescription;
                 temp.b_deleted = brand.b_deleted;
                 _unitofwork.brands.Update(temp);
                 _unitofwork.save();
-
                 return 1;
-            } else {
+            }
+            else
+            {
                 return 0;
             }
         }

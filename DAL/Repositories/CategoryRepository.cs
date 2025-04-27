@@ -17,5 +17,10 @@ namespace DAL.Repositories
         {
             return _entitySet.Include(m => m.SubCategories).Where(c => c.CategoryId == mainCategoryId).AsEnumerable();
         }
+
+        public IEnumerable<Categories> GetSubCategoriesByMainCategory(int mainCategoryId)
+        {
+            return _entitySet.Include(m => m.SubCategories).Where(c => c.CategoryId == mainCategoryId).AsEnumerable();
+        }
     }
 }

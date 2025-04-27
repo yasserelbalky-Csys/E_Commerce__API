@@ -22,7 +22,8 @@ namespace BLL.Services
 
         public IEnumerable<CategoryListDto> GetCategories()
         {
-            return _unitofwork.Categories.GetAll().Select(cat => new CategoryListDto {
+            return _unitofwork.Categories.GetAll().Select(cat => new CategoryListDto
+            {
                 CategoryId = cat.CategoryId,
                 CategoryName = cat.CategoryName,
                 CategoryDescription = cat.CategoryDescription,
@@ -33,8 +34,8 @@ namespace BLL.Services
         public CategoryListDto GetCategory(int id)
         {
             var entity = _unitofwork.Categories.GetById(id);
-
-            return new CategoryListDto {
+            return new CategoryListDto
+            {
                 CategoryId = entity.CategoryId,
                 CategoryName = entity.CategoryName,
                 CategoryDescription = entity.CategoryDescription,
@@ -44,7 +45,8 @@ namespace BLL.Services
 
         public void InsertCategory(CategoryInsertDto category)
         {
-            _unitofwork.Categories.Insert(new Categories {
+            _unitofwork.Categories.Insert(new Categories
+            {
                 CategoryName = category.CategoryName,
                 CategoryDescription = category.CategoryDescription,
                 b_deleted = false
@@ -55,14 +57,16 @@ namespace BLL.Services
         public void UpdateCategory(CategoryUpdateDto category)
         {
             var cat = _unitofwork.Categories.GetById(category.CategoryId);
-
-            if (cat != null) {
+            if (cat != null)
+            {
                 cat.CategoryId = category.CategoryId;
                 cat.CategoryName = category.CategoryName;
                 cat.CategoryDescription = category.CategoryDescription;
                 cat.b_deleted = category.b_deleted;
                 _unitofwork.Categories.Update(cat);
-            } else {
+            }
+            else
+            {
                 throw new KeyNotFoundException($"Category with ID {category.CategoryId} not found.");
             }
 
@@ -72,10 +76,12 @@ namespace BLL.Services
         public void DeleteCategory(int id)
         {
             var cat = _unitofwork.Categories.GetById(id);
-
-            if (cat != null) {
+            if (cat != null)
+            {
                 cat.b_deleted = true;
-            } else {
+            }
+            else
+            {
                 throw new KeyNotFoundException($"Category with ID {id} not found.");
             }
 
@@ -84,16 +90,18 @@ namespace BLL.Services
 
         public IEnumerable<SubCategoryByMainCategoryDto> GetSubCategoriesBymainCategoryId(int mainCategoryId)
         {
-            return _unitofwork.Categories.GetSubCategoriesByMainCategory(mainCategoryId).SelectMany(c =>
-                c.SubCategories.Select(sub => new SubCategoryByMainCategoryDto {
-                    CategoryId = c.CategoryId,
-                    CategoryName = c.CategoryName,
-                    CategoryDescription = c.CategoryDescription,
-                    SubCategoryId = sub.SubCategoryId,
-                    SubCategoryName = sub.SubCategoryName,
-                    SubCategoryDescription = sub.SubCategoryDescription,
-                    b_deleted_sub = sub.b_deleted
-                })).Where(sub => sub.b_deleted_sub == false);
+            return _unitofwork.Categories
+        .GetSubCategoriesByMainCategory(mainCategoryId)
+        .SelectMany(c => c.SubCategories.Select(sub => new SubCategoryByMainCategoryDto
+        {
+            CategoryId = c.CategoryId,
+            CategoryName = c.CategoryName,
+            CategoryDescription = c.CategoryDescription,
+            SubCategoryId = sub.SubCategoryId,
+            SubCategoryName = sub.SubCategoryName,
+            SubCategoryDescription = sub.SubCategoryDescription,
+            b_deleted_sub = sub.b_deleted
+        })).Where(sub => sub.b_deleted_sub == false);
         }
     }
 }

@@ -18,5 +18,8 @@ namespace BLL.DTOs.UserDtos
         public string LastName { get; set; }
 
         public string role { get; set; }
+
+
+
     }
 }

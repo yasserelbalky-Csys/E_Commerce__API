@@ -42,8 +42,8 @@ namespace DAL.Repositories
         public void Delete(int id)
         {
             var entity = _entitySet.Find(id);
-
-            if (entity != null) {
+            if (entity != null)
+            {
                 _entitySet.Remove(entity);
             }
         }
