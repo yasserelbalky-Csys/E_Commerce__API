@@ -70,14 +70,14 @@ namespace E_Commerce_MVC.ApiServices
             }
         }
 
-        public async Task<ErrorViewModel> UpdateStore(StoreViewModel store)
+        public async Task<string> UpdateStore(StoreViewModel store)
         {
             var response = await _httpClient.PutAsJsonAsync("PUT", store);
 
             if (response.IsSuccessStatusCode) {
-                var result = await response.Content.ReadFromJsonAsync<ErrorViewModel>();
+                var result = await response.Content.ReadAsStringAsync();
 
-                return result ?? new ErrorViewModel();
+                return result;
             } else {
                 throw new Exception($"Error updating store: {response.ReasonPhrase}");
             }

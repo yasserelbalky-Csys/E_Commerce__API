@@ -3,23 +3,20 @@
     ViewData["Title"] = "Store Details";
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
-<h1>Details</h1>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StoreName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StoreName)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit",
-        "Edit",
-        new {
-            /* id = Model.PrimaryKey */
-        }) |
-    <a asp-action="Index">Back to List</a>
+<div class="container my-5 w-50">
+    <h1 class="h3 mb-4">Store Details</h1>
+    <div class="card shadow">
+        <div class="card-body">
+            <!-- Details Section -->
+            <dl class="row mb-0">
+                <!-- Store Name -->
+                <dt class="col-sm-3 fw-bold">Store Name</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.StoreName)</dd>
+            </dl>
+        </div>
+        <div class="card-footer bg-light d-flex justify-content-between">
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.StoreId }, new { @class = "btn btn-primary" })
+        </div>
+    </div>
 </div>

@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace E_Commerce__API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class OrderController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace E_Commerce__API.Controllers
             _helperService = helperservice;
         }
 
-        [Authorize]
+      
         [HttpGet]
         public IActionResult GetAll()
         {

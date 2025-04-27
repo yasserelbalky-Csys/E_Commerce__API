@@ -3,30 +3,48 @@
     ViewData["Title"] = "Stores";
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.StoreName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StoreName)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.StoreId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.StoreId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.StoreId })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container my-5 w-75">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Stores</h1>
+        <a class="btn btn-primary" asp-action="Create">
+            <i class="fas fa-plus"></i> Create New Store
+        </a>
+    </div>
+    <!-- Stores Table -->
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h6 class="m-0">Stores Table</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Store Name</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model) {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.StoreName)</td>
+                                <td class="text-center">
+                                    <a asp-action="Edit" asp-route-id="@item.StoreId" class="btn btn-sm btn-warning me-1">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a asp-action="Details" asp-route-id="@item.StoreId" class="btn btn-sm btn-info me-1">
+                                        <i class="fas fa-info-circle"></i> Details
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.StoreId" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

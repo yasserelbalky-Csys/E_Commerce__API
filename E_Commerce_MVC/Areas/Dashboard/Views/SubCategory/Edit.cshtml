@@ -1,43 +1,65 @@
 ﻿@model E_Commerce_MVC.Models.EntitiesViewModel.SubCategory
+
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
-<h1>Edit</h1>
-<h4>SubCategory</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <input asp-for="SubCategoryId" class="form-control" type="hidden" />
-                <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+
+<div class="container-fluid mt-4 mb-3 w-75">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-sm rounded-3">
+                <div class="card-header bg-light rounded-top d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Edit SubCategory</h5>
+                </div>
+                <div class="card-header-divider"></div>
+                <div class="card-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <input asp-for="SubCategoryId" class="form-control" type="hidden" />
+                            <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="SubCategoryName" class="control-label"></label>
+                            <input asp-for="SubCategoryName" class="form-control" />
+                            <span asp-validation-for="SubCategoryName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="SubCategoryDescription" class="control-label"></label>
+                            <input asp-for="SubCategoryDescription" class="form-control" />
+                            <span asp-validation-for="SubCategoryDescription" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CategoryId" class="control-label"></label>
+                            <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories" id="MainCategoryId"></select>
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="SubCategoryName" class="control-label"></label>
-                <input asp-for="SubCategoryName" class="form-control" />
-                <span asp-validation-for="SubCategoryName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SubCategoryDescription" class="control-label"></label>
-                <input asp-for="SubCategoryDescription" class="form-control" />
-                <span asp-validation-for="SubCategoryDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories" id="MainCategoryId"></select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+@section Styles {
+    <style>
+        .rounded-3 {
+            border-radius: 0.5rem;
+        }
+
+        .card-header-divider {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+    </style>
+}
 
 @section Scripts {
     <script>

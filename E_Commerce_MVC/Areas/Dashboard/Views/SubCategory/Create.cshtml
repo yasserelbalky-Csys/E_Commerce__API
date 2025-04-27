@@ -1,86 +1,100 @@
 ﻿@model E_Commerce_MVC.Models.EntitiesViewModel.SubCategory
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create SubCategory";
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Create SubCategory</h1>
-<h4>Sub-Category</h4>
-<hr />
-
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <form asp-action="Create">
-            <!-- Validation Summary -->
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-
-            <!-- SubCategory Name -->
-            <div class="mb-4">
-                <label asp-for="SubCategoryName" class="form-label">SubCategory Name</label>
-                <input asp-for="SubCategoryName" class="form-control" />
-                <span asp-validation-for="SubCategoryName" class="text-danger"></span>
+<!-- Hero Section -->
+<div class="container">
+    <h1 class="text-center mb-4">Create SubCategory</h1>
+    <hr class="w-100 m-0" />
+</div>
+<!-- Form Section -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <!-- Validation Summary -->
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <!-- SubCategory Name -->
+                        <div class="mb-4">
+                            <label asp-for="SubCategoryName" class="form-label">SubCategory Name</label>
+                            <input asp-for="SubCategoryName" class="form-control" placeholder="Enter subcategory name" />
+                            <span asp-validation-for="SubCategoryName" class="text-danger"></span>
+                        </div>
+                        <!-- SubCategory Description -->
+                        <div class="mb-4">
+                            <label asp-for="SubCategoryDescription" class="form-label">SubCategory Description</label>
+                            <textarea asp-for="SubCategoryDescription" class="form-control" rows="3" placeholder="Enter subcategory description"></textarea>
+                            <span asp-validation-for="SubCategoryDescription" class="text-danger"></span>
+                        </div>
+                        <!-- Main Category Dropdown -->
+                        <div class="mb-4">
+                            <label asp-for="MainCategoryId" class="form-label">Main Category</label>
+                            <select asp-for="MainCategoryId" class="form-control" asp-items="ViewBag.Categories" id="MainCategoryId">
+                                <option value="">Select main category</option>
+                            </select>
+                            <span asp-validation-for="MainCategoryId" class="text-danger"></span>
+                        </div>
+                        <!-- Main Category Name (readonly) -->
+                        <div class="mb-4">
+                            <label asp-for="MainCategoryName" class="form-label">Main Category Name</label>
+                            <input asp-for="MainCategoryName" class="form-control" id="MainCategoryName" readonly />
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="d-grid mb-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save"></i> Create SubCategory
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <!-- SubCategory Description -->
-            <div class="mb-4">
-                <label asp-for="SubCategoryDescription" class="form-label">SubCategory Description</label>
-                <input asp-for="SubCategoryDescription" class="form-control" />
-                <span asp-validation-for="SubCategoryDescription" class="text-danger"></span>
-            </div>
-
-            <!-- Main Category Dropdown -->
-            <div class="mb-4">
-                <label asp-for="MainCategoryId" class="form-label">Main Category</label>
-                <select asp-for="MainCategoryId" class="form-control" asp-items="ViewBag.Categories" id="MainCategoryId"></select>
-                <span asp-validation-for="MainCategoryId" class="text-danger"></span>
-            </div>
-
-            <!-- Main Category Name (readonly) -->
-            <div class="mb-4">
-                <label asp-for="MainCategoryName" class="form-label">Main Category Name</label>
-                <input asp-for="MainCategoryName" class="form-control" id="MainCategoryName" readonly />
-            </div>
-
-            <!-- Submit Button -->
-            <div class="d-grid mb-4">
-                <button type="submit" class="btn btn-gradient-primary">
-                    <i class="fas fa-save"></i> Create
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
 <!-- Back to List Link -->
-<div class="text-center">
+<div class="text-center mt-5">
     <a asp-action="Index" class="btn btn-outline-secondary">
         <i class="fas fa-arrow-left"></i> Back to List
     </a>
 </div>
 
 @section Styles {
-    <!-- Custom Gradient Button Style -->
+    <!-- Custom Styles -->
     <style>
-        .btn-gradient-primary {
-            background: linear-gradient(135deg, #4f46e5, #6366f1);
-            color: white;
-            border: none;
-            transition: all 0.3s ease;
+        .hero {
+            background-image: linear-gradient(to bottom, #f7f7f7, #fff);
+            background-size: 100% 300px;
+            background-position: 0% 100%;
         }
 
-            .btn-gradient-primary:hover {
-                background: linear-gradient(135deg, #4338ca, #4f46e5);
-                transform: scale(1.05);
-            }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #4f46e5;
+            color: #fff;
+            border-color: #4f46e5;
+        }
+
+        .btn-primary:hover {
+            background-color: #4338ca;
+            border-color: #4338ca;
+        }
     </style>
 }
 
 @section Scripts {
     <script>
         // Update MainCategoryName field based on the selected MainCategoryId
-        document.getElementById('MainCategoryId').addEventListener('change', function() {
-            const selectedCategoryName = this.options[this.selectedIndex].text;
-            document.getElementById('MainCategoryName').value = selectedCategoryName;
-        });
+        document.getElementById('MainCategoryId').addEventListener('change',
+            function() {
+                const selectedCategoryName = this.options[this.selectedIndex].text;
+                document.getElementById('MainCategoryName').value = selectedCategoryName;
+            });
     </script>
 }

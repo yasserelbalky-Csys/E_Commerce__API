@@ -10,8 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-builder.Services.AddLiveReload();
-
 void RegisterGenericApiService<T>(IServiceCollection services, string baseUrl) where T : class
 {
     services.AddHttpClient<GenericApiService<T>>(client => { client.BaseAddress = new Uri(baseUrl); });
@@ -24,7 +22,7 @@ builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 }).AddCookie(options => {
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
     options.SlidingExpiration = true;
     options.LoginPath = "/Account/Login";
     options.LogoutPath = "/Account/Logout";
@@ -46,14 +44,15 @@ builder.Services.AddHttpClient<BrandService>();
 builder.Services.AddHttpClient<ProductService>();
 builder.Services.AddHttpClient<StoreService>();
 builder.Services.AddHttpClient<ShoppingCartService>();
-builder.Services.AddSession();
+builder.Services.AddHttpClient<OrderService>(); 
+
 // starting the application 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment()) {
     app.UseExceptionHandler("/Home/Error");
-    
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
@@ -63,7 +62,6 @@ app.UseStaticFiles();
 app.UseSession();
 
 app.UseRouting();
-app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
