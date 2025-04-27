@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    class OrderDetailsRepository : BaseRepository<OrderDetails>, IOrderDetailsRepository
+    internal class OrderDetailsRepository : BaseRepository<OrderDetails>, IOrderDetailsRepository
     {
         public OrderDetailsRepository(AppDbContext appDbContext) : base(appDbContext) { }
 
@@ -30,6 +30,11 @@ namespace DAL.Repositories
         public override OrderDetails GetById(int id)
         {
             return base.GetById(id);
+        }
+
+        public IEnumerable<OrderDetails> GetByOrderNo(int orderNo)
+        {
+            return _appDbContext.OrderDetails.Where(od => od.OrderNo == orderNo).ToList();
         }
     }
 }

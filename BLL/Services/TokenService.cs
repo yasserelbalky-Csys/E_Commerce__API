@@ -36,13 +36,14 @@ namespace BLL.Services
 
             //to add roles when logging
             // ✅ Add role claims
-            foreach (var role in roles) {
+            foreach (var role in roles)
+            {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
             var cred = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
-
-            var tokenDescriptor = new SecurityTokenDescriptor() {
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = cred,

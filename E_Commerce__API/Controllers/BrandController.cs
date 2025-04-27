@@ -13,6 +13,7 @@ namespace E_Commerce__API.Controllers
     {
         private readonly IBrandService _brandService;
 
+
         public BrandController(IBrandService brandService)
         {
             _brandService = brandService;
@@ -23,30 +24,37 @@ namespace E_Commerce__API.Controllers
         public IActionResult Get()
         {
             return Ok(_brandService.GetBrands());
+
         }
+
 
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
+
             return Ok(_brandService.GetBrand(id));
+
         }
 
         [HttpPost]
         public IActionResult Post(BrandInsertDto brand)
         {
-            _brandService.InsertBrand(brand);
 
+            _brandService.InsertBrand(brand);
             return Ok(brand);
         }
 
         [HttpPut]
+
         public IActionResult Put(BrandUpdateDto brand)
         {
             var temp = _brandService.UpdateBrand(brand);
-
-            if (temp == 1) {
+            if (temp == 1)
+            {
                 return Ok();
-            } else {
+            }
+            else
+            {
                 return NotFound(new { message = "Brand not found." });
             }
         }
@@ -55,7 +63,6 @@ namespace E_Commerce__API.Controllers
         public IActionResult Delete(int id)
         {
             _brandService.DeleteBrand(id);
-
             return Ok();
         }
     }

@@ -37,14 +37,16 @@ namespace E_Commerce__API.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
-            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated) {
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
+            {
                 return Unauthorized(new { message = "User is not authenticated." });
             }
 
             var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // Ensure the claim exists
-            if (userIdClaim == null) {
+            if (userIdClaim == null)
+            {
                 return BadRequest(new { message = "User ID claim is missing from the token." });
             }
 
@@ -53,10 +55,12 @@ namespace E_Commerce__API.Controllers
             order.UserId = userId; // Ensure UserId is assigned before inserting
 
             var res = _orderservice.InsertOrder(order);
-
-            if (res == false) {
+            if (res == false)
+            {
                 return NotFound("No Available Qty");
-            } else {
+            }
+            else
+            {
                 return Ok("Order Placed Successfuly");
             }
         }
@@ -67,24 +71,28 @@ namespace E_Commerce__API.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
-            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated) {
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
+            {
                 return Unauthorized(new { message = "User is not authenticated." });
             }
 
             var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // Ensure the claim exists
-            if (userIdClaim == null) {
+            if (userIdClaim == null)
+            {
                 return BadRequest(new { message = "User ID claim is missing from the token." });
             }
 
             var userId = userIdClaim.Value;
 
             var found = _orderservice.GetOrderById(orderid);
-
-            if (found != null) {
+            if (found != null)
+            {
                 return Ok(found);
-            } else {
+            }
+            else
+            {
                 return NotFound("Order Not Found");
             }
         }
@@ -95,24 +103,26 @@ namespace E_Commerce__API.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
-            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated) {
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
+            {
                 return Unauthorized(new { message = "User is not authenticated." });
             }
-
             var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-
             // Ensure the claim exists
-            if (userIdClaim == null) {
+            if (userIdClaim == null)
+            {
                 return BadRequest(new { message = "User ID claim is missing from the token." });
             }
 
             var userId = userIdClaim.Value;
             var found = _orderservice.UpdateOrder(request.Order, request.Details);
-
             //  var found = _orderservice.UpdateOrder(order, details);
-            if (found == 1) {
+            if (found == 1)
+            {
                 return Ok(found);
-            } else {
+            }
+            else
+            {
                 return NotFound("Order Not Found");
             }
         }
@@ -123,24 +133,40 @@ namespace E_Commerce__API.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
             // Ensure the identity is not null
-            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated) {
+            if (claimsIdentity == null || !claimsIdentity.IsAuthenticated)
+            {
                 return Unauthorized(new { message = "User is not authenticated." });
             }
-
             var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-
             // Ensure the claim exists
-            if (userIdClaim == null) {
+            if (userIdClaim == null)
+            {
                 return BadRequest(new { message = "User ID claim is missing from the token." });
             }
 
             var userId = userIdClaim.Value;
             var found = _helperService.UpdateOrderStatus(OrderNo);
-
             //  var found = _orderservice.UpdateOrder(order, details);
-            if (found == 1) {
+            if (found == 1)
+            {
                 return Ok("Order Confirmed");
-            } else {
+            }
+            else
+            {
+                return NotFound("Order Not Found");
+            }
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int OrderNo)
+        {
+            var res = _orderservice.DeleteOrder(OrderNo);
+            if (res == 0)
+            {
+                return Ok("Order Deleted Successfully");
+            }
+            else
+            {
                 return NotFound("Order Not Found");
             }
         }

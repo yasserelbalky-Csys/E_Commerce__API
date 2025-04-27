@@ -11,7 +11,9 @@ namespace DAL.Repositories
 {
     internal class OrderRepository : BaseRepository<OrderMaster>, IOrderRepository
     {
-        public OrderRepository(AppDbContext appDbContext) : base(appDbContext) { }
+        public OrderRepository(AppDbContext appDbContext) : base(appDbContext)
+        {
+        }
 
         public override IEnumerable<OrderMaster> GetAll()
         {
@@ -20,7 +22,8 @@ namespace DAL.Repositories
 
         public override OrderMaster GetById(int id)
         {
-            return _entitySet.Include(order => order.User).AsEnumerable().FirstOrDefault(order => order.OrderNo == id);
+            return _entitySet.Include(order => order.User).AsEnumerable()
+                 .FirstOrDefault(order => order.OrderNo == id);
         }
     }
 }

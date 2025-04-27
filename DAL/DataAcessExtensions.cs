@@ -25,28 +25,36 @@ namespace DAL
             services.AddDbContext<AppDbContext>(options => { options.UseSqlServer(cs); });
             //test unit of work
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             return services;
         }
 
-        public static IServiceCollection AddAppIdentity(this IServiceCollection services, IConfigurationManager config)
+        public static IServiceCollection AddAppIdentity(this IServiceCollection services,
+           IConfigurationManager config)
         {
+
+
             //Identity
-            services.AddIdentity<AppUser, IdentityRole>(options => {
-                    options.Password.RequireDigit = true;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequiredLength = 4;
-                }).AddEntityFrameworkStores<AppDbContext>() // Link Identity to AppDbContext
+            services.AddIdentity<AppUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;
+            }).AddEntityFrameworkStores<AppDbContext>() // Link Identity to AppDbContext
                 .AddDefaultTokenProviders();
             ;
 
-            services.AddAuthentication(options => {
+
+
+            services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = options.DefaultChallengeScheme = options.DefaultForbidScheme =
                     options.DefaultScheme = options.DefaultSignInScheme =
                         options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => {
-                options.TokenValidationParameters = new TokenValidationParameters {
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
                     ValidateIssuer = true,
                     ValidIssuer = config["JWT:Issuer"],
                     ValidateAudience = true,
@@ -58,8 +66,8 @@ namespace DAL
             });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             return services;
         }
+
     }
 }

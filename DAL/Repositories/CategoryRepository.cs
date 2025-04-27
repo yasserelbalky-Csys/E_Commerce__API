@@ -11,7 +11,9 @@ namespace DAL.Repositories
 {
     internal class CategoryRepository : BaseRepository<Categories>, ICategoryRepository
     {
-        public CategoryRepository(AppDbContext appDbContext) : base(appDbContext) { }
+        public CategoryRepository(AppDbContext appDbContext) : base(appDbContext)
+        {
+        }
 
         public IEnumerable<Categories> GetSubCategoriesByMainCategory(int mainCategoryId)
         {

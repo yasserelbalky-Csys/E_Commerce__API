@@ -24,7 +24,10 @@ namespace DAL.Contracts
         SignInManager<AppUser> SignInManager { get; }
         RoleManager<IdentityRole> RoleManager { get; }
 
+        IProductBalanceRepository ProductBalances { get; }
+
         void save();
+
         public void Dispose();
     }
 }

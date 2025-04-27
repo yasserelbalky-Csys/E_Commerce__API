@@ -12,15 +12,11 @@ namespace DAL.Entities
     {
         [Required]
         public int OrderNo { get; set; }
-
         [ForeignKey(nameof(OrderNo))]
         public OrderMaster Order { get; set; }
-
         public int LineNo { get; set; }
-
         [Required]
         public int ProductId { get; set; }
-
         [ForeignKey(nameof(ProductId))]
         public Products Product { get; set; }
 
@@ -28,7 +24,7 @@ namespace DAL.Entities
 
         [Required]
         public decimal ProductPrice { get; set; }
-
         public decimal TotalValue { get; set; }
+
     }
 }

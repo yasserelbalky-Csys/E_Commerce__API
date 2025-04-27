@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Contracts
 {
-    public interface ICategoryRepository : IBaseRepository<Categories>
+    public interface IProductBalanceRepository : IBaseRepository<CurrentProductBalance>
     {
-        public IEnumerable<Categories> GetSubCategoriesByMainCategory(int mainCategoryId);
-
-
+        public int getProductbalance(int orderno);
     }
 }

@@ -10,6 +10,7 @@ namespace DAL.Entities
 {
     public class Stores
     {
+
         [Key]
         public int StoreId { get; set; }
 
@@ -17,5 +18,6 @@ namespace DAL.Entities
         public string? StoreName { get; set; }
 
         public bool b_deleted { get; set; }
+
     }
 }

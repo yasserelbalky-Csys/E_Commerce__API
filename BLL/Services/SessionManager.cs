@@ -21,8 +21,8 @@ namespace BLL.Services
         public void Set<T>(string key, T value)
         {
             var session = _httpContextAccessor.HttpContext?.Session;
-
-            if (session != null) {
+            if (session != null)
+            {
                 session.SetString(key, JsonConvert.SerializeObject(value));
             }
         }
@@ -30,8 +30,8 @@ namespace BLL.Services
         public T? Get<T>(string key)
         {
             var session = _httpContextAccessor.HttpContext?.Session;
-
-            if (session != null && session.GetString(key) is string value) {
+            if (session != null && session.GetString(key) is string value)
+            {
                 return JsonConvert.DeserializeObject<T>(value);
             }
 

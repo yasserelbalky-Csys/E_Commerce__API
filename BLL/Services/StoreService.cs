@@ -22,10 +22,12 @@ namespace BLL.Services
         public void DeleteStore(int id)
         {
             var store = _uof.stores.GetById(id);
-
-            if (store != null) {
+            if (store != null)
+            {
                 store.b_deleted = true;
-            } else {
+            }
+            else
+            {
                 throw new KeyNotFoundException($"Store with ID {id} not found.");
             }
 
@@ -35,21 +37,25 @@ namespace BLL.Services
         public StoreListDto GetStore(int id)
         {
             var found = _uof.stores.GetById(id);
-
-            if (found != null) {
-                return new StoreListDto {
+            if (found != null)
+            {
+                return new StoreListDto
+                {
                     StoreId = found.StoreId,
                     StoreName = found.StoreName,
                     b_deleted = found.b_deleted,
                 };
-            } else {
+            }
+            else
+            {
                 return null;
             }
         }
 
         public IEnumerable<StoreListDto> GetStores()
         {
-            return _uof.stores.GetAll().Select(store => new StoreListDto {
+            return _uof.stores.GetAll().Select(store => new StoreListDto
+            {
                 StoreId = store.StoreId,
                 StoreName = store.StoreName,
                 b_deleted = store.b_deleted
@@ -58,7 +64,8 @@ namespace BLL.Services
 
         public void InsertStore(StoreInsertDto store)
         {
-            _uof.stores.Insert(new Stores {
+            _uof.stores.Insert(new Stores
+            {
                 StoreName = store.StoreName,
                 b_deleted = false
             });
@@ -68,13 +75,15 @@ namespace BLL.Services
         public void UpdateStore(StoreUpdateDto store)
         {
             var found = _uof.stores.GetById(store.StoreId);
-
-            if (found != null) {
+            if (found != null)
+            {
                 found.StoreId = store.StoreId;
                 found.StoreName = store.StoreName;
                 found.b_deleted = store.b_deleted;
                 _uof.stores.Update(found);
-            } else {
+            }
+            else
+            {
                 throw new KeyNotFoundException($"Store with ID {store.StoreId} not found.");
             }
 

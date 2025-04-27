@@ -27,25 +27,24 @@ namespace BLL.Services
         {
             //throw new NotImplementedException();
             var roleExists = await _uof.RoleManager.RoleExistsAsync(newrole);
-
-            if (roleExists) {
+            if (roleExists)
+            {
                 return false;
             }
-
             var result = await _uof.RoleManager.CreateAsync(new IdentityRole(newrole));
-
             return result.Succeeded;
         }
 
         public async Task<IEnumerable<UserListDto>> GetAll()
         {
+
             var users = _uof.UserManager.Users;
             var userList = new List<UserListDto>();
-
-            foreach (var user in users) {
+            foreach (var user in users)
+            {
                 var roles = await _uof.UserManager.GetRolesAsync(user);
-
-                userList.Add(new UserListDto {
+                userList.Add(new UserListDto
+                {
                     Username = user.UserName,
                     Email = user.Email,
                     FirstName = user.FirstName,
@@ -53,17 +52,14 @@ namespace BLL.Services
                     Roles = roles.ToList()
                 });
             }
-
             return userList;
         }
-
         public async Task<UserTokenDto> LoginAsync(UserLoginDto user)
         {
+
             if (string.IsNullOrWhiteSpace(user?.UserName))
                 return null;
-
-            var userExist =
-                await _uof.UserManager.Users.FirstOrDefaultAsync(u => u.UserName!.ToLower() == user.UserName.ToLower());
+            var userExist = await _uof.UserManager.Users.FirstOrDefaultAsync(u => u.UserName!.ToLower() == user.UserName.ToLower());
             var result = await _uof.SignInManager.CheckPasswordSignInAsync(userExist, userExist.UserPassword, false);
 
             if (!result.Succeeded)
@@ -71,8 +67,8 @@ namespace BLL.Services
 
             var roles = await _uof.UserManager.GetRolesAsync(userExist);
             string role = roles.Any() ? roles[0] : null;
-
-            return new UserTokenDto {
+            return new UserTokenDto
+            {
                 email = userExist.Email,
                 FirstName = userExist.FirstName,
                 LastName = userExist.LastName,
@@ -85,13 +81,15 @@ namespace BLL.Services
 
         public async Task<bool> RegisterAsync(UserRegisterDto user)
         {
-            var allowedRoles = new[] { "Admin", "User" };
 
-            if (!allowedRoles.Contains(user.Role)) {
+            var allowedRoles = new[] { "Admin", "User" };
+            if (!allowedRoles.Contains(user.Role))
+            {
                 return false;
             }
 
-            var appUser = new AppUser {
+            var appUser = new AppUser
+            {
                 Email = user.Email,
                 UserName = user.UserName,
                 UserPassword = user.Password,
@@ -101,13 +99,15 @@ namespace BLL.Services
 
             var createdUser = await _uof.UserManager.CreateAsync(appUser, user.Password);
 
-            if (!createdUser.Succeeded) {
+            if (!createdUser.Succeeded)
+            {
                 return false;
             }
 
             var roleResult = await _uof.UserManager.AddToRoleAsync(appUser, user.Role);
 
-            if (!roleResult.Succeeded) {
+            if (!roleResult.Succeeded)
+            {
                 return false;
             }
 
@@ -120,17 +120,15 @@ namespace BLL.Services
 
         public async Task<bool> UpdateRole(string username)
         {
-            var user = await _uof.UserManager.FindByNameAsync(username);
 
+            var user = await _uof.UserManager.FindByNameAsync(username);
             if (user == null)
                 return false;
             var currentRoles = await _uof.UserManager.GetRolesAsync(user);
             var currentRole = currentRoles.FirstOrDefault();
-
             if (string.IsNullOrEmpty(currentRole))
                 return false;
             var removeResult = await _uof.UserManager.RemoveFromRoleAsync(user, currentRole);
-
             if (!removeResult.Succeeded)
                 return false;
 

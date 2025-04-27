@@ -21,7 +21,8 @@ namespace BLL.Services
 
         public IEnumerable<SubCategoryListDto> GetSubCategories()
         {
-            return _unitofwork.subCategories.GetAll().Select(x => new SubCategoryListDto {
+            return _unitofwork.subCategories.GetAll().Select(x => new SubCategoryListDto
+            {
                 SubCategoryId = x.SubCategoryId,
                 SubCategoryName = x.SubCategoryName,
                 SubCategoryDescription = x.SubCategoryDescription,
@@ -35,7 +36,8 @@ namespace BLL.Services
         {
             var enitiy = _unitofwork.subCategories.GetById(id);
 
-            return new SubCategoryListDto {
+            return new SubCategoryListDto
+            {
                 SubCategoryId = enitiy.SubCategoryId,
                 SubCategoryName = enitiy.SubCategoryName,
                 SubCategoryDescription = enitiy.SubCategoryDescription,
@@ -47,7 +49,8 @@ namespace BLL.Services
 
         public void InsertSubCategory(SubCategoryInsertDto subcategory)
         {
-            _unitofwork.subCategories.Insert(new SubCategories {
+            _unitofwork.subCategories.Insert(new SubCategories
+            {
                 SubCategoryName = subcategory.SubCategoryName,
                 SubCategoryDescription = subcategory.SubCategoryDescription,
                 CategoryId = subcategory.MainCategoryId,
@@ -59,8 +62,8 @@ namespace BLL.Services
         public void UpdateSubCategory(SubCategoryUpdateDto subcategory)
         {
             var entity = _unitofwork.subCategories.GetById(subcategory.SubCategoryId);
-
-            if (entity != null) {
+            if (entity != null)
+            {
                 entity.SubCategoryName = subcategory.SubCategoryName;
                 entity.SubCategoryDescription = subcategory.SubCategoryDescription;
                 entity.CategoryId = subcategory.CategoryId;
@@ -68,7 +71,9 @@ namespace BLL.Services
                 entity.b_deleted = subcategory.b_deleted;
 
                 _unitofwork.subCategories.Update(entity);
-            } else {
+            }
+            else
+            {
                 throw new KeyNotFoundException($"SubCategory with ID {subcategory.SubCategoryId} not found.");
             }
 
@@ -91,10 +96,12 @@ namespace BLL.Services
         public void DeleteCategory(int id)
         {
             var cat = _unitofwork.subCategories.GetById(id);
-
-            if (cat != null) {
+            if (cat != null)
+            {
                 cat.b_deleted = true;
-            } else {
+            }
+            else
+            {
                 throw new KeyNotFoundException($"SubCategory with ID {id} not found.");
             }
 

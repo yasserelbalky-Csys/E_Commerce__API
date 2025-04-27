@@ -11,5 +11,9 @@ namespace BLL.Contracts
     public interface IHelperService
     {
         public int UpdateOrderStatus(int order_no);
+
+        public int AddSalesReturnQtyToProductBalance(int orderno);
+
+        public int AddPendingOrderQty(int order_no);
     }
 }

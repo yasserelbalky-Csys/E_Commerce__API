@@ -21,7 +21,8 @@ namespace BLL.Services
 
         public IEnumerable<ProductListDto> GetProducts()
         {
-            return _uow.products.GetAll().Select(prod => new ProductListDto {
+            return _uow.products.GetAll().Select(prod => new ProductListDto
+            {
                 ProductId = prod.ProductId,
                 ProductName = prod.ProductName,
                 ProductDiscription = prod.ProductDiscription,
@@ -36,8 +37,8 @@ namespace BLL.Services
         public ProductListDto GetProduct(int id)
         {
             var prod = _uow.products.GetById(id);
-
-            return new ProductListDto {
+            return new ProductListDto
+            {
                 ProductId = prod.ProductId,
                 ProductName = prod.ProductName,
                 ProductDiscription = prod.ProductDiscription,
@@ -51,7 +52,8 @@ namespace BLL.Services
 
         public void InsertProduct(ProductInsertDto product)
         {
-            _uow.products.Insert(new Products {
+            _uow.products.Insert(new Products
+            {
                 ProductDiscription = product.ProductDiscription,
                 ProductName = product.ProductName,
                 SubcategoryId = product.SubcategoryId,
@@ -65,8 +67,8 @@ namespace BLL.Services
         public void UpdateProduct(ProductUpdateDto product)
         {
             var upproduct = _uow.products.GetById(product.ProductId);
-
-            if (upproduct != null) {
+            if (upproduct != null)
+            {
                 upproduct.ProductId = product.ProductId;
                 upproduct.ProductName = product.ProductName;
                 upproduct.ProductDiscription = product.ProductDiscription;
@@ -75,7 +77,9 @@ namespace BLL.Services
                 upproduct.BrandId = product.BrandId;
                 upproduct.b_deleted = product.b_deleted;
                 _uow.products.Update(upproduct);
-            } else {
+            }
+            else
+            {
                 throw new KeyNotFoundException($"Product with ID {product.ProductId} not found.");
             }
 
@@ -85,10 +89,12 @@ namespace BLL.Services
         public void DeleteProduct(int id)
         {
             var prod = _uow.products.GetById(id);
-
-            if (prod != null) {
+            if (prod != null)
+            {
                 prod.b_deleted = true;
-            } else {
+            }
+            else
+            {
                 throw new KeyNotFoundException($"Product with ID {id} not found.");
             }
 

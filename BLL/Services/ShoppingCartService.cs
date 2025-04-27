@@ -23,7 +23,8 @@ namespace BLL.Services
 
         public IEnumerable<ShoppingCartListDto> GetShoppingCarts()
         {
-            var Result = _uof.ShoppingCarts.GetAll().Select(cart => new ShoppingCartListDto {
+            var Result = _uof.ShoppingCarts.GetAll().Select(cart => new ShoppingCartListDto
+            {
                 ShoppingCartId = cart.ShoppingCartId,
                 UserId = cart.UserId,
                 ProductId = cart.ProductId,
@@ -38,8 +39,8 @@ namespace BLL.Services
         public ShoppingCartListDto GetShoppingCart(int id)
         {
             var temp = _uof.ShoppingCarts.GetById(id);
-
-            return new ShoppingCartListDto {
+            return new ShoppingCartListDto
+            {
                 ShoppingCartId = temp.ShoppingCartId,
                 Count = temp.Count,
                 ProductId = temp.ProductId,
@@ -47,35 +48,50 @@ namespace BLL.Services
             };
         }
 
-        public void InsertShoppingCart(ShoppingCartInsertDto cart)
+        public int InsertShoppingCart(ShoppingCartInsertDto cart)
         {
-            _uof.ShoppingCarts.Insert(new ShoppingCart {
-                Count = cart.Count,
-                ProductId = cart.ProductId,
-                UserId = cart.UserId,
-            });
-            _uof.save();
+            var qty = _uof.ProductBalances.getProductbalance(cart.ProductId);
+            if (cart.Count > qty)
+            {
+                return 1;
+            }
+            else
+            {
+                _uof.ShoppingCarts.Insert(new ShoppingCart
+                {
+                    Count = cart.Count,
+                    ProductId = cart.ProductId,
+                    UserId = cart.UserId,
+                });
+                _uof.save();
+                return 0;
+            }
         }
 
-        public void UpdateShoppingCart(ShoppingCartUpdateDto shoppingcart)
+        public int UpdateShoppingCart(ShoppingCartUpdateDto shoppingcart)
         {
-            //var existingone = _ShoppingCartrepository.GetById(shoppingcart.ShoppingCartId);
-
-            //var cartfromdatabase = _ShoppingCartrepository.GetAll().Select(cart1 =>
-            //  cart1.UserId == shoppingcart.UserId && cart1.ProductId == shoppingcart.ProductId);
-
             var cartfromdatabase = _uof.ShoppingCarts.GetProductByuserid(shoppingcart.UserId, shoppingcart.ProductId);
-
-            if (cartfromdatabase != null) {
-                cartfromdatabase.ProductId = shoppingcart.ProductId;
-                cartfromdatabase.UserId = shoppingcart.UserId;
-                cartfromdatabase.Count = shoppingcart.Count;
-                _uof.ShoppingCarts.Update(cartfromdatabase);
-            } else {
+            if (cartfromdatabase != null)
+            {
+                var qty = _uof.ProductBalances.getProductbalance(shoppingcart.ProductId);
+                if (shoppingcart.Count > qty)
+                {
+                    return 1;
+                }
+                else
+                {
+                    cartfromdatabase.ProductId = shoppingcart.ProductId;
+                    cartfromdatabase.UserId = shoppingcart.UserId;
+                    cartfromdatabase.Count = shoppingcart.Count;
+                    _uof.ShoppingCarts.Update(cartfromdatabase);
+                    _uof.save();
+                    return 0;
+                }
+            }
+            else
+            {
                 throw new KeyNotFoundException("Shopping cart item not found.");
             }
-
-            _uof.save();
         }
 
         public void DeleteShoppingCart(int id)
@@ -86,7 +102,8 @@ namespace BLL.Services
 
         public IEnumerable<ShoppingCartListDto> GetUserCart(string userId)
         {
-            return _uof.ShoppingCarts.GetByuseridOnly(userId).Select(cart => new ShoppingCartListDto {
+            return _uof.ShoppingCarts.GetByuseridOnly(userId).Select(cart => new ShoppingCartListDto
+            {
                 ShoppingCartId = cart.ShoppingCartId,
                 ProductId = cart.ProductId,
                 ProductName = cart.Product.ProductName,
@@ -99,8 +116,8 @@ namespace BLL.Services
         public void ClearUserCart(string userId)
         {
             var result = _uof.ShoppingCarts.GetByuseridOnly(userId);
-
-            foreach (var cart in result) {
+            foreach (var cart in result)
+            {
                 _uof.ShoppingCarts.Delete(cart.ShoppingCartId);
                 _uof.save();
             }
@@ -109,7 +126,6 @@ namespace BLL.Services
         public decimal GetTotalCartPrice(string userId)
         {
             var result = _uof.ShoppingCarts.GetByuseridOnly(userId).Sum(cart => cart.Product.ProductPrice * cart.Count);
-
             return result;
         }
     }
