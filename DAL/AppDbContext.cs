@@ -15,20 +15,18 @@ namespace DAL
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-
         }
-
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<OrderDetails>()
           .HasKey(od => new { od.LineNo });
-
-            base.OnModelCreating(builder);
-            builder.Entity<CurrentProductBalance>()
-          .HasNoKey();
-
+            /*
+                        base.OnModelCreating(builder);
+                        builder.Entity<CurrentProductBalance>()
+                      .HasNoKey();
+            */
 
             builder.Entity<IdentityRole>().HasData(
              new IdentityRole
@@ -46,13 +44,11 @@ namespace DAL
              ConcurrencyStamp = "user-role"
          }
             );
-
-
-
         }
 
         //public DbSet<Categories> Categories { get; set; }
         public DbSet<SubCategories> subCategories { get; set; }
+
         public DbSet<Products> products { get; set; }
         public DbSet<Brands> brands { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
@@ -63,6 +59,7 @@ namespace DAL
 
         //Add Master and Details of Order
         public DbSet<OrderMaster> OrderMaster { get; set; }
+
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<CurrentProductBalance> CurrentProductBalance { get; set; }
     }

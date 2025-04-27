@@ -124,17 +124,16 @@ namespace E_Commerce__API.Controllers
             {
                 return BadRequest(new { message = "Duplicate product found in the cart." });
             }
-            // Guest user: Use session for cart storage
-            var sessionCart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ?? new List<ShoppingCartInsertDto>();
-            if (sessionCart.Any(c => c.ProductId == cart.ProductId && c.UserId == userId))
-            {
-                return BadRequest(new { message = "Duplicate product found in the cart." });
-            }
 
-            _shoppingCartService.InsertShoppingCart(cart);
-            sessionCart.Add(cart);
-            _sessionManager.Set("Cart", sessionCart);
-            return Ok(new { message = "Item added to cart (Session)." });
+            var res = _shoppingCartService.InsertShoppingCart(cart);
+            if (res == 0)
+            {
+                return Ok(new { message = "Item added to cart (Session)." });
+            }
+            else
+            {
+                return NotFound("No Available Qty");
+            }
         }
 
         [Authorize]
@@ -159,34 +158,15 @@ namespace E_Commerce__API.Controllers
 
             var userId = userIdClaim.Value;
             cart.UserId = userId;
-            _shoppingCartService.UpdateShoppingCart(cart);
 
-            var sessionCart = _sessionManager.Get<List<ShoppingCartInsertDto>>("Cart") ?? new List<ShoppingCartInsertDto>();
-
-            var existingItem = sessionCart.FirstOrDefault(c => c.ProductId == cart.ProductId && c.UserId == cart.UserId);
-
-            if (existingItem != null)
+            var res = _shoppingCartService.UpdateShoppingCart(cart);
+            if (res == 0)
             {
-                existingItem.Count = cart.Count;
-                _sessionManager.Set("Cart", sessionCart);
-                return Ok(new { message = "Shopping cart updated successfully in database and session." });
+                return Ok(new { message = "Shopping cart updated successfully in database" });
             }
             else
             {
-                //existingItem.Count = cart.Count;
-                //existingItem.ProductId = cart.ProductId;
-                // existingItem.UserId = cart.UserId;
-
-                sessionCart.Add(new ShoppingCartInsertDto
-                {
-                    ProductId = cart.ProductId,
-                    UserId = cart.UserId,
-                    Count = cart.Count
-                });
-
-                _sessionManager.Set("Cart", sessionCart);
-
-                return Ok(new { message = "Shopping cart updated successfully in database and insert in session first time." });
+                return NotFound(new { message = "No Available Qty" });
             }
         }
 

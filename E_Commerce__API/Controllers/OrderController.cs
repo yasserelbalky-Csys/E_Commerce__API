@@ -156,5 +156,19 @@ namespace E_Commerce__API.Controllers
                 return NotFound("Order Not Found");
             }
         }
+
+        [HttpDelete]
+        public IActionResult Delete(int OrderNo)
+        {
+            var res = _orderservice.DeleteOrder(OrderNo);
+            if (res == 0)
+            {
+                return Ok("Order Deleted Successfully");
+            }
+            else
+            {
+                return NotFound("Order Not Found");
+            }
+        }
     }
 }

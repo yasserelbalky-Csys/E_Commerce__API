@@ -4,6 +4,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250424180809_add_id_to_current_product_balance")]
+    partial class add_id_to_current_product_balance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,12 +165,6 @@ namespace DAL.Migrations
 
                     b.Property<int>("StoreId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("b_cancel")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("b_pending")
-                        .HasColumnType("bit");
 
                     b.HasKey("id");
 

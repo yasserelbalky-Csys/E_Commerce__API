@@ -1,6 +1,7 @@
 ﻿using BLL.Contracts;
 using BLL.DTOs.OrderDetailsDtos;
 using BLL.DTOs.OrderDtos;
+using DAL;
 using DAL.Contracts;
 using DAL.Entities;
 using Microsoft.Data.SqlClient;
@@ -11,21 +12,35 @@ namespace BLL.Services
     {
         private readonly IUnitOfWork _uof;
         private ShoppingCartService shoppingcart;
+        private readonly IHelperService _helperService;
 
-        public OrderService(IUnitOfWork uof)
+        public OrderService(IUnitOfWork uof, IHelperService helperService)
         {
             _uof = uof;
             shoppingcart = new ShoppingCartService(_uof);
+            _helperService = helperService;
         }
 
-        public void DeleteOrder(int id)
+        public int DeleteOrder(int id)
         {
+            var ordermaster = _uof.Orders.GetById(id);
+            if (ordermaster != null)
+            {
+                ordermaster.b_deleted = true;
+                _helperService.AddSalesReturnQtyToProductBalance(ordermaster.OrderNo);
+                _uof.save();
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
         }
 
         public OrderListDto GetOrderById(int orderid)
         {
             var found = _uof.Orders.GetById(orderid);
-            if (found != null)
+            if (found != null && found.b_deleted == false)
             {
                 return new OrderListDto
                 {
@@ -94,49 +109,6 @@ namespace BLL.Services
             _uof.save();
             var orderNumber = (_uof.Orders.GetAll().Select(o => (int?)o.OrderNo).DefaultIfEmpty(0).Max() ?? 0) + 1;
 
-            int serial = 0;
-            order.orderDetailss = new List<OrderDetails>();
-            foreach (var item in details)
-            {
-                serial = serial + 1;
-                var orderDetail = new OrderDetails
-                {
-                    OrderNo = orderNumber,
-                    ProductId = item.ProductId,
-                    LineNo = serial,
-                    Qty = item.Count,
-                    ProductPrice = item.price,
-                    TotalValue = item.Count * item.price,
-                };
-                _uof.OrderDetails.Insert(orderDetail);
-                order.orderDetailss.Add(orderDetail);
-            }
-            bool res = false;
-            string connStr = "server=.;database=E_Commerce_Rewad;Trusted_Connection=SSPI;TrustServerCertificate=True;MultipleActiveResultSets=True";
-            foreach (var item in _uof.OrderDetails.GetAll())
-            {
-                string query = $"SELECT SUM(qty) FROM CurrentProductBalance WHERE product_id = '{item.ProductId}' AND order_no = '{item.OrderNo}'";
-
-                using (var conn = new SqlConnection(connStr))
-                {
-                    conn.Open();
-                    using (var cmd = new SqlCommand(query, conn))
-                    {
-                        var result = cmd.ExecuteScalar();
-                        var qty = result != null ? Convert.ToInt32(result) : 0;
-                        if (qty < item.Qty)
-                        {
-                            res = false;
-                        }
-                        else
-                        {
-                            res = true;
-                        }
-                        // Use qty here
-                    }
-                }
-            }
-
             if (CartTotalValue >= 2000)
             {
                 CartTotalValue = CartTotalValue - (CartTotalValue * 0.1m);
@@ -150,7 +122,7 @@ namespace BLL.Services
                DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
                DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second),
                 OrderShippedDate = order.OrderShippedDate,
-                OrderStatus = order.OrderStatus,
+                OrderStatus = "Pending",
                 PaymentStatus = order.PaymentStatus,
                 Traking = order.Traking,
                 PaymentDate = order.PaymentDate,
@@ -167,13 +139,64 @@ namespace BLL.Services
                 b_confirmed = false,
                 b_cancel = false
             });
+            _uof.save();
+            var serial = (_uof.OrderDetails.GetAll().Select(o => (int?)o.LineNo).DefaultIfEmpty(0).Max() ?? 0);
+            //int serial = 0;
+            // order.orderDetailss = new List<OrderDetails>();
+            foreach (var item in details)
+            {
+                serial = serial + 1;
+                var orderDetail = new OrderDetails
+                {
+                    OrderNo = orderNumber,
+                    ProductId = item.ProductId,
+                    LineNo = serial,
+                    Qty = item.Count,
+                    ProductPrice = item.price,
+                    TotalValue = item.Count * item.price,
+                };
+                _uof.OrderDetails.Insert(orderDetail);
+                _uof.save();
+                order.orderDetailss.Add(orderDetail);
+            }
+            bool res = false;
+            var resultdetails = _uof.OrderDetails.GetByOrderNo(orderNumber);
+            string connStr = "server=.;database=E_Commerce_Rewad;Trusted_Connection=SSPI;TrustServerCertificate=True;MultipleActiveResultSets=True";
+            foreach (var item in resultdetails)
+            {
+                string query = $"SELECT SUM(qty) FROM CurrentProductBalance " +
+                    $"WHERE productid = '{item.ProductId}'";
+
+                using (var conn = new SqlConnection(connStr))
+                {
+                    conn.Open();
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        var result = cmd.ExecuteScalar();
+                        int qty = result != DBNull.Value ? Convert.ToInt32(result) : 0;
+                        if (qty < item.Qty)
+                        {
+                            res = false;
+                        }
+                        else
+                        {
+                            res = true;
+                        }
+                        // Use qty here
+                    }
+                }
+            }
 
             if (res == false)
             {
+                _uof.Orders.Delete(orderNumber);
+                _uof.OrderDetails.Delete(orderNumber);
+                _uof.save();
                 return false;
             }
             else
             {
+                _helperService.AddPendingOrderQty(orderNumber);
                 _uof.save();
                 return true;
             }

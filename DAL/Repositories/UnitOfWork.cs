@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    class UnitOfWork : IUnitOfWork
+    internal class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _appDbContext;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
 
-
         //private set
         private readonly Lazy<ICategoryRepository> _CategoryRepository;
+
         private readonly Lazy<ISubCategoryRepository> _SubCategoryRepository;
         private readonly Lazy<IProductRepository> _ProductRepository;
         private readonly Lazy<IBrandRepository> _BrandRepository;
@@ -27,6 +27,8 @@ namespace DAL.Repositories
         private readonly Lazy<IShoppingCartRepository> _ShoppingCartRepository;
         private readonly Lazy<IOrderRepository> _OrderRepository;
         private readonly Lazy<IOrderDetailsRepository> _OrderDetailsRepository;
+        private readonly Lazy<IProductBalanceRepository> _ProductBalanceRepository;
+
         public UnitOfWork(AppDbContext appDbContext, UserManager<AppUser> userManager,
             RoleManager<IdentityRole> roleManager, SignInManager<AppUser> signInManager
             )
@@ -43,13 +45,13 @@ namespace DAL.Repositories
             _StoreRepository = new Lazy<IStoreRepository>(new StoreRepository(_appDbContext));
             _OrderRepository = new Lazy<IOrderRepository>(new OrderRepository(_appDbContext));
             _OrderDetailsRepository = new Lazy<IOrderDetailsRepository>(new OrderDetailsRepository(_appDbContext));
+            _ProductBalanceRepository = new Lazy<IProductBalanceRepository>(new ProductBalanceRepository(_appDbContext));
         }
-
-
 
         public UserManager<AppUser> UserManager => _userManager;
         public SignInManager<AppUser> SignInManager => _signInManager;
         public RoleManager<IdentityRole> RoleManager => _roleManager;
+
         public ICategoryRepository Categories
         {
             get
@@ -57,6 +59,7 @@ namespace DAL.Repositories
                 return _CategoryRepository.Value;
             }
         }
+
         public ISubCategoryRepository subCategories
         {
             get
@@ -64,6 +67,15 @@ namespace DAL.Repositories
                 return _SubCategoryRepository.Value;
             }
         }
+
+        public IProductBalanceRepository ProductBalances
+        {
+            get
+            {
+                return _ProductBalanceRepository.Value;
+            }
+        }
+
         public IProductRepository products
         {
             get
@@ -71,6 +83,7 @@ namespace DAL.Repositories
                 return _ProductRepository.Value;
             }
         }
+
         public IBrandRepository brands
         {
             get
@@ -78,6 +91,7 @@ namespace DAL.Repositories
                 return _BrandRepository.Value;
             }
         }
+
         public IStoreRepository stores
         {
             get
@@ -85,6 +99,7 @@ namespace DAL.Repositories
                 return _StoreRepository.Value;
             }
         }
+
         public IShoppingCartRepository ShoppingCarts
         {
             get
@@ -92,6 +107,7 @@ namespace DAL.Repositories
                 return _ShoppingCartRepository.Value;
             }
         }
+
         public IOrderRepository Orders
         {
             get
@@ -106,13 +122,13 @@ namespace DAL.Repositories
             {
                 return _OrderDetailsRepository.Value;
             }
-
         }
 
         public void save()
         {
             _appDbContext.SaveChanges();
         }
+
         public void Dispose()
         {
             _appDbContext.Dispose();

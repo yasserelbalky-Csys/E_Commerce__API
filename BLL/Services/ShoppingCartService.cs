@@ -48,38 +48,50 @@ namespace BLL.Services
             };
         }
 
-        public void InsertShoppingCart(ShoppingCartInsertDto cart)
+        public int InsertShoppingCart(ShoppingCartInsertDto cart)
         {
-            _uof.ShoppingCarts.Insert(new ShoppingCart
+            var qty = _uof.ProductBalances.getProductbalance(cart.ProductId);
+            if (cart.Count > qty)
             {
-                Count = cart.Count,
-                ProductId = cart.ProductId,
-                UserId = cart.UserId,
-            });
-            _uof.save();
+                return 1;
+            }
+            else
+            {
+                _uof.ShoppingCarts.Insert(new ShoppingCart
+                {
+                    Count = cart.Count,
+                    ProductId = cart.ProductId,
+                    UserId = cart.UserId,
+                });
+                _uof.save();
+                return 0;
+            }
         }
 
-        public void UpdateShoppingCart(ShoppingCartUpdateDto shoppingcart)
+        public int UpdateShoppingCart(ShoppingCartUpdateDto shoppingcart)
         {
-            //var existingone = _ShoppingCartrepository.GetById(shoppingcart.ShoppingCartId);
-
-            //var cartfromdatabase = _ShoppingCartrepository.GetAll().Select(cart1 =>
-            //  cart1.UserId == shoppingcart.UserId && cart1.ProductId == shoppingcart.ProductId);
-
             var cartfromdatabase = _uof.ShoppingCarts.GetProductByuserid(shoppingcart.UserId, shoppingcart.ProductId);
             if (cartfromdatabase != null)
             {
-                cartfromdatabase.ProductId = shoppingcart.ProductId;
-                cartfromdatabase.UserId = shoppingcart.UserId;
-                cartfromdatabase.Count = shoppingcart.Count;
-                _uof.ShoppingCarts.Update(cartfromdatabase);
+                var qty = _uof.ProductBalances.getProductbalance(shoppingcart.ProductId);
+                if (shoppingcart.Count > qty)
+                {
+                    return 1;
+                }
+                else
+                {
+                    cartfromdatabase.ProductId = shoppingcart.ProductId;
+                    cartfromdatabase.UserId = shoppingcart.UserId;
+                    cartfromdatabase.Count = shoppingcart.Count;
+                    _uof.ShoppingCarts.Update(cartfromdatabase);
+                    _uof.save();
+                    return 0;
+                }
             }
             else
             {
                 throw new KeyNotFoundException("Shopping cart item not found.");
             }
-
-            _uof.save();
         }
 
         public void DeleteShoppingCart(int id)

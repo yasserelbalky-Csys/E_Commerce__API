@@ -20,6 +20,6 @@ namespace BLL.Contracts
 
         public int UpdateOrder(OrderUpdateDto order, ICollection<OrderDetailsUpdateDto> details);
 
-        public void DeleteOrder(int id);
+        public int DeleteOrder(int id);
     }
 }

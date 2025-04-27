@@ -4,6 +4,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250424115314_add_orderno_to_productBalance")]
+    partial class add_orderno_to_productBalance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,12 +148,6 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.CurrentProductBalance", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
                     b.Property<int>("OrderNo")
                         .HasColumnType("int");
 
@@ -163,13 +160,14 @@ namespace DAL.Migrations
                     b.Property<int>("StoreId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("b_cancel")
+                    b.Property<bool>("b_order_cancel")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("b_pending")
+                    b.Property<bool>("b_order_done")
                         .HasColumnType("bit");
 
-                    b.HasKey("id");
+                    b.Property<bool>("b_order_pending")
+                        .HasColumnType("bit");
 
                     b.ToTable("CurrentProductBalance");
                 });

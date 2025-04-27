@@ -15,9 +15,9 @@ namespace BLL.Contracts
 
         public ShoppingCartListDto GetShoppingCart(int id);
 
-        public void InsertShoppingCart(ShoppingCartInsertDto cart);
+        public int InsertShoppingCart(ShoppingCartInsertDto cart);
 
-        public void UpdateShoppingCart(ShoppingCartUpdateDto category);
+        public int UpdateShoppingCart(ShoppingCartUpdateDto category);
 
         public void DeleteShoppingCart(int id);
 
