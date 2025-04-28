@@ -157,7 +157,7 @@ namespace BLL.Services
                 };
                 _uof.OrderDetails.Insert(orderDetail);
                 _uof.save();
-                order.orderDetailss.Add(orderDetail);
+                // order.orderDetailss.Add(orderDetail);
             }
             bool res = false;
             var resultdetails = _uof.OrderDetails.GetByOrderNo(orderNumber);
@@ -197,6 +197,7 @@ namespace BLL.Services
             else
             {
                 _helperService.AddPendingOrderQty(orderNumber);
+                shoppingcart.ClearUserCart(order.UserId);
                 _uof.save();
                 return true;
             }

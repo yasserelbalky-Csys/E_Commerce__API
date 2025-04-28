@@ -24,6 +24,7 @@ namespace BLL
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IHelperService, HelperService>();
             services.AddScoped<IAccountManager, AccountManager>();
+            services.AddScoped<ICurrentProductBalanceService, CurrentProductBalanceService>();
             return services;
         }
     }

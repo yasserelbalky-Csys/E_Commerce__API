@@ -20,22 +20,29 @@ namespace BLL.DTOs.OrderDtos
         public DateTime PaymentDate { get; set; }
         public DateOnly PaymentDueDate { get; set; }
         public string UserCardId { get; set; }
+
         [Required]
         public string PhoneNo { get; set; }
+
         [Required]
         public string StreetAddress { get; set; }
+
         [Required]
         public string City { get; set; }
+
         [Required]
         public string State { get; set; }
+
         [Required]
         public string PostalCode { get; set; }
+
         [Required]
         public string Name { get; set; }
+
         public decimal NetValue { get; set; }
         public bool b_deleted { get; set; }
         public bool b_confirmed { get; set; }
-        public ICollection<OrderDetails> orderDetailss { get; set; } = new List<OrderDetails>();
+        //public ICollection<OrderDetails> orderDetailss { get; set; } = new List<OrderDetails>();
         //public ICollection<OrderDetails> orderDetailss { get; }
     }
 }
