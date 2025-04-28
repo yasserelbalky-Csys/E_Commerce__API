@@ -126,6 +126,9 @@ namespace E_Commerce_MVC.Controllers
         {
             var userId = _httpContextAccessor.HttpContext?.Session.GetString("UserId");
             var totalPrice = await _shoppingCartService.GetTotalCartPrice();
+            var shippingCost = 25m;
+            ViewBag.ShippingCost = shippingCost;
+            totalPrice += shippingCost;
 
             return totalPrice;
         }

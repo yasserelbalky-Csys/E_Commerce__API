@@ -32,9 +32,15 @@ namespace E_Commerce_MVC.Controllers
         }
 
         // GET: OrdersController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            var order =await _orderService.GetOrderById(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
         }
 
         // GET: OrdersController/Create
@@ -56,9 +62,13 @@ namespace E_Commerce_MVC.Controllers
         }
 
         // GET: OrdersController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            var order = await _orderService.GetOrderById(id);
+            if (order == null)
+                return NotFound();
+
+            return View(order);
         }
 
         // POST: OrdersController/Edit/5

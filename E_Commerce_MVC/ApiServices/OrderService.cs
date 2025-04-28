@@ -46,5 +46,71 @@ namespace E_Commerce_MVC.ApiServices
 
             throw new Exception($"Error Fetching Order: {response.ReasonPhrase}");
         }
+
+        // Create order method through api taking order object and return error message
+        public async Task<string> CreateOrder(OrderViewModel order)
+        {
+            var response = await _httpClient.PostAsJsonAsync("PostMaster", order);
+
+            if (response.IsSuccessStatusCode) {
+                var result = await response.Content.ReadAsStringAsync();
+
+                return result;
+            } else {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+
+                return errorMessage;
+            }
+        }
+
+        // Update order method through api taking order object and return error message
+        public async Task<string> UpdateOrder(OrderViewModel order)
+        {
+            var response = await _httpClient.PutAsJsonAsync("PutMaster", order);
+
+            if (response.IsSuccessStatusCode) {
+                var result = await response.Content.ReadAsStringAsync();
+
+                return result;
+            } else {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+
+                return errorMessage;
+            }
+        }
+
+        // Update Order by OrderNO method thourgh the API taking order numb as int and returning error message  
+
+        public async Task<string> UpdateOrder(int id)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"Update?id={id}", id);
+
+            if (response.IsSuccessStatusCode) {
+                var result = await response.Content.ReadAsStringAsync();
+
+                return result;
+            } else {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+
+                return errorMessage;
+            }
+        }
+
+        // Delete Order method through api taking order object and return error message
+
+        public async Task<string> DeleteOrder(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"Delete/{id}");
+
+            if (response.IsSuccessStatusCode) {
+                var result = await response.Content.ReadAsStringAsync();
+
+                return result;
+            } else {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+
+                return errorMessage;
+            }
+        }
     }
 }
