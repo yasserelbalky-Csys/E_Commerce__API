@@ -18,7 +18,6 @@ namespace DAL.Entities
 
         public string? ProductDiscription { get; set; }
 
-
         [Required]
         public decimal ProductPrice { get; set; }
 
@@ -29,6 +28,8 @@ namespace DAL.Entities
         public int BrandId { get; set; }
 
         public bool b_deleted { get; set; }
+
+        public string Img_Url { get; set; }
 
         [ForeignKey(nameof(SubcategoryId))]
         public SubCategories? Subcategory { get; set; }
