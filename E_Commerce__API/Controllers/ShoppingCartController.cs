@@ -205,8 +205,6 @@ namespace E_Commerce__API.Controllers
 
             var sessionCart = _sessionManager.Get<List<ShoppingCartListDto>>("Cart") ?? new List<ShoppingCartListDto>();
             sessionCart.RemoveAll(c => c.ShoppingCartId == productId);
-            _sessionManager.Set("Cart", sessionCart);
-
             return Ok(new { message = "Product removed from cart and database successfully." });
         }
 

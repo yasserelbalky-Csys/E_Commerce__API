@@ -4,10 +4,12 @@ using DAL.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
+
 namespace BLL
 {
     public static class ApplicationServices
     {
+
         public static IServiceCollection AddApplicationLayerServices(this IServiceCollection services)
         {
             services.AddScoped<ICategoryService, CategoryService>();
@@ -22,7 +24,7 @@ namespace BLL
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IHelperService, HelperService>();
             services.AddScoped<IAccountManager, AccountManager>();
-
+            services.AddScoped<ICurrentProductBalanceService, CurrentProductBalanceService>();
             return services;
         }
     }
