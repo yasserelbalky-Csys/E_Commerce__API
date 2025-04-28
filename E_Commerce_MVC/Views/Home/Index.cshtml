@@ -2,39 +2,42 @@
 @{
     ViewData["Title"] = "Home";
 }
-<!-- Swiper Section-->
-<section id="billboard" class="position-relative overflow-hidden bg-light-blue">
+<!-- Swiper Section -->
+<section id="billboard" class="relative overflow-hidden bg-light-blue py-10">
     <div class="swiper main-swiper">
         <div class="swiper-wrapper">
+            <!-- Slide 1 -->
             <div class="swiper-slide">
                 <div class="container">
-                    <div class="row d-flex align-items-center">
+                    <div class="row align-items-center">
                         <div class="col-md-6">
                             <div class="banner-content">
-                                <h1 class="display-2 text-uppercase text-dark pb-5">Your Products Are Great.</h1>
-                                <a href="shop.html" class="btn btn-medium btn-dark text-uppercase btn-rounded-none">Shop Product</a>
+                                <h1 class="display-2 fw-bold text-uppercase text-dark mb-4">Your Products Are Great.</h1>
+                                <a href="shop.html" class="btn btn-dark btn-lg text-uppercase rounded-0">Shop Now</a>
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6 text-center">
                             <div class="image-holder">
-                                <img src="~/images/banner-image.png" alt="banner">
+                                <img src="~/images/banner-image.png" alt="Banner Image" class="img-fluid">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Slide 2 -->
             <div class="swiper-slide">
                 <div class="container">
-                    <div class="row d-flex flex-wrap align-items-center">
+                    <div class="row align-items-center">
                         <div class="col-md-6">
                             <div class="banner-content">
-                                <h1 class="display-2 text-uppercase text-dark pb-5">Technology Hack You Won't Get</h1>
-                                <a href="shop.html" class="btn btn-medium btn-dark text-uppercase btn-rounded-none">Shop Product</a>
+                                <h1 class="display-2 fw-bold text-uppercase text-dark mb-4">Technology Hack You Won't Get</h1>
+                                <a href="shop.html" class="btn btn-dark btn-lg text-uppercase rounded-0">Shop Now</a>
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6 text-center">
                             <div class="image-holder">
-                                <img src="~/images/banner-image.png" alt="banner">
+                                <img src="~/images/banner-image.png" alt="Banner Image" class="img-fluid">
                             </div>
                         </div>
                     </div>
@@ -42,14 +45,16 @@
             </div>
         </div>
     </div>
-    <div class="swiper-icon swiper-arrow swiper-arrow-prev">
-        <svg class="chevron-left">
-            <use xlink:href="#chevron-left" />
+
+    <!-- Swiper Arrows -->
+    <div class="swiper-button-prev">
+        <svg class="icon">
+            <use xlink:href="#chevron-left"></use>
         </svg>
     </div>
-    <div class="swiper-icon swiper-arrow swiper-arrow-next">
-        <svg class="chevron-right">
-            <use xlink:href="#chevron-right" />
+    <div class="swiper-button-next">
+        <svg class="icon">
+            <use xlink:href="#chevron-right"></use>
         </svg>
     </div>
 </section>
@@ -71,8 +76,10 @@
                         int count = 1;
                     }
                     @{
-                        @if (Model.Products != null) {
-                            foreach (var product in Model.Products) {
+                        @if (Model.Products != null)
+                        {
+                            foreach (var product in Model.Products)
+                            {
                                 <div class="swiper-slide">
                                     <div class="product-card position-relative">
                                         <div class="image-holder">
