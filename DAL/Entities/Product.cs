@@ -29,6 +29,8 @@ namespace DAL.Entities
 
         public bool b_deleted { get; set; }
 
+        public string Img_Url { get; set; }
+
         [ForeignKey(nameof(SubcategoryId))]
         public SubCategories? Subcategory { get; set; }
 

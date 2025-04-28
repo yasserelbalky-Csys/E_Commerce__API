@@ -31,6 +31,7 @@ namespace BLL.Services
                 SubcategoryName = prod.Subcategory.SubCategoryName,
                 BrandId = prod.BrandId,
                 b_deleted = prod.b_deleted,
+                Img_Url = prod.Img_Url
             }).Where(prod => prod.b_deleted == false);
         }
 
@@ -46,7 +47,8 @@ namespace BLL.Services
                 SubcategoryId = prod.SubcategoryId,
                 SubcategoryName = prod.Subcategory.SubCategoryName,
                 BrandId = prod.BrandId,
-                b_deleted = prod.b_deleted
+                b_deleted = prod.b_deleted,
+                Img_Url = prod.Img_Url
             };
         }
 
@@ -59,7 +61,8 @@ namespace BLL.Services
                 SubcategoryId = product.SubcategoryId,
                 ProductPrice = product.ProductPrice,
                 BrandId = product.BrandId,
-                b_deleted = false
+                b_deleted = false,
+                Img_Url = product.Img_Url,
             });
             _uow.save();
         }
@@ -76,6 +79,7 @@ namespace BLL.Services
                 upproduct.SubcategoryId = product.SubcategoryId;
                 upproduct.BrandId = product.BrandId;
                 upproduct.b_deleted = product.b_deleted;
+                upproduct.Img_Url = product.Img_Url;
                 _uow.products.Update(upproduct);
             }
             else
