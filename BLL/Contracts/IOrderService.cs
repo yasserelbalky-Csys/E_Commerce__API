@@ -16,6 +16,8 @@ namespace BLL.Contracts
 
         public OrderListDto GetOrderById(int id);
 
+        public IEnumerable<OrderDetailsGetDto> GetOrderDetailsById(int id);
+
         public bool InsertOrder(OrderInsertDto order);
 
         public int UpdateOrder(OrderUpdateDto order, ICollection<OrderDetailsUpdateDto> details);
