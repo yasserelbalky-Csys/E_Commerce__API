@@ -1,23 +1,21 @@
 ﻿using E_Commerce_MVC.ApiServices;
+using E_Commerce_MVC.Controllers;
 using E_Commerce_MVC.Models.EntitiesViewModel;
 using E_Commerce_MVC.Models.UtilitesSupport;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
-namespace E_Commerce_MVC.Controllers
+namespace E_Commerce_MVC.Areas.Dashboard.Controllers
 {
-    [Authorize]
-    public class OrdersController : Controller
+    [Area("Dashboard")]
+    public class OrderController : Controller
     {
         private readonly ILogger<OrdersController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly OrderService _orderService;
         private readonly HttpClient _httpClient;
 
-        public OrdersController(ILogger<OrdersController> logger, IHttpContextAccessor httpContextAccessor,
+        public OrderController(ILogger<OrdersController> logger, IHttpContextAccessor httpContextAccessor,
             OrderService orderService, HttpClient httpClient)
         {
             _logger = logger;
@@ -34,7 +32,7 @@ namespace E_Commerce_MVC.Controllers
             var orders = await _orderService.GetAllOrders();
             var orderList = orders.Where(o => o.UserId == userId).ToList();
 
-            return View(orderList);
+            return View(orders);
         }
 
         // GET: OrdersController/Details/5

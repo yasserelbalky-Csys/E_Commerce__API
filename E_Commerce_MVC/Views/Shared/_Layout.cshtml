@@ -18,7 +18,7 @@
     @await RenderSectionAsync("Styles", required: false)
 
 </head>
-<body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" tabindex="0">
+<body class="d-flex flex-column min-vh-100" data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" tabindex="0">
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <symbol id="search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
             <title>Search</title>
@@ -113,13 +113,10 @@
                                 <a class="nav-link me-4 active" asp-controller="Home" asp-action="Index">Home </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link me-4" href="#mobile-products">Products</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link me-4" href="#smart-watches">Categories</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link me-4" href="/Orders">Orders</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link me-4" asp-action="Privacy" asp-controller="Home">About</a>
                             </li>
                             <li class="nav-item">
                                 <div class="user-items ps-5">
@@ -242,19 +239,10 @@
                                 <h5 class="widget-title pb-2">Quick Links</h5>
                                 <ul class="menu-list list-unstyled text-uppercase">
                                     <li class="menu-item pb-2">
-                                        <a href="#">Home</a>
+                                        <a asp-action="Index" asp-controller="Home">Home</a>
                                     </li>
                                     <li class="menu-item pb-2">
-                                        <a href="#">About</a>
-                                    </li>
-                                    <li class="menu-item pb-2">
-                                        <a href="#">Shop</a>
-                                    </li>
-                                    <li class="menu-item pb-2">
-                                        <a href="#">Blogs</a>
-                                    </li>
-                                    <li class="menu-item pb-2">
-                                        <a href="#">Contact</a>
+                                        <a asp-action="Privacy" asp-controller="Home">About</a>
                                     </li>
                                 </ul>
                             </div>
@@ -264,13 +252,7 @@
                                 <h5 class="widget-title pb-2">Help & Info Help</h5>
                                 <ul class="menu-list list-unstyled">
                                     <li class="menu-item pb-2">
-                                        <a href="#">Track Your Order</a>
-                                    </li>
-                                    <li class="menu-item pb-2">
-                                        <a href="#">Returns Policies</a>
-                                    </li>
-                                    <li class="menu-item pb-2">
-                                        <a href="#">Shipping + Delivery</a>
+                                        <a asp-action="Index" asp-controller="Orders">Track Your Order</a>
                                     </li>
                                     <li class="menu-item pb-2">
                                         <a href="#">Contact Us</a>
@@ -286,11 +268,11 @@
                                 <h5 class="widget-title text-uppercase pb-2">Contact Us</h5>
                                 <p>
                                     Do you have any queries or suggestions?
-                                    <a href="mailto:">yourinfo@gmail.com</a>
+                                    <a href="mailto:">amzakaria94@gmail.com</a>
                                 </p>
                                 <p>
                                     If you need support? Just give us a call.
-                                    <a href="">+55 111 222 333 44</a>
+                                    <a href="">+20 101 174 4192</a>
                                 </p>
                             </div>
                         </div>

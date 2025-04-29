@@ -22,7 +22,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model) {
+                        @foreach (var item in Model)
+                        {
                             <tr>
                                 <td>@Html.DisplayFor(modelItem => item.OrderNo)</td>
                                 <td>@Html.DisplayFor(modelItem => item.UserName)</td>
@@ -31,11 +32,13 @@
                                 <td>@Html.DisplayFor(modelItem => item.NetValue)</td>
                                 <td>@Html.DisplayFor(modelItem => item.OrderStatus)</td>
                                 <td class="text-center">
-                                    @if (User.IsInRole("Admin")) {
+                                    @if (User.IsInRole("Admin"))
+                                    {
                                         <a class="btn btn-sm btn-warning me-1" href="@Url.Action("ConfirmOrder", new { id = item.OrderNo })">Confirm</a>
                                     }
                                     <a class="btn btn-sm btn-info me-1 text-white" href="@Url.Action("Details", new { id = item.OrderNo })">Details</a>
-                                    @if (User.IsInRole("Admin")) {
+                                    @if (User.IsInRole("Admin"))
+                                    {
                                         <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", new { id = item.OrderNo })">Delete</a>
                                     }
                                 </td>

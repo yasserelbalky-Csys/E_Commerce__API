@@ -83,7 +83,7 @@ namespace E_Commerce_MVC.ApiServices
 
         public async Task<string> UpdateOrder(int id)
         {
-            var response = await _httpClient.PutAsJsonAsync($"Update?id={id}", id);
+            var response = await _httpClient.PutAsJsonAsync($"Update/{id}", id);
 
             if (response.IsSuccessStatusCode) {
                 var result = await response.Content.ReadAsStringAsync();
@@ -100,7 +100,7 @@ namespace E_Commerce_MVC.ApiServices
 
         public async Task<string> DeleteOrder(int id)
         {
-            var response = await _httpClient.DeleteAsync($"Delete/{id}");
+            var response = await _httpClient.DeleteAsync($"Delete?OrderNo={id}");
 
             if (response.IsSuccessStatusCode) {
                 var result = await response.Content.ReadAsStringAsync();
@@ -111,6 +111,20 @@ namespace E_Commerce_MVC.ApiServices
 
                 return errorMessage;
             }
+        }
+
+        // Get order Details through api taking order number as int and returning list of  orders details
+        public async Task<IEnumerable<OrderDetailsViewModel>> GetOrderDetails(int id)
+        {
+            var response = await _httpClient.GetAsync($"GetDetailsByorderid?masterid={id}");
+
+            if (response.IsSuccessStatusCode) {
+                var orderDetails = await response.Content.ReadFromJsonAsync<IEnumerable<OrderDetailsViewModel>>();
+
+                return orderDetails ?? [];
+            }
+
+            throw new Exception($"Error Fetching Order Details: {response.ReasonPhrase}");
         }
     }
 }

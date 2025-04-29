@@ -1,0 +1,62 @@
+﻿@model E_Commerce_MVC.Models.EntitiesViewModel.OrderViewModel
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">Checkout</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Index" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                        <div class="mb-3">
+                            <input asp-for="UserCardId" class="form-control" placeholder="Card Number" />
+                            <span asp-validation-for="UserCardId" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label fw-semibold"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="PhoneNo" class="form-label fw-semibold"></label>
+                            <input asp-for="PhoneNo" class="form-control" />
+                            <span asp-validation-for="PhoneNo" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="StreetAddress" class="form-label fw-semibold"></label>
+                            <input asp-for="StreetAddress" class="form-control" />
+                            <span asp-validation-for="StreetAddress" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="City" class="form-label fw-semibold"></label>
+                            <input asp-for="City" class="form-control" />
+                            <span asp-validation-for="City" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="State" class="form-label fw-semibold"></label>
+                            <input asp-for="State" class="form-control" />
+                            <span asp-validation-for="State" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="PostalCode" class="form-label fw-semibold"></label>
+                            <input asp-for="PostalCode" class="form-control" />
+                            <span asp-validation-for="PostalCode" class="text-danger small"></span>
+                        </div>
+                        <input asp-for="Discount" class="form-control" type="hidden" />
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary px-5 py-2">Place Order</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a asp-action="CartIndex" asp-controller="Cart" class="btn btn-link">Back to Orders</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

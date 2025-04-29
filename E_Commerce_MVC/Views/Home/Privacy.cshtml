@@ -1,5 +1,45 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "About Us";
 }
-<h1>@ViewData["Title"]</h1>
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">@ViewData["Title"]</h1>
+        <p class="lead text-muted">Empowering businesses through modern and scalable e-commerce solutions.</p>
+        <hr class="w-25 mx-auto my-4" />
+    </div>
+    <div class="row align-items-center">
+        <div class="col-md-6 mb-4">
+            <img src="~/images/businessman-presenting-e-commerce-concept-online-shopping-using-internet-h5wtym.jpg" class="img-fluid rounded shadow-sm" alt="E-Commerce Tech" />
+        </div>
+        <div class="col-md-6">
+            <h2 class="h4 fw-semibold">Who We Are</h2>
+            <p class="text-muted">
+                We are a passionate team of developers, designers, and digital strategists dedicated to building
+                customized e-commerce platforms that help businesses succeed in the digital marketplace.
+            </p>
+            <p class="text-muted">
+                As a startup, agility is in our DNA. We leverage the latest technologies including
+                ASP.NET Core, modern JavaScript frameworks, RESTful APIs, and cloud-native architecture
+                to deliver robust, scalable, and future-ready solutions.
+            </p>
+            <h2 class="h5 fw-semibold mt-4">Our Mission</h2>
+            <p class="text-muted">
+                To help businesses of all sizes grow online with secure, fast, and user-friendly e-commerce solutions
+                tailored to their specific needs and goals.
+            </p>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col text-center">
+            <h3 class="fw-bold mb-3">Technologies We Use</h3>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <span class="badge bg-primary">ASP.NET Core</span>
+                <span class="badge bg-success">React.js</span>
+                <span class="badge bg-info text-dark">Bootstrap</span>
+                <span class="badge bg-dark">Entity Framework Core</span>
+                <span class="badge bg-warning text-dark">JavaScript / TypeScript</span>
+                <span class="badge bg-secondary">SQL Server</span>
+            </div>
+        </div>
+    </div>
+</div>

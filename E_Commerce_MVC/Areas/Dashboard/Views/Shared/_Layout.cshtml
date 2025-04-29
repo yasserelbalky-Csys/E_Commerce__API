@@ -82,7 +82,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" asp-action="Index" asp-controller="Categories" asp-area="Dashboard">
+                <a class="nav-link collapsed" asp-action="Index" asp-controller="Order" asp-area="Dashboard">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Orders</span>
                 </a>
@@ -144,7 +144,7 @@
                             </form>
                         </div>
                     </li>
-                    <!-- Nav Item - Alerts -->
+                  @*   <!-- Nav Item - Alerts -->
                     <li class="nav-item dropdown no-arrow mx-1">
                         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bell fa-fw"></i>
@@ -261,7 +261,7 @@
                     </li>
                     <li class="nav-item topbar-divider d-none d-sm-block">
                         <div></div>
-                    </li>
+                    </li> *@
                     <!-- Nav Item - User Information -->
                     @if (HttpContextAccessor.HttpContext?.Session.GetString("JWTToken") != null) {
                         var userNameClaim = HttpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name);

@@ -17,19 +17,19 @@ namespace E_Commerce_MVC.Models.EntitiesViewModel
         public DateTime OrderDate { get; set; }
 
         [Display(Name = "Order Shipped Date")]
-        public DateTime OrderShippedDate { get; set; }
+        public DateTime OrderShippedDate { get; set; } = DateTime.Now;  
 
         [Display(Name = "Order Status")]
         public string? OrderStatus { get; set; }
 
         [Display(Name = "Payment Status")]
-        public string? PaymentStatus { get; set; }
+        public string? PaymentStatus { get; set; } = "Not confirmed";
 
         [Display(Name = "Tracking")]
-        public string? Traking { get; set; }
+        public string? Traking { get; set; } = "Not Confirmed";
 
         [Display(Name = "Payment Date")]
-        public DateTime PaymentDate { get; set; }
+        public DateTime PaymentDate { get; set; } = DateTime.Now;
 
         [Display(Name = "Payment Due Date")]
         public DateOnly PaymentDueDate { get; set; }
