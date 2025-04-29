@@ -36,7 +36,7 @@ namespace DAL.Repositories
 
         public IEnumerable<OrderDetails> GetByOrderNo(int orderNo)
         {
-            return _appDbContext.OrderDetails.Where(od => od.OrderNo == orderNo).ToList();
+            return _appDbContext.OrderDetails.Include(prod => prod.Product).Where(od => od.OrderNo == orderNo).ToList();
         }
     }
 }
