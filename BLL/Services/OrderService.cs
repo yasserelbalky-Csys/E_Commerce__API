@@ -64,7 +64,8 @@ namespace BLL.Services
                     NetValue = found.NetValue,
                     b_deleted = found.b_deleted,
                     b_confirmed = found.b_confirmed,
-                    b_cancel = found.b_cancel
+                    b_cancel = found.b_cancel,
+                    Discount = found.Discount,
                 };
             }
             else
@@ -108,9 +109,10 @@ namespace BLL.Services
             var CartTotalValue = shoppingcart.GetTotalCartPrice(order.UserId);
             _uof.save();
             var orderNumber = (_uof.Orders.GetAll().Select(o => (int?)o.OrderNo).DefaultIfEmpty(0).Max() ?? 0) + 1;
-
+            var dis = 0m;
             if (CartTotalValue >= 2000)
             {
+                dis = (CartTotalValue * 0.1m);
                 CartTotalValue = CartTotalValue - (CartTotalValue * 0.1m);
             }
 
@@ -137,7 +139,8 @@ namespace BLL.Services
                 NetValue = CartTotalValue,
                 b_deleted = false,
                 b_confirmed = false,
-                b_cancel = false
+                b_cancel = false,
+                Discount = dis,
             });
             _uof.save();
             var serial = (_uof.OrderDetails.GetAll().Select(o => (int?)o.LineNo).DefaultIfEmpty(0).Max() ?? 0);
