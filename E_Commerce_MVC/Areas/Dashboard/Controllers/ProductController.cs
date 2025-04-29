@@ -13,13 +13,15 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
         private readonly ProductService _productService;
         private readonly SubCategoryService _subCategoryService;
         private readonly BrandService _brandService;
+        private readonly ProductBalanceService _productBalanceService;
 
         public ProductController(ProductService productService, SubCategoryService subCategoryService,
-            BrandService brandService)
+            BrandService brandService, ProductBalanceService productBalanceService)
         {
             _productService = productService;
             _subCategoryService = subCategoryService;
             _brandService = brandService;
+            _productBalanceService = productBalanceService;
         }
 
         // GET: ProductController
@@ -228,6 +230,48 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
                 ModelState.AddModelError(string.Empty, $"Cannot Delete due to: {ex.Message}");
 
                 return View();
+            }
+        }
+
+        // GET: ProductController/AddProductBalance
+        public async Task<ActionResult> AddProductBalance()
+        {
+            var products = await _productService.GetAllProducts();
+
+            ViewBag.Products = products.Select(p =>
+                new SelectListItem { Value = p.ProductId.ToString(), Text = p.ProductId.ToString() });
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult AddProductBalance(int productId)
+        {
+            var model = new ProductBalanceViewModel {
+                ProductId = productId // Pre-fill the product ID
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddProductBalance(ProductBalanceViewModel model)
+        {
+            if (!ModelState.IsValid) {
+                ModelState.AddModelError(string.Empty, "Invalid data provided.");
+
+                return View("Index");
+            }
+
+            try {
+                await _productBalanceService.InsertProductBalance(model);
+
+                return RedirectToAction(nameof(Index));
+            } catch (Exception ex) {
+                ModelState.AddModelError(string.Empty, $"Error adding product balance: {ex.Message}");
+
+                return RedirectToAction(nameof(Index));
             }
         }
     }
