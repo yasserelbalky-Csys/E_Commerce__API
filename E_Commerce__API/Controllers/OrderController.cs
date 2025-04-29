@@ -97,6 +97,18 @@ namespace E_Commerce__API.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet]
+        public IActionResult GetDetailsByorderid(int masterid)
+        {
+            var result = _orderservice.GetOrderDetailsById(masterid);
+            if (result == null)
+            {
+                return NotFound("No order details found.");
+            }
+            return Ok(result);
+        }
+
         [HttpPut]
         public IActionResult Update(OrderUpdateRequestDto request)
         {

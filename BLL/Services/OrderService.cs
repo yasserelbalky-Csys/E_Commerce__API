@@ -262,5 +262,27 @@ namespace BLL.Services
             }
             return 0;
         }
+
+        public IEnumerable<OrderDetailsGetDto> GetOrderDetailsById(int id)
+        {
+            var res = _uof.OrderDetails.GetByOrderNo(id);
+            if (res == null)
+            {
+                return null;
+            }
+            else
+            {
+                return res.Select(od => new OrderDetailsGetDto
+                {
+                    LineNo = od.LineNo,
+                    ProductId = od.ProductId,
+                    ProductName = od.Product.ProductName,
+                    ProductDescription = od.Product.ProductDiscription,
+                    Qty = od.Qty,
+                    ProductPrice = od.ProductPrice,
+                    TotalValue = od.Qty * od.ProductPrice,
+                });
+            }
+        }
     }
 }
