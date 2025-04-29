@@ -1,5 +1,6 @@
 ﻿using E_Commerce_MVC.ApiServices;
 using E_Commerce_MVC.Models.EntitiesViewModel;
+using E_Commerce_MVC.Models.UtilitesSupport;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
@@ -37,15 +38,28 @@ namespace E_Commerce_MVC.Controllers
         {
             var userId = _httpContextAccessor.HttpContext?.Session.GetString("UserId");
             var carts = await _shoppingCartService.GetByUserId(userId);
+            var products = await _productService.GetAllProducts();
+
+            ViewBag.Product = products;
+
+            // Join products with their corresponding cart items
+            var cartItemsWithProducts = carts.Select(cart => new CartItemViewModel
+            {
+                CartItem = cart,
+                Product = products.FirstOrDefault(p => p.ProductId == cart.ProductId)
+            }).ToList();
 
             // Update the session with the current cart item count
             _httpContextAccessor.HttpContext?.Session.SetInt32("CartItemCount", carts.Count);
 
             // Get the total price of the cart
             var totalPrice = await GetCartTotalPrice();
-            ViewBag.TotalPrice = totalPrice;
+            ViewBag.SubTotal = totalPrice;
+            var shippingCost = 25m;
+            ViewBag.ShippingCost = shippingCost;
+            ViewBag.TotalPrice = totalPrice + shippingCost;
 
-            return View(carts);
+            return View(cartItemsWithProducts);
         }
 
         public async Task<IActionResult> AddToCart(int ProductId)
@@ -126,9 +140,6 @@ namespace E_Commerce_MVC.Controllers
         {
             var userId = _httpContextAccessor.HttpContext?.Session.GetString("UserId");
             var totalPrice = await _shoppingCartService.GetTotalCartPrice();
-            var shippingCost = 25m;
-            ViewBag.ShippingCost = shippingCost;
-            totalPrice += shippingCost;
 
             return totalPrice;
         }

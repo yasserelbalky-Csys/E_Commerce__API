@@ -1,74 +1,76 @@
-﻿@model List<E_Commerce_MVC.Models.EntitiesViewModel.ShopingCartViewModel>
+﻿@model List<E_Commerce_MVC.Models.UtilitesSupport.CartItemViewModel>
 @{
     ViewData["Title"] = "Shopping Cart";
 }
-<div class="cart-wrapper">
-    <div class="container py-5">
-        <!-- Header Section -->
-        <div class="text-center mb-5">
-            <h1 class="display-4 fw-bold text-gradient">Your Shopping Cart</h1>
-            <p class="text-muted">Review your items before you checkout</p>
-        </div>
-        <div class="row g-5">
-            <!-- Cart Items Section -->
-            <div class="col-lg-8">
-                <div class="cart-items bg-white shadow-lg rounded p-4">
-                    <h3 class="mb-4 text-primary fw-bold">Items in Your Cart: @Model.Count</h3>
-                    <!-- Product Item -->
-                    @{
-                        foreach (var cart in Model) {
-                            <div class="product-card d-flex align-items-center p-3 mb-4 border rounded shadow-sm">
-                                <img src="https://via.placeholder.com/150" alt="Product" class="product-image me-3 rounded shadow">
-                                <div class="flex-grow-1">
-                                    <h5 class="fw-bold mb-1">@cart.ProductName</h5>
-                                    <p class="text-muted mb-2">
-                                        <spand id="count-@cart.ProductId">@cart.Count</spand>
-                                    </p>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <button class="quantity-btn" onclick="updateCartCount(@cart.ProductId, -1)">-</button>
-                                        <input type="number" id="quantity-@cart.ProductId" class="quantity-input" value="@cart.Count" min="1" onchange="updateCartCount(@cart.ProductId, this.value)" />
-                                        <button class="quantity-btn" onclick="updateCartCount(@cart.ProductId, 1)">+</button>
-                                    </div>
-                                </div>
-                                <form method="post">
-                                    @Html.AntiForgeryToken()
-                                    <div class="text-center d-flex align-items-center column-gap-2">
-                                        <span id="subtotal-@cart.ProductId" class="fw-bold" data-price="@cart.Price">@(cart.Price * cart.Count)</span>
-                                        <button type="submit" class="btn btn-danger btn-sm " asp-action="DeleteCart" asp-controller="Cart" asp-route-ProductId="@cart.ShoppingCartId">Remove</button>
-                                    </div>
-                                </form>
-                            </div>
-                        }
-                    }
-                    <!-- Additional Product Cards -->
-                </div>
+<div class="d-flex justify-content-center my-3">
+    <div class="cart-wrapper col-md-8">
+        <div class="container py-5">
+            <!-- Header Section -->
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-gradient">Your Shopping Cart</h1>
+                <p class="text-muted">Review your items before you checkout</p>
             </div>
-            <!-- Summary Section -->
-            <div class="col-lg-4">
-                <div class="summary-card bg-white shadow-lg rounded p-4">
-                    <h3 class="fw-bold mb-4 text-success">Order Summary</h3>
-                    <div class="d-flex justify-content-between mb-3">
-                        <span>Subtotal</span>
-                        <span>@ViewBag.TotalPrice</span>
+            <div class="row g-5">
+                <!-- Cart Items Section -->
+                <div class="col-lg-8">
+                    <div class="cart-items bg-white shadow-lg rounded p-4">
+                        <h3 class="mb-4 text-primary fw-bold">Items in Your Cart: @Model.Count</h3>
+                        <!-- Product Item -->
+                        @{
+                            foreach (var cart in Model) {
+                                <div class="product-card d-flex align-items-center p-3 mb-4 border rounded shadow-sm">
+                                    <img src="@cart.Product.Img_Url" alt="Product" class="product-image me-3 rounded shadow">
+                                    <div class="flex-grow-1">
+                                        <h5 class="fw-bold mb-1">@cart.CartItem.ProductName</h5>
+                                        <p class="text-muted mb-2">
+                                            <spand id="count-@cart.CartItem.ProductId">@cart.CartItem.Count</spand>
+                                        </p>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <button class="quantity-btn" onclick="updateCartCount(@cart.CartItem.ProductId, -1)">-</button>
+                                            <input type="number" id="quantity-@cart.CartItem.ProductId" class="quantity-input" value="@cart.CartItem.Count" min="1" onchange="updateCartCount(@cart.CartItem.ProductId, this.value)" />
+                                            <button class="quantity-btn" onclick="updateCartCount(@cart.CartItem.ProductId, 1)">+</button>
+                                        </div>
+                                    </div>
+                                    <form method="post">
+                                        @Html.AntiForgeryToken()
+                                        <div class="text-center d-flex align-items-center column-gap-2">
+                                            <span id="subtotal-@cart.CartItem.ProductId" class="fw-bold" data-price="@cart.CartItem.Price">@(cart.CartItem.Price * cart.CartItem.Count)</span>
+                                            <button type="submit" class="btn btn-danger btn-sm " asp-action="DeleteCart" asp-controller="Cart" asp-route-ProductId="@cart.CartItem.ShoppingCartId">Remove</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            }
+                        }
+                        <!-- Additional Product Cards -->
                     </div>
-                    @* <div class="d-flex justify-content-between mb-3"> *@
-                    @*     <span>Discount</span> *@
-                    @*     <span class="text-success">- $20.00</span> *@
-                    @* </div> *@
-                    <div class="d-flex justify-content-between mb-3">
-                        <span>Shipping</span>
-                        <span id="shippingValue">$@ViewBag.ShippingCost</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between fw-bold mb-4">
-                        <span>Total</span>
-                        <span class="text-danger">$@(ViewBag.TotalPrice)</span>
-                    </div>
-                    <button class="btn btn-gradient-primary btn-lg w-100 mb-3">Proceed to Checkout</button>
-                    <div class="text-center">
-                        <small class="text-muted">
-                            <i class="bi bi-shield-check text-success"></i> Secure Payment Guaranteed
-                        </small>
+                </div>
+                <!-- Summary Section -->
+                <div class="col-lg-4">
+                    <div class="summary-card bg-white shadow-lg rounded p-4">
+                        <h3 class="fw-bold mb-4 text-success">Order Summary</h3>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Subtotal</span>
+                            <span id="totalValue">@ViewBag.SubTotal</span>
+                        </div>
+                        @* <div class="d-flex justify-content-between mb-3"> *@
+                        @*     <span>Discount</span> *@
+                        @*     <span class="text-success">- $20.00</span> *@
+                        @* </div> *@
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Shipping</span>
+                            <span id="shippingValue">$@ViewBag.ShippingCost</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold mb-4">
+                            <span>Total</span>
+                            <span class="text-danger">$@(ViewBag.TotalPrice)</span>
+                        </div>
+                        <button class="btn btn-gradient-primary btn-lg w-100 mb-3">Proceed to Checkout</button>
+                        <div class="text-center">
+                            <small class="text-muted">
+                                <i class="bi bi-shield-check text-success"></i> Secure Payment Guaranteed
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -107,7 +109,7 @@
             console.log(input.value);
             console.log(`change is ${change}`);
 
-            if (input.value == change && change >=1) {
+            if (input.value == change && change >= 1) {
                 input.value = 0;
 
             }
