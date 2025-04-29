@@ -8,7 +8,7 @@
     <hr class="divider" />
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <form asp-action="Create">
+            <form asp-action="Create" enctype="multipart/form-data">
                 <!-- Validation Summary -->
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                 <!-- Product Name -->
@@ -29,6 +29,11 @@
                     <input asp-for="ProductPrice" class="form-control" placeholder="Enter product price" />
                     <span asp-validation-for="ProductPrice" class="text-danger"></span>
                 </div>
+                <div class="mb-3">
+                    <label asp-for="Img_Url" class="form-label"></label>
+                    <input type="file" name="Image" class="form-control"/>
+                    <span asp-validation-for="Img_Url" class="text-danger"></span>
+                </div>
                 <!-- Subcategory Dropdown -->
                 <div class="mb-3">
                     <label asp-for="SubcategoryId" class="form-label"></label>
@@ -37,12 +42,12 @@
                     </select>
                     <span asp-validation-for="SubcategoryId" class="text-danger"></span>
                 </div>
-                <!-- Subcategory Name (readonly) -->
+                @* <!-- Subcategory Name (readonly) -->
                 <div class="mb-3">
                     <label asp-for="SubcategoryName" class="form-label"></label>
                     <input asp-for="SubcategoryName" class="form-control" readonly id="SubCategoryName" />
                     <span asp-validation-for="SubcategoryName" class="text-danger"></span>
-                </div>
+                </div> *@
                 <!-- Brand Dropdown -->
                 <div class="mb-3">
                     <label asp-for="BrandId" class="form-label"></label>

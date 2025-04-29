@@ -68,15 +68,12 @@
                 <div class="swiper-wrapper">
                     <!-- Mobile Product-->
                     @{
-                        int count = 1;
-                    }
-                    @{
                         @if (Model.Products != null) {
                             foreach (var product in Model.Products) {
                                 <div class="swiper-slide">
                                     <div class="product-card position-relative">
                                         <div class="image-holder">
-                                            <img src="~/images/product-item@{@count}.jpg" alt="product-item" class="img-fluid">
+                                            <img src="@product.Img_Url" alt="product-item" class="img-fluid">
                                         </div>
                                         <div class="cart-concern position-absolute">
                                             <div class="cart-button d-flex">
@@ -96,7 +93,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                count++;
                             }
                         }
                     }

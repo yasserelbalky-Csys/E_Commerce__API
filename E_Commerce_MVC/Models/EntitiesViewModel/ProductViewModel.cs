@@ -25,6 +25,9 @@ namespace E_Commerce_MVC.Models.EntitiesViewModel
         [Display(Name = "Brand ID")]
         public int BrandId { get; set; }
 
+        [Display(Name = "Image URL")]
+        public string? Img_Url { get; set; }
+
         [Display(Name = "Deleted")]
         public bool b_deleted { get; set; }
     }

@@ -48,15 +48,13 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
             var subCategories = await _subCategoryService.GetAllSubCategories();
 
             ViewBag.SubCategories = subCategories.Select(s => new SelectListItem {
-                Value = s.SubCategoryId.ToString(),
-                Text = s.SubCategoryName
+                Value = s.SubCategoryId.ToString(), Text = s.SubCategoryName
             });
 
             var brands = await _brandService.GetAllBrands();
 
             ViewBag.Brands = brands.Select(b => new SelectListItem {
-                Value = b.BrandId.ToString(),
-                Text = b.BrandName
+                Value = b.BrandId.ToString(), Text = b.BrandName
             });
 
             return View();
@@ -65,10 +63,31 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
         // POST: ProductController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ProductViewModel product)
+        public async Task<ActionResult> Create(ProductViewModel product, IFormFile Image)
         {
             try {
                 if (ModelState.IsValid) {
+                    if (Image == null) {
+                        ModelState.AddModelError(nameof(product.Img_Url), "Image is required.");
+
+                        return View(product);
+                    }
+
+                    var imageName = Guid.NewGuid() + Path.GetExtension(Image.FileName);
+
+                    if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Products"))) {
+                        Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(),
+                            "wwwroot/images/Products"));
+                    }
+
+                    var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Products", imageName);
+
+                    await using (var stream = new FileStream(savePath, FileMode.Create)) {
+                        await Image.CopyToAsync(stream);
+                    }
+
+                    product.Img_Url = $"/images/Products/{imageName}";
+
                     await _productService.CreateProduct(product);
 
                     return RedirectToAction(nameof(Index));
@@ -77,15 +96,13 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
                 var subCategories = await _subCategoryService.GetAllSubCategories();
 
                 ViewBag.SubCategories = subCategories.Select(s => new SelectListItem {
-                    Value = s.SubCategoryId.ToString(),
-                    Text = s.SubCategoryName
+                    Value = s.SubCategoryId.ToString(), Text = s.SubCategoryName
                 });
 
                 var brands = await _brandService.GetAllBrands();
 
                 ViewBag.Brands = brands.Select(b => new SelectListItem {
-                    Value = b.BrandId.ToString(),
-                    Text = b.BrandName
+                    Value = b.BrandId.ToString(), Text = b.BrandName
                 });
 
                 return View(product);
@@ -93,15 +110,13 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
                 var subCategories = await _subCategoryService.GetAllSubCategories();
 
                 ViewBag.SubCategories = subCategories.Select(s => new SelectListItem {
-                    Value = s.SubCategoryId.ToString(),
-                    Text = s.SubCategoryName
+                    Value = s.SubCategoryId.ToString(), Text = s.SubCategoryName
                 });
 
                 var brands = await _brandService.GetAllBrands();
 
                 ViewBag.Brands = brands.Select(b => new SelectListItem {
-                    Value = b.BrandId.ToString(),
-                    Text = b.BrandName
+                    Value = b.BrandId.ToString(), Text = b.BrandName
                 });
 
                 ModelState.AddModelError(string.Empty, $"Cannot Create due to: {ex.Message}");
@@ -118,15 +133,13 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
             var subCategories = await _subCategoryService.GetAllSubCategories();
 
             ViewBag.SubCategories = subCategories.Select(s => new SelectListItem {
-                Value = s.SubCategoryId.ToString(),
-                Text = s.SubCategoryName
+                Value = s.SubCategoryId.ToString(), Text = s.SubCategoryName
             });
 
             var brands = await _brandService.GetAllBrands();
 
             ViewBag.Brands = brands.Select(b => new SelectListItem {
-                Value = b.BrandId.ToString(),
-                Text = b.BrandName
+                Value = b.BrandId.ToString(), Text = b.BrandName
             });
 
             return View(product);
@@ -135,10 +148,30 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
         // POST: ProductController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(ProductViewModel product)
+        public async Task<ActionResult> Edit(ProductViewModel product, IFormFile Image)
         {
             try {
                 if (ModelState.IsValid) {
+                    if (Image != null) {
+                        var imageName = Guid.NewGuid() + Path.GetExtension(Image.FileName);
+
+                        if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(),
+                                "wwwroot/images/Products"))) {
+                            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(),
+                                "wwwroot/images/Products"));
+                        }
+
+                        var savePath = Path.Combine(Directory.GetCurrentDirectory(),
+                            "wwwroot/images/Products",
+                            imageName);
+
+                        await using (var stream = new FileStream(savePath, FileMode.Create)) {
+                            await Image.CopyToAsync(stream);
+                        }
+
+                        product.Img_Url = $"/images/Products/{imageName}";
+                    }
+
                     await _productService.UpdateProduct(product);
 
                     return RedirectToAction(nameof(Index));
@@ -147,15 +180,13 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
                 var subCategories = await _subCategoryService.GetAllSubCategories();
 
                 ViewBag.SubCategories = subCategories.Select(s => new SelectListItem {
-                    Value = s.SubCategoryId.ToString(),
-                    Text = s.SubCategoryName
+                    Value = s.SubCategoryId.ToString(), Text = s.SubCategoryName
                 });
 
                 var brands = await _brandService.GetAllBrands();
 
                 ViewBag.Brands = brands.Select(b => new SelectListItem {
-                    Value = b.BrandId.ToString(),
-                    Text = b.BrandName
+                    Value = b.BrandId.ToString(), Text = b.BrandName
                 });
 
                 return View(product);
@@ -164,13 +195,11 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
                 var brands = await _brandService.GetAllBrands();
 
                 ViewBag.SubCategories = subCategories.Select(s => new SelectListItem {
-                    Value = s.SubCategoryId.ToString(),
-                    Text = s.SubCategoryName
+                    Value = s.SubCategoryId.ToString(), Text = s.SubCategoryName
                 });
 
                 ViewBag.Brands = brands.Select(b => new SelectListItem {
-                    Value = b.BrandId.ToString(),
-                    Text = b.BrandName
+                    Value = b.BrandId.ToString(), Text = b.BrandName
                 });
                 ModelState.AddModelError(string.Empty, $"Cannot Update due to: {ex.Message}");
 
