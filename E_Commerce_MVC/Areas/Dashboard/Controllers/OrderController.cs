@@ -26,13 +26,16 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
 
         [Authorize]
         // GET: OrdersController
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int page = 1, int pageSize = 10)
         {
             var userId = _httpContextAccessor.HttpContext?.Session.GetString("UserId");
             var orders = await _orderService.GetAllOrders();
+
             var orderList = orders.Where(o => o.UserId == userId).ToList();
 
-            return View(orders);
+            var paginatedOrders = PaginatedList<OrderViewModel>.CreateFromList(orders, page, pageSize);
+
+            return View(paginatedOrders);
         }
 
         // GET: OrdersController/Details/5

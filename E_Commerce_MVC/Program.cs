@@ -46,6 +46,7 @@ builder.Services.AddHttpClient<StoreService>();
 builder.Services.AddHttpClient<ShoppingCartService>();
 builder.Services.AddHttpClient<OrderService>();
 builder.Services.AddHttpClient<ProductBalanceService>();
+builder.Services.AddHttpClient<CurrentProductBalanceService>();
 // starting the application 
 var app = builder.Build();
 

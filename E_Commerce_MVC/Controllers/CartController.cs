@@ -43,10 +43,12 @@ namespace E_Commerce_MVC.Controllers
             ViewBag.Product = products;
 
             // Join products with their corresponding cart items
-            var cartItemsWithProducts = carts.Select(cart => new CartItemViewModel
-            {
-                CartItem = cart,
-                Product = products.FirstOrDefault(p => p.ProductId == cart.ProductId)
+            var cartItemsWithProducts = carts.Select(cart => {
+                var product = products.FirstOrDefault(p => p.ProductId == cart.ProductId);
+
+                return new CartItemViewModel {
+                    CartItem = cart, Product = product ?? new ProductViewModel() // or handle it however you need
+                };
             }).ToList();
 
             // Update the session with the current cart item count
@@ -94,7 +96,7 @@ namespace E_Commerce_MVC.Controllers
             var result = await _shoppingCartService.AddToCart(cart);
 
             if (!result) {
-                return Json(new { success = false, message = "Failed to add product to cart." });
+                return Json(new { success = false, message = "Item is out of Stock!!!" });
             }
 
             // Get the updated cart item count
@@ -159,7 +161,7 @@ namespace E_Commerce_MVC.Controllers
             var result = await _shoppingCartService.UpdateCart(model);
 
             if (!result) {
-                return StatusCode(500, new { message = "Failed to update cart." });
+                return StatusCode(500, new { message = "Item is out of Stock" });
             }
 
             return Ok(new { message = "Cart updated successfully." });

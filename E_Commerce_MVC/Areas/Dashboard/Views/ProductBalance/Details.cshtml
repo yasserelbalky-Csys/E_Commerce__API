@@ -1,0 +1,27 @@
+﻿@model E_Commerce_MVC.Models.EntitiesViewModel.ProductBalanceViewModel
+@{
+    ViewData["Title"] = "Balance Details";
+}
+<div class="container my-4">
+    <h2 class="mb-3">Balance Details</h2>
+    <div class="card shadow-sm p-4">
+        <dl class="row">
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.ProductId)</dt>
+            <dd class="col-sm-9">@Model.ProductId</dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Qty)</dt>
+            <dd class="col-sm-9">@Model.Qty</dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.StoreId)</dt>
+            <dd class="col-sm-9">@Model.StoreId</dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.OrderNo)</dt>
+            <dd class="col-sm-9">@Model.OrderNo</dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.b_pending)</dt>
+            <dd class="col-sm-9">@(Model.b_pending ? "Yes" : "No")</dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.b_cancel)</dt>
+            <dd class="col-sm-9">@(Model.b_cancel ? "Yes" : "No")</dd>
+        </dl>
+    </div>
+    <div class="mt-3">
+        <a asp-action="Edit" asp-route-id="@Model.ProductId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
+    </div>
+</div>

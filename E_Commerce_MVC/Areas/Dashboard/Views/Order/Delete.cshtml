@@ -22,7 +22,7 @@
                 <dd class="col-sm-8">@Model.NetValue EGP</dd>
             </dl>
             <form asp-action="DeleteConfirmed" method="post">
-                <input type="hidden" asp-for="OrderNo" />
+                <input type="hidden" name="id" value="@Model.OrderNo" />
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-danger px-4">Yes, Delete</button>
                     <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>

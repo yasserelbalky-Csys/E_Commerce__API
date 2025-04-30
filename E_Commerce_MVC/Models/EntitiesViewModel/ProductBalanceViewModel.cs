@@ -4,6 +4,9 @@ namespace E_Commerce_MVC.Models.EntitiesViewModel
 {
     public class ProductBalanceViewModel
     {
+        [Display(Name = "ID")]
+        public int Id { get; set; }
+
         [Display(Name = "Product ID")]
         public int ProductId { get; set; }
 

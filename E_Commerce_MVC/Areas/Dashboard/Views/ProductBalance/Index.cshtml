@@ -1,0 +1,70 @@
+﻿@using E_Commerce_MVC.Models.UtilitesSupport;
+@model PaginatedList<E_Commerce_MVC.Models.EntitiesViewModel.ProductBalanceViewModel>
+@{
+    ViewData["Title"] = "Product Balances";
+}
+<div class="container my-4">
+    <h2 class="mb-3">Product Balances: @ViewBag.TotalCount</h2>
+    <a asp-action="Create" class="btn btn-success mb-3">
+        Add New Balance
+    </a>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.First().ProductId)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Qty)</th>
+                <th>@Html.DisplayNameFor(model => model.First().StoreId)</th>
+                <th>@Html.DisplayNameFor(model => model.First().OrderNo)</th>
+                <th>@Html.DisplayNameFor(model => model.First().b_pending)</th>
+                <th>@Html.DisplayNameFor(model => model.First().b_cancel)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@item.ProductId</td>
+                    <td>@item.Qty</td>
+                    <td>@item.StoreId</td>
+                    <td>@item.OrderNo</td>
+                    <td>@(item.b_pending ? "Yes" : "No")</td>
+                    <td>@(item.b_cancel ? "Yes" : "No")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <!-- Pagination Controls -->
+    <div class="pagination-container mt-4">
+        <nav aria-label="Page navigation">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <!-- Previous -->
+                    <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = Model.PageIndex - 1 })">&laquo;</a>
+                    </li>
+                    <!-- Page Numbers -->
+                    @for (int i = 1; i <= Model.TotalPages; i++) {
+                        if (i == Model.PageIndex) {
+                            <li class="page-item active">
+                                <span class="page-link">@i</span>
+                            </li>
+                        } else {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                            </li>
+                        }
+                    }
+                    <!-- Next -->
+                    <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = Model.PageIndex + 1 })">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        </nav>
+    </div>
+</div>

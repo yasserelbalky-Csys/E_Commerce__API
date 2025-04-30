@@ -56,7 +56,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
                 var cart = await _shoppingCartService.AddToCart(model);
 
                 if (!cart) {
-                    ModelState.AddModelError(string.Empty, "Failed to add item to cart.");
+                    ModelState.AddModelError(string.Empty, "Item is out of STOCK!!!");
 
                     return View(model);
                 }

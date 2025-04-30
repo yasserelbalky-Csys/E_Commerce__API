@@ -21,12 +21,12 @@ namespace E_Commerce_MVC.ApiServices
             }
         }
 
-        public async Task<IEnumerable<OrderViewModel>> GetAllOrders()
+        public async Task<List<OrderViewModel>> GetAllOrders()
         {
             var response = await _httpClient.GetAsync("GetAll");
 
             if (response.IsSuccessStatusCode) {
-                var orders = await response.Content.ReadFromJsonAsync<IEnumerable<OrderViewModel>>();
+                var orders = await response.Content.ReadFromJsonAsync<List<OrderViewModel>>();
 
                 return orders ?? [];
             }

@@ -1,0 +1,40 @@
+﻿@model E_Commerce_MVC.Models.EntitiesViewModel.ProductBalanceViewModel
+@{
+    ViewData["Title"] = "Product Balance";
+}
+<div class="container my-4">
+    <h2 class="mb-3">@ViewData["Title"]</h2>
+    <form asp-action="Create" method="post" class="card p-4 shadow-sm">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <div class="mb-3">
+            <label asp-for="ProductId" class="form-label"></label>
+            <input asp-for="ProductId" class="form-control" />
+            <span asp-validation-for="ProductId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Qty" class="form-label"></label>
+            <input asp-for="Qty" class="form-control" />
+            <span asp-validation-for="Qty" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="StoreId" class="form-label"></label>
+            <input asp-for="StoreId" class="form-control" />
+            <span asp-validation-for="StoreId" class="text-danger"></span>
+        </div>
+   @*      <div class="mb-3">
+            <label asp-for="OrderNo" class="form-label"></label>
+            <input asp-for="OrderNo" class="form-control" />
+            <span asp-validation-for="OrderNo" class="text-danger"></span>
+        </div>
+        <div class="form-check mb-3">
+            <input asp-for="b_pending" class="form-check-input" />
+            <label asp-for="b_pending" class="form-check-label"></label>
+        </div>
+        <div class="form-check mb-3">
+            <input asp-for="b_cancel" class="form-check-input" />
+            <label asp-for="b_cancel" class="form-check-label"></label>
+        </div> *@
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+</div>
