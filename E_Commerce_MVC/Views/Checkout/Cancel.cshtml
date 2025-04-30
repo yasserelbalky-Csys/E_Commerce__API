@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Payment Cancelled";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container my-5">
+    <div class="alert alert-warning text-center">
+        <h2 class="mb-3">⚠️ Payment Cancelled</h2>
+        <p>Your payment was cancelled. No charges were made.</p>
+        <a asp-controller="Cart" asp-action="CartIndex" class="btn btn-warning mt-3">Back to Cart</a>
+    </div>
+</div>

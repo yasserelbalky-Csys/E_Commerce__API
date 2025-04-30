@@ -11,7 +11,7 @@
                     <h4 class="mb-0">Checkout</h4>
                 </div>
                 <div class="card-body">
-                    <form asp-action="Index" novalidate>
+                    <form asp-action="Index" novalidate method="post">
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
                         <div class="mb-3">
                             <input asp-for="UserCardId" class="form-control" placeholder="Card Number" />

@@ -64,6 +64,8 @@ app.UseStaticFiles();
 app.UseSession();
 
 app.UseRouting();
+
+Stripe.StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY");
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -3,6 +3,8 @@ using E_Commerce_MVC.Models.EntitiesViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Stripe;
+using Stripe.Checkout;
 
 namespace E_Commerce_MVC.Controllers
 {
@@ -41,28 +43,86 @@ namespace E_Commerce_MVC.Controllers
         }
 
         [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> Index(OrderViewModel order)
         {
             var userId = _httpContextAccessor.HttpContext?.Session.GetString("UserId");
 
-            if (string.IsNullOrEmpty(userId)) {
+            if (string.IsNullOrEmpty(userId))
                 return RedirectToAction("Login", "Account");
-            }
 
-            order.UserId = userId;
-            var result = await _orderService.CreateOrder(order);
+            var cartItems = await _shoppingCartService.GetByUserId(userId); // Get your current cart
 
-            if (result == "Order Placed Successfuly") {
-                // Clear the cart after successful order creation
-                await _shoppingCartService.ClearCart();
-
-                return RedirectToAction("Index", "Home");
-            } else {
-                // Handle error case
-                ModelState.AddModelError("", result);
+            if (cartItems == null || !cartItems.Any()) {
+                ModelState.AddModelError("", "Your cart is empty.");
 
                 return View(order);
             }
+
+            // Calculate total
+            decimal totalAmount = cartItems.Sum(item => item.Count * item.Price);
+            order.NetValue = totalAmount;
+            order.UserId = userId;
+
+            // Create Stripe session
+            var domain = $"{Request.Scheme}://{Request.Host}";
+
+            var options = new SessionCreateOptions {
+                PaymentMethodTypes = new List<string> { "card" },
+                LineItems = cartItems.Select(item => new SessionLineItemOptions {
+                    PriceData = new SessionLineItemPriceDataOptions {
+                        Currency = "usd",
+                        UnitAmount = (long)(item.Price * 100), // Convert to cents
+                        ProductData = new SessionLineItemPriceDataProductDataOptions { Name = item.ProductName }
+                    },
+                    Quantity = item.Count
+                }).ToList(),
+                Mode = "payment",
+                SuccessUrl = domain + Url.Action("Success", "Checkout"),
+                CancelUrl = domain + Url.Action("Cancel", "Checkout")
+            };
+
+            var service = new SessionService();
+            Session session = await service.CreateAsync(options);
+
+            TempData["OrderData"] = System.Text.Json.JsonSerializer.Serialize(order); // store order temporarily
+
+            return Redirect(session.Url);
+        }
+
+        public async Task<IActionResult> Success()
+        {
+            var orderJson = TempData["OrderData"] as string;
+
+            if (string.IsNullOrEmpty(orderJson)) return RedirectToAction("Index", "Home");
+
+            var order = System.Text.Json.JsonSerializer.Deserialize<OrderViewModel>(orderJson);
+
+            if (order != null) {
+                order.PaymentStatus = "Paid";
+                order.OrderStatus = "Pending"; // Set order status to pending
+            }
+
+            // Place order after successful payment
+            var result = await _orderService.CreateOrder(order);
+
+            if (result == "Order Placed Successfuly") {
+                await _shoppingCartService.ClearCart();
+                ViewBag.Message = "Your payment was successful, and your order has been placed!";
+
+                return View("Success");
+            }
+
+            ViewBag.Message = "Payment succeeded, but order creation failed.";
+
+            return View("Cancel");
+        }
+
+        public IActionResult Cancel()
+        {
+            ViewBag.Message = "Payment was canceled.";
+
+            return View();
         }
     }
 }
