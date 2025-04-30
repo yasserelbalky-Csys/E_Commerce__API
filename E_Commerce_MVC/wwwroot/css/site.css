@@ -33,10 +33,10 @@ html {
     padding: 15px;
 }
 
-    .product-card:hover {
-        transform: scale(1.02);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    }
+.product-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
 
 .product-image {
     width: 100px;
@@ -58,9 +58,7 @@ html {
     transition: background 0.3s;
 }
 
-    .quantity-btn:hover {
-        background: #cbd5e0;
-    }
+.quantity-btn:hover { background: #cbd5e0; }
 
 .quantity-input {
     width: 50px;
@@ -80,11 +78,11 @@ html {
     transition: all 0.3s ease;
 }
 
-    .btn-gradient-primary:hover {
-        background: linear-gradient(135deg, #4338ca, #4f46e5);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(79, 70, 229, 0.3);
-    }
+.btn-gradient-primary:hover {
+    background: linear-gradient(135deg, #4338ca, #4f46e5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(79, 70, 229, 0.3);
+}
 
 .summary-card {
     position: sticky;
@@ -95,15 +93,13 @@ html {
 }
 
 /* Adjust text size */
-h1.display-4 {
-    font-size: 2rem;
-}
 
-h3 {
-    font-size: 1.4rem;
-}
+h1.display-4 { font-size: 2rem; }
+
+h3 { font-size: 1.4rem; }
 
 /* Responsive Tweaks */
+
 @media (max-width: 768px) {
     .product-card {
         flex-direction: column;
@@ -122,9 +118,7 @@ h3 {
         font-size: 12px;
     }
 
-    .quantity-input {
-        width: 40px;
-    }
+    .quantity-input { width: 40px; }
 
     .summary-card {
         margin-top: 30px;

@@ -1,0 +1,114 @@
+﻿@using E_Commerce_MVC.ViewModels
+@model NavigationModel
+<!--Search Container-->
+<header id="header" class="site-header text-black bg-light">
+    <nav id="header-nav" class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <img src="~/images/main-logo.png" class="logo">
+            </a>
+            <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <svg class="navbar-icon">
+                    <use xlink:href="#navbar-icon"></use>
+                </svg>
+            </button>
+            <!--Navigation Menu Bar-->
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
+                <div class="offcanvas-header px-4 pb-0">
+                    <a class="navbar-brand" asp-action="Index" asp-controller="Home">
+                        <img src="~/images/main-logo.png" class="logo">
+                    </a>
+                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#bdNavbar"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link me-4 active" asp-controller="Home" asp-action="Index">Home </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-4" href="/Orders">Orders</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-4" asp-action="Privacy" asp-controller="Home">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <div class="user-items ps-5">
+                                <ul class="d-flex justify-content-center align-items-center list-unstyled">
+                                    <li class="pe-3">
+                                        @if (User.Identity.IsAuthenticated) {
+                                            <a href="/Cart/CartIndex" class="position-relative">
+                                                <svg class="cart">
+                                                    <use xlink:href="#cart"></use>
+                                                </svg>
+                                                <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="cartItemCount">
+                                                    @Model.Carts.Count
+                                                </span>
+                                            </a>
+                                        } else {
+                                            <a asp-action="Login" asp-controller="Account" class="position-relative">
+                                                <svg class="cart">
+                                                    <use xlink:href="#cart"></use>
+                                                </svg>
+                                                <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="cartItemCount">
+                                                </span>
+                                            </a>
+                                        }
+                                    </li>
+                                    @if (HttpContextAccessor.HttpContext?.Session.GetString("JWTToken") != null) {
+                                        var usernameClaim = HttpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name);
+                                        var username = usernameClaim?.Value ?? "User";
+
+                                        <li class="nav-item dropdown no-arrow">
+                                            <a href="#" class="nav-link dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@username!</span>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
+                                                @{
+                                                    @if (User.IsInRole("Admin")) {
+                                                        <a class="dropdown-item" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a>
+                                                    }
+                                                }
+                                                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Profile">Profile</a>
+                                                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="dropdown-item">
+                                                    <button type="submit" class="btn btn-link p-0 text-decoration-none">Logout</button>
+                                                </form>
+                                            </div>
+                                        </li>
+                                    } else {
+                                        <li class=" dropdown no-arrow ">
+                                            <a href="#" class="dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <svg class="user">
+                                                    <use xlink:href="#user"></use>
+                                                </svg>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in" aria-labelledby="userDropdown">
+                                                <a class="dropdown-item" asp-action="Login" asp-controller="Account">Login</a>
+                                                <a class="dropdown-item" href="/Account/Register">Register</a>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    async function updateCartCount() {
+        try {
+            const response = await fetch('/Cart/GetCartCount');
+            const data = await response.json();
+            document.getElementById('cartItemCount').textContent = data.count;
+        } catch (err) {
+            console.error("Error fetching cart count:", err);
+        }
+    }
+
+    // Update on page load
+    document.addEventListener('DOMContentLoaded', updateCartCount);
+
+    // Optional: Call updateCartCount() again after any cart change event
+</script>

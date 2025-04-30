@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Edit Brand";
 }
-
 <div class="container my-5">
     <h1 class="h3 mb-4">Edit Brand</h1>
     <div class="card shadow">
@@ -10,24 +9,20 @@
             <form asp-action="Edit">
                 <!-- Validation Summary -->
                 <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
-
                 <!-- Hidden Input for Brand ID -->
                 <input asp-for="BrandId" type="hidden" />
-
                 <!-- Input: Brand Name -->
                 <div class="mb-3">
                     <label asp-for="BrandName" class="form-label">Brand Name</label>
                     <input asp-for="BrandName" class="form-control" placeholder="Enter brand name" />
                     <span asp-validation-for="BrandName" class="text-danger"></span>
                 </div>
-
                 <!-- Textarea: Brand Description -->
                 <div class="mb-3">
                     <label asp-for="BrandDescription" class="form-label">Brand Description</label>
                     <textarea asp-for="BrandDescription" class="form-control" rows="3" placeholder="Enter brand description"></textarea>
                     <span asp-validation-for="BrandDescription" class="text-danger"></span>
                 </div>
-
                 <!-- Buttons -->
                 <div class="d-flex justify-content-between">
                     <a asp-action="Index" class="btn btn-secondary">Back to List</a>

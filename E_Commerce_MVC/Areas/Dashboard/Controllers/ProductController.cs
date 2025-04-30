@@ -10,15 +10,15 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
     [Area("Dashboard")]
     public class ProductController : Controller
     {
-        private readonly ProductService _productService;
+        private readonly ProductApiService _productApiService;
         private readonly SubCategoryService _subCategoryService;
         private readonly BrandService _brandService;
         private readonly ProductBalanceService _productBalanceService;
 
-        public ProductController(ProductService productService, SubCategoryService subCategoryService,
+        public ProductController(ProductApiService productApiService, SubCategoryService subCategoryService,
             BrandService brandService, ProductBalanceService productBalanceService)
         {
-            _productService = productService;
+            _productApiService = productApiService;
             _subCategoryService = subCategoryService;
             _brandService = brandService;
             _productBalanceService = productBalanceService;
@@ -27,7 +27,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
         // GET: ProductController
         public async Task<ActionResult> Index()
         {
-            var products = await _productService.GetAllProducts();
+            var products = await _productApiService.GetAllProducts();
 
             return View(products);
         }
@@ -35,7 +35,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
         // GET: ProductController/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            var product = await _productService.GetProductById(id);
+            var product = await _productApiService.GetProductById(id);
 
             if (product == null) {
                 return NotFound();
@@ -90,7 +90,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
 
                     product.Img_Url = $"/images/Products/{imageName}";
 
-                    await _productService.CreateProduct(product);
+                    await _productApiService.CreateProduct(product);
 
                     return RedirectToAction(nameof(Index));
                 }
@@ -130,7 +130,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
         // GET: ProductController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var product = await _productService.GetProductById(id);
+            var product = await _productApiService.GetProductById(id);
 
             var subCategories = await _subCategoryService.GetAllSubCategories();
 
@@ -174,7 +174,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
                         product.Img_Url = $"/images/Products/{imageName}";
                     }
 
-                    await _productService.UpdateProduct(product);
+                    await _productApiService.UpdateProduct(product);
 
                     return RedirectToAction(nameof(Index));
                 }
@@ -212,7 +212,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
         // GET: ProductController/Delete/5
         public async Task<ActionResult> DeleteAsync(int id)
         {
-            var product = await _productService.GetProductById(id);
+            var product = await _productApiService.GetProductById(id);
 
             return View(product);
         }
@@ -223,7 +223,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
         public async Task<ActionResult> DeleteConfirmed(int ProductId)
         {
             try {
-                await _productService.DeleteProduct(ProductId);
+                await _productApiService.DeleteProduct(ProductId);
 
                 return RedirectToAction(nameof(Index));
             } catch (Exception ex) {
@@ -236,7 +236,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
         // GET: ProductController/AddProductBalance
         public async Task<ActionResult> AddProductBalance()
         {
-            var products = await _productService.GetAllProducts();
+            var products = await _productApiService.GetAllProducts();
 
             ViewBag.Products = products.Select(p =>
                 new SelectListItem { Value = p.ProductId.ToString(), Text = p.ProductId.ToString() });

@@ -20,7 +20,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
         {
             // Get all product balances (this is a List<ProductBalanceViewModel>)
             var balances = await _balanceService.GetAllProductBalance();
-            ViewBag.TotalCount = balances.Count;    
+            ViewBag.TotalCount = balances.Count;
 
             // Use the PaginatedList's CreateAsync method to paginate the list
             var paginatedBalances = PaginatedList<ProductBalanceViewModel>.CreateFromList(balances, page, pageSize);

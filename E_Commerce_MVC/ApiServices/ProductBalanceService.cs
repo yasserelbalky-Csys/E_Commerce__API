@@ -15,8 +15,8 @@ namespace E_Commerce_MVC.ApiServices
             _httpClient.BaseAddress = new Uri("http://localhost:5097/");
 
             var token = _httpContextAccessor.HttpContext?.Session.GetString("JWTToken");
-            if (!string.IsNullOrEmpty(token))
-            {
+
+            if (!string.IsNullOrEmpty(token)) {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
         }
@@ -25,19 +25,17 @@ namespace E_Commerce_MVC.ApiServices
         {
             var response = await _httpClient.PostAsJsonAsync("api/CurrentProductBalance/Post", productBalance);
 
-            if (response.IsSuccessStatusCode)
-            {
+            if (response.IsSuccessStatusCode) {
                 var result = await response.Content.ReadAsStringAsync();
                 Console.WriteLine($"Response of Creating Product Balance: \n{result}");
+
                 return true;
-            }
-            else
-            {
+            } else {
                 var result = await response.Content.ReadAsStringAsync();
                 Console.WriteLine($"Response Error: \n{result}");
+
                 return false;
             }
         }
-
     }
 }

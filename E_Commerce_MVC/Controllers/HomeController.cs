@@ -7,6 +7,7 @@ using E_Commerce_MVC.ApiServices;
 using E_Commerce_MVC.Models;
 using E_Commerce_MVC.Models.EntitiesViewModel;
 using E_Commerce_MVC.Services;
+using E_Commerce_MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NuGet.Protocol;
@@ -17,18 +18,18 @@ namespace E_Commerce_MVC.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly ProductService _productService;
+    private readonly ProductApiService _productApiService;
     private readonly GenericApiService<Category> _categoryService;
     private readonly BrandService _brandService;
     private readonly StoreService _storeService;
     private readonly SubCategoryService _subCategoryService;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public HomeController(ILogger<HomeController> logger, ProductService productService,
+    public HomeController(ILogger<HomeController> logger, ProductApiService productApiService,
         GenericApiService<Category> categoryService, BrandService brandService, StoreService storeService,
         SubCategoryService subCategoryService, IHttpContextAccessor httpContextAccessor)
     {
-        _productService = productService;
+        _productApiService = productApiService;
         _categoryService = categoryService;
         _brandService = brandService;
         _storeService = storeService;
@@ -39,7 +40,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var products = await _productService.GetAllProducts();
+        var products = await _productApiService.GetAllProducts();
         var categories = await _categoryService.GetAllAsync("GetAll");
         var brands = await _brandService.GetAllBrands();
         var stores = await _storeService.GetAllStores();

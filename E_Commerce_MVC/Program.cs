@@ -2,6 +2,7 @@ using E_Commerce_MVC.ApiServices;
 using E_Commerce_MVC.Models.EntitiesViewModel;
 using E_Commerce_MVC.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Stripe;
 using Westwind.AspNetCore.LiveReload;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,10 +39,10 @@ builder.Services.AddSession(options => {
     options.Cookie.IsEssential = true;
 });
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddHttpClient<AccountService>();
+builder.Services.AddHttpClient<AccountApiService>();
 builder.Services.AddHttpClient<SubCategoryService>();
 builder.Services.AddHttpClient<BrandService>();
-builder.Services.AddHttpClient<ProductService>();
+builder.Services.AddHttpClient<ProductApiService>();
 builder.Services.AddHttpClient<StoreService>();
 builder.Services.AddHttpClient<ShoppingCartService>();
 builder.Services.AddHttpClient<OrderService>();

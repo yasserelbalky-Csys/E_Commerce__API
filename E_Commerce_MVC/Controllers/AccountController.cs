@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json;
+using System.Threading.Tasks;
 using E_Commerce_MVC.ApiServices;
 using E_Commerce_MVC.Models.UserViewModel;
 using E_Commerce_MVC.Models.UtilitesSupport;
@@ -13,10 +14,10 @@ namespace E_Commerce_MVC.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly AccountService _accountService;
+    private readonly AccountApiService _accountService;
     private readonly HttpClient _httpClient;
 
-    public AccountController(HttpClient httpClient, AccountService accountService)
+    public AccountController(HttpClient httpClient, AccountApiService accountService)
     {
         _httpClient = httpClient;
         _httpClient.BaseAddress = new Uri("http://localhost:5097/api/User/"); // API base URL
@@ -130,9 +131,17 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
+        // Clear the authentication cookie
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+        // Clear JWT or any custom session values
         HttpContext.Session.Remove("JWTToken");
+        HttpContext.Session.Remove("UserId");
+
+        // Optionally: clear entire session
+        HttpContext.Session.Clear();
 
         return RedirectToAction("Index", "Home");
     }

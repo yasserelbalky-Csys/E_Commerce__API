@@ -45,8 +45,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
             var categories = await _categoryService.GetAllAsync("GetAll");
 
             ViewBag.Categories = categories.Select(c => new SelectListItem {
-                Value = c.CategoryId.ToString(),
-                Text = c.CategoryName
+                Value = c.CategoryId.ToString(), Text = c.CategoryName
             });
 
             return View();
@@ -67,8 +66,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
                 var categories = await _categoryService.GetAllAsync("GetAll");
 
                 ViewBag.Categories = categories.Select(c => new SelectListItem {
-                    Value = c.CategoryId.ToString(),
-                    Text = c.CategoryName
+                    Value = c.CategoryId.ToString(), Text = c.CategoryName
                 });
 
                 return View(subCategory);
@@ -76,8 +74,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
                 var categories = await _categoryService.GetAllAsync("GetAll");
 
                 ViewBag.Categories = categories.Select(c => new SelectListItem {
-                    Value = c.CategoryId.ToString(),
-                    Text = c.CategoryName
+                    Value = c.CategoryId.ToString(), Text = c.CategoryName
                 });
                 ModelState.AddModelError(string.Empty, $"Error creating sub-category: {ex.Message}");
 
@@ -97,8 +94,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
             var categories = await _categoryService.GetAllAsync("GetAll");
 
             ViewBag.Categories = categories.Select(c => new SelectListItem {
-                Value = c.CategoryId.ToString(),
-                Text = c.CategoryName
+                Value = c.CategoryId.ToString(), Text = c.CategoryName
             });
 
             return View(subCategory);
@@ -119,8 +115,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
                 var categories = await _categoryService.GetAllAsync("GetAll");
 
                 ViewBag.Categories = categories.Select(c => new SelectListItem {
-                    Value = c.CategoryId.ToString(),
-                    Text = c.CategoryName
+                    Value = c.CategoryId.ToString(), Text = c.CategoryName
                 });
 
                 return RedirectToAction(nameof(Index));
@@ -128,8 +123,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
                 var categories = await _categoryService.GetAllAsync("GetAll");
 
                 ViewBag.Categories = categories.Select(c => new SelectListItem {
-                    Value = c.CategoryId.ToString(),
-                    Text = c.CategoryName
+                    Value = c.CategoryId.ToString(), Text = c.CategoryName
                 });
                 ModelState.AddModelError(string.Empty, "Error updating sub-category");
 

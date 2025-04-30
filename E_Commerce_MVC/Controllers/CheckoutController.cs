@@ -9,16 +9,16 @@ namespace E_Commerce_MVC.Controllers
     public class CheckoutController : Controller
     {
         private readonly OrderService _orderService;
-        private readonly ProductService _productService;
+        private readonly ProductApiService _productApiService;
         private readonly ShoppingCartService _shoppingCartService;
         private readonly HttpClient _httpClient;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CheckoutController(OrderService orderService, ProductService productService,
+        public CheckoutController(OrderService orderService, ProductApiService productApiService,
             ShoppingCartService shoppingCartService, HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _orderService = orderService;
-            _productService = productService;
+            _productApiService = productApiService;
             _shoppingCartService = shoppingCartService;
             _httpClient = httpClient;
             _httpContextAccessor = httpContextAccessor;

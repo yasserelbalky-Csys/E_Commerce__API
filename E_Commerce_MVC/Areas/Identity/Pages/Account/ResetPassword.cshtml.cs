@@ -77,9 +77,7 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account
             if (code == null) {
                 return BadRequest("A code must be supplied for password reset.");
             } else {
-                Input = new InputModel {
-                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
-                };
+                Input = new InputModel { Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code)) };
 
                 return Page();
             }

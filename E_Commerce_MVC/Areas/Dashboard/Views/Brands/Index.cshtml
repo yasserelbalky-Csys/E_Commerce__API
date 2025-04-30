@@ -1,10 +1,8 @@
 ﻿@model IEnumerable<E_Commerce_MVC.Models.EntitiesViewModel.BrandViewModel>
-
 @{
     ViewData["Title"] = "Brand Index";
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
-
 <div class="container my-5">
     <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -13,7 +11,6 @@
             <i class="fas fa-plus"></i> Create New Brand
         </a>
     </div>
-
     <!-- Brands Table -->
     <div class="card shadow">
         <div class="card-header bg-primary text-white">
@@ -30,10 +27,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model.Any())
-                        {
-                            foreach (var item in Model)
-                            {
+                        @if (Model.Any()) {
+                            foreach (var item in Model) {
                                 <tr>
                                     <td>@Html.DisplayFor(modelItem => item.BrandName)</td>
                                     <td>@Html.DisplayFor(modelItem => item.BrandDescription)</td>
@@ -50,9 +45,7 @@
                                     </td>
                                 </tr>
                             }
-                        }
-                        else
-                        {
+                        } else {
                             <tr>
                                 <td colspan="3" class="text-center">No brands available.</td>
                             </tr>

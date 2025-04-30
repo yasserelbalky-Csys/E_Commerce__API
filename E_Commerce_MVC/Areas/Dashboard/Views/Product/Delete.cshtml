@@ -3,13 +3,11 @@
     ViewData["Title"] = "Delete";
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
-
 <div class="container my-5">
     <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3">Delete Product</h1>
     </div>
-
     <div class="card shadow">
         <div class="card-header bg-danger text-white">
             <h6 class="m-0">Confirm Deletion</h6>
@@ -22,21 +20,15 @@
                     <dl class="row mb-0">
                         <dt class="col-sm-3 fw-bold">Product Name</dt>
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductName)</dd>
-
                         <dt class="col-sm-3 fw-bold">Description</dt>
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductDiscription)</dd>
-
                         <dt class="col-sm-3 fw-bold">Price</dt>
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductPrice)</dd>
-
                         <dt class="col-sm-3 fw-bold">Subcategory</dt>
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.SubcategoryName)</dd>
-
-                       
                     </dl>
                 </div>
             </div>
-
             <!-- Deletion Confirmation Form -->
             <form asp-action="DeleteConfirmed" method="post">
                 <input type="hidden" asp-for="ProductId" />

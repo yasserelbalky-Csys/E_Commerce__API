@@ -34,7 +34,9 @@
             <input asp-for="b_cancel" class="form-check-input" />
             <label asp-for="b_cancel" class="form-check-label"></label>
         </div>
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+        <div class="d-flex justify-content-center gap-5">
+            <button type="submit" class="btn btn-primary mb-2 w-25">Save</button>
+            <a asp-action="Index" class="btn btn-secondary mb-2 w-25">Cancel</a>
+        </div>
     </form>
 </div>

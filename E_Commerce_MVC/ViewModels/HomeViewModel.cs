@@ -1,6 +1,6 @@
 ﻿using E_Commerce_MVC.Models.EntitiesViewModel;
 
-namespace E_Commerce_MVC.Models
+namespace E_Commerce_MVC.ViewModels
 {
     public class HomeViewModel
     {
@@ -9,6 +9,5 @@ namespace E_Commerce_MVC.Models
         public List<BrandViewModel>? Brands { get; set; }
         public List<SubCategory>? SubCategories { get; set; }
         public List<StoreViewModel>? Stores { get; set; }
-        public List<ShopingCartViewModel> ShopingCartViewModels { get; set; }
     }
 }

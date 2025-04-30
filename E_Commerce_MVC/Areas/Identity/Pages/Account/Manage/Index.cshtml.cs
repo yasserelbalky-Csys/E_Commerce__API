@@ -65,9 +65,7 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 
             Username = userName;
 
-            Input = new InputModel {
-                PhoneNumber = phoneNumber
-            };
+            Input = new InputModel { PhoneNumber = phoneNumber };
         }
 
         public async Task<IActionResult> OnGetAsync()

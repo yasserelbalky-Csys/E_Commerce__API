@@ -5,12 +5,12 @@ using System.Text.Json;
 
 namespace E_Commerce_MVC.ApiServices
 {
-    public class ProductService
+    public class ProductApiService
     {
         private readonly HttpClient _httpClient;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProductService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
+        public ProductApiService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
             _httpContextAccessor = httpContextAccessor;

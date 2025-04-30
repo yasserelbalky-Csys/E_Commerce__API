@@ -17,7 +17,7 @@ namespace E_Commerce_MVC.Models.EntitiesViewModel
         public DateTime OrderDate { get; set; }
 
         [Display(Name = "Order Shipped Date")]
-        public DateTime OrderShippedDate { get; set; } = DateTime.Now;  
+        public DateTime OrderShippedDate { get; set; } = DateTime.Now;
 
         [Display(Name = "Order Status")]
         public string? OrderStatus { get; set; }

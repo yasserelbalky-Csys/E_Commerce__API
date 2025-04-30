@@ -76,9 +76,7 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
             var email = await _userManager.GetEmailAsync(user);
             Email = email;
 
-            Input = new InputModel {
-                NewEmail = email,
-            };
+            Input = new InputModel { NewEmail = email, };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
         }
@@ -119,7 +117,12 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 
                 var callbackUrl = Url.Page("/Account/ConfirmEmailChange",
                     pageHandler: null,
-                    values: new { area = "Identity", userId = userId, email = Input.NewEmail, code = code },
+                    values: new {
+                        area = "Identity",
+                        userId = userId,
+                        email = Input.NewEmail,
+                        code = code
+                    },
                     protocol: Request.Scheme);
 
                 await _emailSender.SendEmailAsync(Input.NewEmail,
@@ -157,7 +160,11 @@ namespace E_Commerce_MVC.Areas.Identity.Pages.Account.Manage
 
             var callbackUrl = Url.Page("/Account/ConfirmEmail",
                 pageHandler: null,
-                values: new { area = "Identity", userId = userId, code = code },
+                values: new {
+                    area = "Identity",
+                    userId = userId,
+                    code = code
+                },
                 protocol: Request.Scheme);
 
             await _emailSender.SendEmailAsync(email,

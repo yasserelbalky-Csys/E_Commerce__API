@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Edit Category";
 }
-
 <div class="container my-5">
     <h1 class="h3 mb-4">Edit Category</h1>
     <div class="card shadow">
@@ -11,24 +10,20 @@
             <form asp-action="Edit">
                 <!-- Validation Summary -->
                 <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
-
                 <!-- Hidden Input for Category ID -->
                 <input asp-for="CategoryId" type="hidden" />
-
                 <!-- Input: Category Name -->
                 <div class="mb-3">
                     <label asp-for="CategoryName" class="form-label">Category Name</label>
                     <input asp-for="CategoryName" class="form-control" placeholder="Enter category name" />
                     <span asp-validation-for="CategoryName" class="text-danger"></span>
                 </div>
-
                 <!-- Textarea: Category Description -->
                 <div class="mb-3">
                     <label asp-for="CategoryDescription" class="form-label">Category Description</label>
                     <textarea asp-for="CategoryDescription" class="form-control" rows="3" placeholder="Enter category description"></textarea>
                     <span asp-validation-for="CategoryDescription" class="text-danger"></span>
                 </div>
-
                 <!-- Buttons -->
                 <div class="d-flex justify-content-between">
                     <a asp-action="Index" class="btn btn-secondary">Back to List</a>

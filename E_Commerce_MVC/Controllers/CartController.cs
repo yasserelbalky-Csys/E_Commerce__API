@@ -14,11 +14,11 @@ namespace E_Commerce_MVC.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         private readonly ShoppingCartService _shoppingCartService;
-        private readonly ProductService _productService;
+        private readonly ProductApiService _productApiService;
         private readonly HttpClient _httpClient;
 
         public CartController(ShoppingCartService shoppingCartService, IHttpContextAccessor httpContextAccessor,
-            HttpClient httpClient, ProductService productService)
+            HttpClient httpClient, ProductApiService productApiService)
         {
             _shoppingCartService = shoppingCartService;
             _httpContextAccessor = httpContextAccessor;
@@ -31,14 +31,14 @@ namespace E_Commerce_MVC.Controllers
             }
 
             var userID = httpContextAccessor.HttpContext?.Session.ToJson();
-            _productService = productService;
+            _productApiService = productApiService;
         }
 
         public async Task<IActionResult> CartIndex(int ProductId)
         {
             var userId = _httpContextAccessor.HttpContext?.Session.GetString("UserId");
             var carts = await _shoppingCartService.GetByUserId(userId);
-            var products = await _productService.GetAllProducts();
+            var products = await _productApiService.GetAllProducts();
 
             ViewBag.Product = products;
 
@@ -66,6 +66,10 @@ namespace E_Commerce_MVC.Controllers
 
         public async Task<IActionResult> AddToCart(int ProductId)
         {
+            if (!User.Identity.IsAuthenticated) {
+                return RedirectToAction("Login", "Account");
+            }
+
             var exists = await _shoppingCartService.CheckProductInCart(ProductId);
             var userId = _httpContextAccessor.HttpContext?.Session.GetString("UserId");
 
@@ -77,7 +81,7 @@ namespace E_Commerce_MVC.Controllers
             var CartItems = await _shoppingCartService.GetByUserId(userId);
 
             // Get product details
-            var product = await _productService.GetProductById(ProductId);
+            var product = await _productApiService.GetProductById(ProductId);
 
             var existingCartItem = CartItems.FirstOrDefault(c => c.ProductId == ProductId && c.UserId == userId);
 
@@ -101,7 +105,7 @@ namespace E_Commerce_MVC.Controllers
 
             // Get the updated cart item count
             var carts = await _shoppingCartService.GetByUserId(userId);
-            _httpContextAccessor.HttpContext?.Session.SetInt32("CartItemCount", carts.Count);
+            var cartItemCount = carts.Count;
 
             return Json(new { success = true, exists });
         }
@@ -165,6 +169,21 @@ namespace E_Commerce_MVC.Controllers
             }
 
             return Ok(new { message = "Cart updated successfully." });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCartCount()
+        {
+            var userId = HttpContext.Session.GetString("UserId");
+
+            if (string.IsNullOrEmpty(userId))
+                return Json(new { count = 0 });
+
+            // Get cart items from database or session
+            var cartItems = await _shoppingCartService.GetByUserId(userId);
+            int count = cartItems.Count;
+
+            return Json(new { count });
         }
     }
 }

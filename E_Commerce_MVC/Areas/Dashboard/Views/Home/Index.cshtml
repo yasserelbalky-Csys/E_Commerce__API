@@ -1,6 +1,7 @@
 ﻿@using E_Commerce_MVC.ApiServices
-@inject E_Commerce_MVC.ApiServices.AccountService UserApiService  
-@inject E_Commerce_MVC.ApiServices.ProductService ProductApiService  
+@inject E_Commerce_MVC.ApiServices.AccountApiService UserApiService  
+@inject E_Commerce_MVC.ApiServices.ProductApiService ProductApiService  
+@inject E_Commerce_MVC.ApiServices.OrderService OrderService 
 @{
     ViewData["Title"] = "Home";
     var products = await ProductApiService.GetAllProducts();
@@ -8,6 +9,11 @@
 
     var users = await UserApiService.GetAllUsers();
     var userCount = users.Count().ToString();
+
+    var orders = await OrderService.GetAllOrders();
+    var orderCount = orders.Count().ToString();
+    // orders total price? 
+    var orderstotalPrice = orders.Sum(o => o.NetValue);
 }
 <div class="container my-4">
     <!-- Dashboard Header -->
@@ -37,7 +43,7 @@
             <div class="card text-center shadow">
                 <div class="card-body">
                     <h5 class="card-title">Sales</h5>
-                    <p class="card-text h3">$12,345</p>
+                    <p class="card-text h3">$@orderstotalPrice</p>
                 </div>
             </div>
         </div>
@@ -45,7 +51,7 @@
             <div class="card text-center shadow">
                 <div class="card-body">
                     <h5 class="card-title">Orders</h5>
-                    <p class="card-text h3">567</p>
+                    <p class="card-text h3">@orderCount</p>
                 </div>
             </div>
         </div>

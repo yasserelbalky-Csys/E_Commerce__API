@@ -65,7 +65,7 @@ namespace E_Commerce_MVC.Areas.Dashboard.Controllers
         // GET: StoreController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var store =await _storeService.GetStoreById(id);
+            var store = await _storeService.GetStoreById(id);
 
             if (store == null) {
                 return NotFound($"Store with ID {id} not found.");

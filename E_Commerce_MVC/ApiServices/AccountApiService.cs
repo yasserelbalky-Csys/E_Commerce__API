@@ -7,12 +7,12 @@ using NuGet.Protocol;
 
 namespace E_Commerce_MVC.ApiServices
 {
-    public class AccountService
+    public class AccountApiService
     {
         private readonly HttpClient _httpClient;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AccountService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
+        public AccountApiService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("http://localhost:5097/api/User/");
